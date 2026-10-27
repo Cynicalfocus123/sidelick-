@@ -14,6 +14,7 @@
 10. No reminders needed.
 11. Never delete anything (file, folder, DB data, git history) without asking the owner first and getting a yes for that exact deletion. Everything else: do not ask permission, just do it. (owner, 2026-10-27)
 12. NO logo anywhere on the site until the owner sends it (task F5): no image, no placeholder logo, no made-up logo, no default framework icons. Keep the empty logo space (`LogoSlot`).
+13. After the owner approves a wireframe, START CODING the real clickable screens right away (frontend + backend). Do not ask "should I build it?". (owner, 2026-10-28)
 
 Done checklist for every task: works on localhost / tested a few times, passed / desktop + laptop + tablet + phone checked / .md files updated / Excel updated / git committed + pushed to GitHub / live/ matches git (`npm run live:check`).
 
@@ -32,7 +33,8 @@ Details: `code.md` (how to run, structure, tests), `design.md` (screens, sizes, 
 
 ## Status (update every task)
 
-- 2026-10-27 Step 1 (B20 + F6 wireframes): project set up, start page + `/api/health` working, wireframes for register / verify email / home made at 4 sizes - **wireframes APPROVED by owner 2026-10-28** (register, verify email, home; with continuous scroll on Discover). F5 (logo) waits for owner. Git remote `origin` = GitHub repo above; Excel task list now v69. First approval message was withdrawn by the owner (no pictures had been shown); colour-coded pictures sent 2026-10-27. Home redesigned (layout v2: live rings, post grid, suggestions inside the feed; then v3: owner wants the menu ALWAYS on the left on every device, no bottom bar). Discover (2026-10-28) = one-line video row -> "Creators you may like" row -> new video row with different creators -> ... (owner). Feed algorithm changed by owner: Discover tab opens first on every login (videos, tap name = profile), Subscribed tab next to it (only followed / subscribed creators); first-login screen replaced by this. Next: build the approved screens (after owner's go for step 2); branded mockups wait for the logo (F5).
+- 2026-10-27 Step 1 (B20 + F6 wireframes): project set up, start page + `/api/health` working, wireframes for register / verify email / home made at 4 sizes - **wireframes APPROVED by owner 2026-10-28** (register, verify email, home; with continuous scroll on Discover). F5 (logo) waits for owner. Git remote `origin` = GitHub repo above; Excel task list now v70. First approval message was withdrawn by the owner (no pictures had been shown); colour-coded pictures sent 2026-10-27. Home redesigned (layout v2: live rings, post grid, suggestions inside the feed; then v3: owner wants the menu ALWAYS on the left on every device, no bottom bar). Discover (2026-10-28) = one-line video row -> "Creators you may like" row -> new video row with different creators -> ... (owner). Feed algorithm changed by owner: Discover tab opens first on every login (videos, tap name = profile), Subscribed tab next to it (only followed / subscribed creators); first-login screen replaced by this. Branded mockups wait for the logo (F5).
+- 2026-10-28 **Step 1A DONE: home page built** at http://localhost:3000/home (sample data; real feed API = B110, accounts = B25). Tested 3 runs x 4 sizes. Next: review with the owner which steps come next (owner asked for this), then build register / verify email.
 
 ## Working notes for Claude
 

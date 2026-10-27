@@ -16,9 +16,12 @@ side lick new site/
   scripts/db.mjs                       start / stop / status PostgreSQL
   scripts/sync-live.mjs                copy git HEAD -> live/ (never deletes)
   frontend/                            Next.js app
-    src/app/                           pages (layout.tsx, page.tsx, globals.css)
+    src/app/                           pages: / (setup check), /home (Step 1A), /c/[handle] (profile stub)
     src/components/                    LogoSlot (empty logo space), ApiStatus
-    e2e/                               Playwright tests (4 screen sizes)
+    src/components/home/               home page: HomeView, SideMenu, DiscoverFeed, Rows, SubscribedFeed, Icon, parts
+    src/lib/sample-data.ts             SAMPLE creators / videos / posts (fixed seed) until the real API exists
+    src/lib/discover.ts                Discover feed rules (section below) - runs in the browser for now
+    e2e/                               Playwright tests (4 screen sizes): start-page, home; screenshots.spec.ts (SHOTS=1 only)
     scripts/wireframe-shots.mjs        wireframe screenshots -> WebP (wireframes/shots/)
     scripts/wireframe-sheets.mjs       one overview picture per screen (wireframes/sheets/)
   backend/                             NestJS app
@@ -53,6 +56,9 @@ npm run db:stop           # when finished
 - Backend e2e: `npm --prefix backend run test:e2e` (real PostgreSQL, DB must be running)
 - Site e2e: `npm --prefix backend run build`, `npm --prefix frontend run build`, then `npm --prefix frontend run test:e2e` with `PLAYWRIGHT_BROWSERS_PATH=D:/dev/playwright`. Runs at desktop / laptop / tablet / phone; starts + stops its own servers; DB must be running.
 - Lint: `npm --prefix frontend run lint`, `npm --prefix backend run lint`
+- Playwright runs with 2 workers (more made the first page loads time out on this PC).
+- Start the DB with output to a file (`node scripts/db.mjs start > D:/dev/tmp/sidelick-db.log 2>&1`). Piping it (`| tail`) keeps the command waiting forever because postgres holds the pipe; killing that command crashed postgres once (2026-10-28).
+- Real-page pictures for the owner: `SHOTS=1 npx playwright test e2e/screenshots.spec.ts` -> D:/dev/tmp/sidelick-real-shots, then FFmpeg -> WebP.
 
 ## Git + live/
 
@@ -68,7 +74,7 @@ npm run db:stop           # when finished
 |---|---|---|
 | GET | /api/health | `{ status: 'ok'|'error', database: 'up'|'down', databaseName, time }` - runs a real query |
 
-## Discover feed algorithm (B110 + F118, owner 2026-10-28 - not built yet)
+## Discover feed algorithm (B110 + F118, owner 2026-10-28 - rules built in the browser on sample data in Step 1A, `frontend/src/lib/discover.ts`; backend API not built yet)
 
 Goal: Discover never ends, rows never look cut off, and the fan is not worn out by the same creator or video. Numbers below are starting values (tune after launch).
 
@@ -110,3 +116,4 @@ Goal: Discover never ends, rows never look cut off, and the fan is not worn out 
 - 2026-10-28 Discover wireframe: one-line sideways video rows alternating with "Creators you may like" rows (each new video row = different creators).
 - 2026-10-28 Wireframes approved by owner. Discover: continuous scroll (next rows load by themselves, loader + back-to-top button).
 - 2026-10-28 Discover feed algorithm written (section above): seen list, scoring, creator repeat limits, fallback, no cut-off rows.
+- 2026-10-28 STEP 1A: home page built at /home (Next.js, client components): left menu (rail / sidebar), Discover / Subscribed tabs, live rings, Discover video rows + creators rows with continuous scroll (loads 1.5 screens early, placeholder row while loading, sideways loading per row), Subscribed post grid + empty state, follow (sample, saved in the browser), back-to-top, "comes in a later step" notice for menu items not built yet, /c/[handle] profile stub. Sample data only. Playwright home.spec.ts: 4 tests x 4 sizes, passed 3 runs (20/20 with start page).

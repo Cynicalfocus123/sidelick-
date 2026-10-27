@@ -25,6 +25,15 @@
   --font-mono: var(--font-geist-mono);
 }
 
+/* desktop breakpoint from design.md (1440px); sm 640 = tablet, lg 1024 = laptop */
+@theme {
+  --breakpoint-desk: 90rem;
+}
+
+/* sideways rows: scroll by swipe / arrows, no visible scrollbar */
+.no-scrollbar { scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+
 body {
   background: var(--bg);
   color: var(--text);

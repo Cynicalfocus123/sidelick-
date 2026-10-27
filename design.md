@@ -6,7 +6,7 @@
 |---|---|---|---|
 | Register (F10) + "Check your email" popup (F8) | `wireframes/register.html` | **approved 2026-10-28** | no |
 | Verify email /verify-email (F12), 5 states | `wireframes/verify-email.html` | **approved 2026-10-28** | no |
-| Home /home layout v3: left menu + Discover tab (opens first) + Subscribed tab | `wireframes/home.html` | **approved 2026-10-28** (+ continuous scroll) | no |
+| Home /home layout v3: left menu + Discover tab (opens first) + Subscribed tab | `wireframes/home.html` | **approved 2026-10-28** (+ continuous scroll) | **yes - Step 1A, /home (sample data)** |
 | Start page `/` (setup check only, not a real screen) | - | - | yes |
 
 Rule: no screen is built until its wireframe is approved (hard rule 6). Screenshots of every state at every size: `wireframes/shots/` + `wireframes/index.html`; one overview picture per screen (all states x 4 sizes): `wireframes/sheets/<screen>.webp`. All made by `npm --prefix frontend run wireframes:shots` (WebP via FFmpeg). The sheets are what gets sent to the owner in chat every time.

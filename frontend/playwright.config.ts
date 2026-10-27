@@ -5,6 +5,8 @@ import { defineConfig } from "@playwright/test";
 export default defineConfig({
   testDir: "e2e",
   retries: 0,
+  workers: 2, // this PC: more parallel browsers made the first page loads time out
+  timeout: 60_000,
   reporter: "list",
   use: { baseURL: "http://localhost:3000" },
   projects: [
