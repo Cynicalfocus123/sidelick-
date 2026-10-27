@@ -55,7 +55,7 @@ npm run db:stop           # when finished
 
 ## Git + live/
 
-1. Commit in git.
+1. Commit in git, then `git push` (remote `origin` = https://github.com/Cynicalfocus123/sidelick-, branch `main`). Every change, every time.
 2. `npm run live:sync` - copies committed files to `live/` byte for byte. Files in live/ that left git are listed, never deleted (hard rule 11).
 3. `npm run live:check` - must say "live/ matches git HEAD".
 
@@ -70,3 +70,4 @@ npm run db:stop           # when finished
 ## Log
 
 - 2026-10-27 Step 1 (B20): scaffolded both apps, PostgreSQL 18.6 installed portable on D:, database `sidelick` created, health endpoint, start page with empty logo slot, Playwright at 4 sizes, wireframes, live/ sync script.
+- 2026-10-27 GitHub remote added (origin -> Cynicalfocus123/sidelick-), all commits pushed. `.env` files and the Excel are git-ignored, so they never go to GitHub.

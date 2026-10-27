@@ -3,7 +3,7 @@
 ## HARD RULES (mandatory, no excuses)
 
 1. Everything inside `D:\mstar companies\sidelick\side lick new site` only. No extra folders.
-2. Update git AND copy the same change to `live/` in the same step (`npm run live:sync` after commit). `live/` is what goes to the real server.
+2. Update git AND copy the same change to `live/` in the same step (`npm run live:sync` after commit). `live/` is what goes to the real server. Every change is committed AND pushed to GitHub https://github.com/Cynicalfocus123/sidelick- (`git push`, branch `main`) every time. (owner, 2026-10-27)
 3. Short, to-the-point replies.
 4. Test a few times only. Pass = done. If it keeps failing, stop and explain the error clearly.
 5. Always optimized. Use FFmpeg for every video / GIF / image (MP4 + WebM, AVIF / WebP, right sizes, metadata stripped).
@@ -15,7 +15,7 @@
 11. Never delete anything (file, folder, DB data, git history) without asking the owner first and getting a yes for that exact deletion. Everything else: do not ask permission, just do it. (owner, 2026-10-27)
 12. NO logo anywhere on the site until the owner sends it (task F5): no image, no placeholder logo, no made-up logo, no default framework icons. Keep the empty logo space (`LogoSlot`).
 
-Done checklist for every task: works on localhost / tested a few times, passed / desktop + laptop + tablet + phone checked / .md files updated / Excel updated / git updated / live/ matches git (`npm run live:check`).
+Done checklist for every task: works on localhost / tested a few times, passed / desktop + laptop + tablet + phone checked / .md files updated / Excel updated / git committed + pushed to GitHub / live/ matches git (`npm run live:check`).
 
 ## Project
 
@@ -32,7 +32,7 @@ Details: `code.md` (how to run, structure, tests), `design.md` (screens, sizes, 
 
 ## Status (update every task)
 
-- 2026-10-27 Step 1 (B20 + F6 wireframes): project set up, start page + `/api/health` working, wireframes for register / verify email / home made at 4 sizes - **waiting for owner approval**. F5 (logo) waits for owner.
+- 2026-10-27 Step 1 (B20 + F6 wireframes): project set up, start page + `/api/health` working, wireframes for register / verify email / home made at 4 sizes - **waiting for owner approval**. F5 (logo) waits for owner. Git remote `origin` = GitHub repo above; Excel task list now v61.
 
 ## Working notes for Claude
 
@@ -40,4 +40,4 @@ Details: `code.md` (how to run, structure, tests), `design.md` (screens, sizes, 
 - Read `frontend/AGENTS.md` before writing Next.js code (Next 16 has breaking changes; docs in `frontend/node_modules/next/dist/docs/`).
 - Temp files / screenshots before conversion: `D:\dev\tmp` (never C:).
 - Tools on D:: FFmpeg `D:\dev\tools\ffmpeg\bin\ffmpeg.exe`, Playwright browsers `D:\dev\playwright` (set `PLAYWRIGHT_BROWSERS_PATH=D:/dev/playwright`), npm cache `D:\dev\npm-cache`.
-- Excel has embedded screenshots: never save it with openpyxl (drops images). Edit the sheet XML inside the .xlsx and save as the next vN.
+- Excel has embedded screenshots: never save it with openpyxl (drops images). Edit it through Excel itself (PowerShell COM: copy to the next vN, open, change, save) - that keeps the images.
