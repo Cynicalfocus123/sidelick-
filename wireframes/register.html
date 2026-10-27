@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wireframe - Register</title>
+<link rel="stylesheet" href="wf.css">
+<style>
+  .page { min-height: 100vh; display: flex; flex-direction: column; }
+  .top { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; }
+  .split { flex: 1; display: grid; grid-template-columns: 1fr; }
+  .side { display: none; }
+  .formwrap { display: flex; justify-content: center; padding: 8px 16px 32px; }
+  .card { width: 100%; max-width: 440px; display: grid; gap: 16px; }
+  h1 { font-size: 24px; margin: 0; }
+  .or { display: flex; align-items: center; gap: 10px; color: var(--soft); font-size: 12px; }
+  .or::before, .or::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+  .g { display: flex; align-items: center; justify-content: center; gap: 8px; }
+  .g .circle { width: 18px; height: 18px; }
+  .small { font-size: 13px; text-align: center; color: var(--soft); }
+
+  /* tablet: centred card */
+  @media (min-width: 640px) {
+    .top { padding: 20px 32px; }
+    .formwrap { padding: 24px 32px 48px; align-items: center; flex: 1; }
+    .card { background: var(--white); border-radius: 16px; padding: 32px; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+    h1 { font-size: 28px; }
+  }
+  /* laptop + desktop: left info panel + form on the right */
+  @media (min-width: 1024px) {
+    .split { grid-template-columns: 1fr 1fr; }
+    .side { display: flex; flex-direction: column; justify-content: center; gap: 18px; padding: 48px; margin: 0 0 24px 24px; border-radius: 20px; background: var(--box); }
+    .side .big { height: 22px; border-radius: 6px; background: var(--box-2); }
+    .side .item { display: flex; gap: 12px; align-items: center; }
+    .side .item .circle { width: 32px; height: 32px; }
+  }
+  @media (min-width: 1440px) {
+    .split { grid-template-columns: 1.1fr 1fr; max-width: 1600px; margin: 0 auto; width: 100%; }
+    .side { padding: 72px; }
+    .card { max-width: 480px; padding: 40px; }
+    h1 { font-size: 32px; }
+  }
+
+  /* 'Check your email' popup (F8) */
+  .overlay { position: fixed; inset: 0; background: rgba(24,24,27,.45); display: grid; place-items: end center; z-index: 40; }
+  .modal { background: var(--white); width: 100%; border-radius: 20px 20px 0 0; padding: 24px 20px 28px; display: grid; gap: 12px; position: relative; }
+  .modal h2 { margin: 0; font-size: 20px; }
+  .x { position: absolute; top: 14px; right: 14px; width: 32px; height: 32px; border-radius: 50%; border: 1.5px solid var(--line); display: grid; place-items: center; }
+  @media (min-width: 640px) {
+    .overlay { place-items: center; }
+    .modal { max-width: 440px; border-radius: 20px; padding: 32px; }
+  }
+</style>
+</head>
+<body>
+<div class="wf-bar">Register (F10) - state:
+  <a href="?state=form" data-s="form">Form</a>
+  <a href="?state=errors" data-s="errors">Errors</a>
+  <a href="?state=popup" data-s="popup">After sign-up: Check your email (F8)</a>
+  <a href="index.html">All wireframes</a>
+  <span class="size"></span>
+</div>
+<div class="page">
+  <div class="top">
+    <div class="logo-slot">Logo space<br>(empty)</div>
+    <span class="small">Have an account? <a href="#">Sign in</a></span>
+  </div>
+  <div class="split">
+    <aside class="side" aria-label="Info panel">
+      <div class="big" style="width:70%"></div>
+      <div class="line w80"></div>
+      <div class="item"><span class="circle"></span><div class="line w60"></div></div>
+      <div class="item"><span class="circle"></span><div class="line w60"></div></div>
+      <div class="item"><span class="circle"></span><div class="line w40"></div></div>
+      <span class="note">Info panel: short lines about Side Licks. Picture / colours come after the logo (F5).</span>
+    </aside>
+    <div class="formwrap">
+      <form class="card" onsubmit="return false">
+        <h1>Create your account</h1>
+        <button class="btn ghost g" type="button"><span class="circle"></span>Continue with Google</button>
+        <div class="or">or</div>
+        <div class="field">
+          <span class="label">Email</span>
+          <div class="input">you@example.com</div>
+          <span class="label err" hidden style="color:#b91c1c">Enter a valid email address</span>
+        </div>
+        <div class="field">
+          <span class="label">Password</span>
+          <div class="input">••••••••<span>Show</span></div>
+          <span class="label">At least 8 characters</span>
+          <span class="label err" hidden style="color:#b91c1c">Password is too short</span>
+        </div>
+        <label class="check"><i></i><span>I am 18 or older</span></label>
+        <label class="check"><i></i><span>I agree to the <a href="#">Terms</a> and <a href="#">Privacy Policy</a></span></label>
+        <span class="label err" hidden style="color:#b91c1c">Please tick both boxes to continue</span>
+        <button class="btn" type="button">Create account</button>
+        <span class="note">Button stays grey until email, password and both ticks are filled.</span>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" data-popup hidden>
+  <div class="modal" role="dialog" aria-label="Check your email">
+    <span class="x">✕</span>
+    <h2>Check your email</h2>
+    <p style="margin:0">We sent a link to: <b>you@example.com</b></p>
+    <p style="margin:0;color:var(--soft)">Check your email inbox to verify and continue. Didn't receive the email? Please check your spam folder.</p>
+    <p style="margin:0;font-weight:600">Haven't found it?</p>
+    <button class="btn" type="button">Send again</button>
+    <a href="#" style="text-align:center">Change email</a>
+  </div>
+</div>
+<script>
+  const p = new URLSearchParams(location.search);
+  const s = p.get('state') || 'form';
+  if (p.has('shot')) document.body.classList.add('shot');
+  document.querySelectorAll('.wf-bar a[data-s]').forEach(a => a.classList.toggle('on', a.dataset.s === s));
+  document.querySelector('[data-popup]').hidden = s !== 'popup';
+  document.querySelectorAll('.err').forEach(e => e.hidden = s !== 'errors');
+</script>
+</body>
+</html>

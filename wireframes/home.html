@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wireframe - Home</title>
+<link rel="stylesheet" href="wf.css">
+<style>
+  /* ---------- shell ---------- */
+  .shell { display: grid; grid-template-columns: 1fr; min-height: 100vh; }
+  .menu { display: none; }
+  .main { min-width: 0; display: flex; flex-direction: column; }
+  .cols { display: grid; grid-template-columns: 1fr; gap: 24px; padding: 0 0 88px; }
+  .feed { min-width: 0; display: grid; gap: 12px; align-content: start; }
+  .rail { display: none; }
+
+  /* ---------- top bar ---------- */
+  .topbar { position: sticky; top: 0; z-index: 20; background: var(--white); border-bottom: 1px solid var(--box-2);
+            display: flex; align-items: center; gap: 8px; height: 56px; padding: 0 12px; }
+  .topbar .logo-slot { margin-right: auto; }
+  .ib { width: 36px; height: 36px; border-radius: 50%; background: var(--box); position: relative; flex-shrink: 0; display: grid; place-items: center; font-size: 11px; color: var(--soft); }
+  .badge { position: absolute; top: -2px; right: -2px; min-width: 16px; height: 16px; border-radius: 8px; background: #71717a; color: #fff; font-size: 9px; display: grid; place-items: center; padding: 0 3px; }
+  .search { display: none; height: 40px; border-radius: 999px; background: var(--box); flex: 1; max-width: 420px; align-items: center; padding: 0 14px; color: var(--soft); }
+  .wallet { height: 36px; border-radius: 999px; border: 1.5px solid var(--line); padding: 0 12px; display: flex; align-items: center; font-weight: 600; font-size: 13px; white-space: nowrap; }
+  .avatar { width: 36px; height: 36px; position: relative; }
+  .avatar .dot { position: absolute; right: 0; bottom: 0; width: 10px; height: 10px; border-radius: 50%; background: #a1a1aa; border: 2px solid #fff; }
+  .hide-phone { display: none; }
+
+  /* ---------- feed parts ---------- */
+  .tabs { display: flex; align-items: center; gap: 4px; padding: 8px 12px; background: var(--white); border-bottom: 1px solid var(--box-2); }
+  .tab { padding: 8px 12px; border-radius: 999px; color: var(--soft); font-weight: 600; font-size: 13px; }
+  .tab.on { background: var(--ink); color: #fff; }
+  .tabs .sp { margin-left: auto; display: flex; gap: 6px; }
+  .strip { padding: 4px 12px; display: grid; gap: 8px; }
+  .strip-row { display: grid; grid-auto-flow: column; grid-auto-columns: 38%; gap: 8px; overflow: hidden; }
+  .vcard { aspect-ratio: 9 / 14; border-radius: 12px; background: var(--box); position: relative; }
+  .vcard::after { content: "▶"; position: absolute; inset: 0; display: grid; place-items: center; color: var(--line); font-size: 22px; }
+  .post { background: var(--white); border-top: 1px solid var(--box-2); border-bottom: 1px solid var(--box-2); padding: 12px; display: grid; gap: 10px; }
+  .phead { display: flex; gap: 10px; align-items: center; }
+  .phead .circle { width: 40px; height: 40px; }
+  .media { aspect-ratio: 4 / 5; border-radius: 10px; background: var(--box); display: grid; place-items: center; color: var(--soft); }
+  .media.locked { background: repeating-linear-gradient(45deg, var(--box), var(--box) 10px, var(--box-2) 10px, var(--box-2) 20px); }
+  .media .pill { background: var(--ink); color: #fff; border-radius: 999px; padding: 10px 18px; font-weight: 600; }
+  .actions { display: flex; gap: 14px; }
+  .actions .ib { width: 30px; height: 30px; }
+  .promoted { font-size: 11px; color: var(--soft); }
+  .empty { background: var(--white); margin: 12px; border-radius: 16px; padding: 40px 20px; display: grid; gap: 12px; justify-items: center; text-align: center; }
+  .empty .circle { width: 56px; height: 56px; display: grid; place-items: center; font-size: 26px; color: var(--soft); }
+  .empty .btn { width: auto; padding: 0 24px; }
+
+  /* ---------- right rail ---------- */
+  .panel { background: var(--white); border-radius: 16px; padding: 14px; display: grid; gap: 10px; }
+  .panel-h { display: flex; align-items: center; justify-content: space-between; font-weight: 700; }
+  .scard { height: 112px; border-radius: 14px; background: var(--box); position: relative; padding: 10px; display: flex; align-items: flex-end; gap: 8px; }
+  .scard .circle { width: 40px; height: 40px; border: 2px solid #fff; }
+  .scard .pill { margin-left: auto; background: var(--ink); color: #fff; border-radius: 999px; padding: 6px 12px; font-size: 12px; font-weight: 600; }
+  .dots { display: flex; justify-content: center; align-items: center; gap: 6px; }
+  .dots i { width: 7px; height: 7px; border-radius: 50%; background: var(--box-2); }
+  .dots i.on { background: var(--ink); }
+  .live { display: flex; align-items: center; gap: 8px; padding: 8px; border-radius: 12px; background: var(--box); }
+  .live .circle { width: 40px; height: 40px; border: 2px solid #71717a; }
+  .live .watch { margin-left: auto; background: #71717a; color: #fff; border-radius: 999px; padding: 6px 10px; font-size: 12px; font-weight: 600; }
+
+  /* ---------- left menu ---------- */
+  .menu { flex-direction: column; gap: 4px; padding: 12px; background: var(--white); border-right: 1px solid var(--box-2); position: sticky; top: 0; height: 100vh; }
+  .menu .mhead { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+  .mi { display: flex; align-items: center; gap: 12px; padding: 10px; border-radius: 10px; font-weight: 600; color: var(--ink); }
+  .mi .circle { width: 22px; height: 22px; }
+  .mi.on { background: var(--box); }
+  .mi .t { white-space: nowrap; }
+  .mi .val { margin-left: auto; font-size: 12px; color: var(--soft); }
+  .refer { margin-top: auto; border-radius: 14px; background: var(--box); padding: 14px; display: grid; gap: 4px; }
+
+  /* ---------- bottom nav (phone) ---------- */
+  .bnav { position: fixed; left: 0; right: 0; bottom: 0; height: 64px; background: var(--white); border-top: 1px solid var(--box-2);
+          display: grid; grid-template-columns: repeat(5, 1fr); align-items: center; justify-items: center; z-index: 30; }
+  .bnav div { display: grid; justify-items: center; gap: 3px; font-size: 10px; color: var(--soft); }
+  .bnav .circle { width: 24px; height: 24px; }
+  .bnav .on { color: var(--ink); font-weight: 700; }
+  .bnav .on .circle { background: var(--ink); }
+
+  /* ---------- tablet 640-1023: icon menu on the left, no right rail ---------- */
+  @media (min-width: 640px) {
+    .shell { grid-template-columns: 76px 1fr; }
+    .menu { display: flex; align-items: center; padding: 12px 8px; }
+    .menu .mhead { flex-direction: column; gap: 8px; }
+    .menu .logo-slot:not(.icon), .menu .collapse, .mi .t, .mi .val, .refer .txt { display: none; }
+    .refer { padding: 10px; width: 52px; height: 52px; }
+    .bnav { display: none; }
+    .cols { padding: 16px 24px 32px; justify-content: center; grid-template-columns: minmax(0, 620px); }
+    .topbar { height: 64px; padding: 0 24px; gap: 10px; }
+    .topbar .logo-slot { display: none; }
+    .search { display: flex; margin-right: auto; }
+    .hide-phone { display: grid; }
+    .tabs, .post, .strip { border-radius: 16px; border: 0; }
+    .tabs { padding: 8px; }
+    .strip { padding: 12px; background: var(--white); }
+    .strip-row { grid-auto-columns: 24%; }
+    .post { padding: 16px; }
+    .empty { margin: 0; }
+  }
+  @media (max-width: 1023px) and (min-width: 640px) { .menu .logo-slot.icon { display: grid; } }
+  @media (max-width: 639px), (min-width: 1024px) { .menu .logo-slot.icon { display: none; } }
+
+  /* ---------- laptop 1024-1439: full menu + right rail ---------- */
+  @media (min-width: 1024px) {
+    .shell { grid-template-columns: 232px 1fr; }
+    .menu { align-items: stretch; padding: 16px 12px; }
+    .menu .mhead { flex-direction: row; }
+    .mi .t, .mi .val, .refer .txt { display: initial; }
+    .menu .collapse { display: grid; }
+    .menu .logo-slot:not(.icon) { display: grid; }
+    .refer { width: auto; height: auto; padding: 14px; }
+    .cols { grid-template-columns: minmax(0, 600px) 300px; padding: 20px 24px 40px; }
+    .rail { display: grid; gap: 16px; align-content: start; position: sticky; top: 84px; }
+    .strip-row { grid-auto-columns: 30%; }
+  }
+  /* ---------- desktop 1440+: wider columns ---------- */
+  @media (min-width: 1440px) {
+    .shell { grid-template-columns: 272px 1fr; }
+    .cols { grid-template-columns: minmax(0, 660px) 360px; gap: 32px; padding: 24px 40px 48px; }
+    .topbar { padding: 0 40px; height: 68px; }
+    .search { max-width: 520px; }
+    .strip-row { grid-auto-columns: 23%; }
+    .scard { height: 128px; }
+  }
+  /* screenshot mode: full-page capture can not show fixed/sticky bars correctly */
+  body.shot .bnav { position: sticky; }
+  body.shot .menu { height: auto; position: static; }
+  body.shot .topbar, body.shot .rail { position: static; }
+</style>
+</head>
+<body>
+<div class="wf-bar">Home /home (F1, F20-F29, F110, F111) - state:
+  <a href="?state=feed" data-s="feed">Feed</a>
+  <a href="?state=empty" data-s="empty">Empty feed (F29)</a>
+  <a href="index.html">All wireframes</a>
+  <span class="size"></span>
+</div>
+<div class="shell">
+  <!-- Left menu (F111). Tablet = icons only. Phone = hidden, bottom bar instead. -->
+  <nav class="menu" aria-label="Main menu">
+    <div class="mhead">
+      <div class="logo-slot sm">Logo space<br>(empty)</div>
+      <div class="logo-slot icon">Logo</div>
+      <span class="ib collapse" title="Collapse menu">«</span>
+    </div>
+    <div class="mi on"><span class="circle"></span><span class="t">Home</span></div>
+    <div class="mi"><span class="circle"></span><span class="t">Chat</span></div>
+    <div class="mi"><span class="circle"></span><span class="t">Notifications</span></div>
+    <div class="mi"><span class="circle"></span><span class="t">Discover</span></div>
+    <div class="mi"><span class="circle"></span><span class="t">My Collection</span></div>
+    <div class="mi"><span class="circle"></span><span class="t">Become a Creator</span></div>
+    <div class="mi"><span class="circle"></span><span class="t">Promotions</span></div>
+    <div class="mi"><span class="circle"></span><span class="t">Following</span></div>
+    <div class="mi"><span class="circle"></span><span class="t">Subscriptions</span></div>
+    <div class="mi"><span class="circle"></span><span class="t">Wallet</span><span class="val">$0.00</span></div>
+    <div class="refer"><b class="txt">Refer &amp; Earn</b><span class="txt label">Know a Creator? Earn 5%</span></div>
+  </nav>
+
+  <div class="main">
+    <!-- Top bar (F20) -->
+    <header class="topbar">
+      <div class="logo-slot sm">Logo space<br>(empty)</div>
+      <div class="search">Search creators</div>
+      <span class="ib hide-phone" title="Help">?</span>
+      <span class="ib hide-phone" title="Language">EN</span>
+      <span class="ib" title="Search" data-phone-only>⌕</span>
+      <span class="ib hide-phone" title="Messages">✉<span class="badge">2</span></span>
+      <span class="ib" title="Notifications">🔔<span class="badge">5</span></span>
+      <span class="wallet">$0.00</span>
+      <span class="avatar"><span class="circle" style="width:36px;height:36px;display:block"></span><span class="dot"></span></span>
+    </header>
+
+    <div class="cols">
+      <main class="feed">
+        <!-- Tabs (F21) -->
+        <div class="tabs">
+          <span class="tab on">All</span><span class="tab">Subscribed</span><span class="tab">For You</span>
+          <span class="sp"><span class="ib" title="Refresh">↻</span><span class="ib" title="Create post (creators only)">✎</span></span>
+        </div>
+
+        <div data-s="feed" style="display:contents">
+          <!-- Made For You (F1) -->
+          <section class="strip">
+            <b>Made For You</b>
+            <div class="strip-row"><div class="vcard"></div><div class="vcard"></div><div class="vcard"></div><div class="vcard"></div><div class="vcard"></div></div>
+          </section>
+
+          <!-- Post: paid / followed (F23, F104) -->
+          <article class="post">
+            <div class="phead"><span class="circle"></span>
+              <div style="flex:1;display:grid;gap:6px"><div class="line w40"></div><div class="line w30"></div></div>
+              <span class="label">2h</span><span class="ib" style="width:28px;height:28px">⋯</span></div>
+            <div class="line w80"></div>
+            <div class="media">Photo / video</div>
+            <div class="actions"><span class="ib">♡</span><span class="ib">💬</span><span class="ib">$</span></div>
+            <span class="label">95 likes · 1 comment · Show comments</span>
+          </article>
+
+          <!-- Post: locked (F110) -->
+          <article class="post">
+            <div class="phead"><span class="circle"></span>
+              <div style="flex:1;display:grid;gap:6px"><div class="line w40"></div><div class="line w30"></div></div>
+              <span class="label">1d</span><span class="ib" style="width:28px;height:28px">⋯</span></div>
+            <div class="line w60"></div>
+            <div class="media locked"><span class="pill">Subscribe to see</span></div>
+            <div class="actions"><span class="ib">♡</span><span class="ib">💬</span><span class="ib">$</span></div>
+          </article>
+
+          <!-- Promoted post (F110) -->
+          <article class="post">
+            <span class="promoted">Promoted</span>
+            <div class="phead"><span class="circle"></span>
+              <div style="flex:1;display:grid;gap:6px"><div class="line w40"></div><div class="line w30"></div></div></div>
+            <div class="box" style="height:64px"></div>
+          </article>
+        </div>
+
+        <!-- Empty feed (F29) -->
+        <div data-s="empty" class="empty">
+          <span class="circle">+</span>
+          <b style="font-size:18px">Create your feed</b>
+          <span style="color:var(--soft);max-width:340px">Start following or subscribing to creators to fill your feed with content</span>
+          <button class="btn" type="button">Discover Creators</button>
+        </div>
+      </main>
+
+      <!-- Right rail: laptop + desktop only (F26, F27) -->
+      <aside class="rail">
+        <section class="panel">
+          <div class="panel-h">Suggested Creators</div>
+          <div class="scard"><span class="circle"></span><div style="display:grid;gap:5px;flex:1"><div class="line w60"></div><div class="line w40"></div></div><span class="pill">Follow</span></div>
+          <div class="scard"><span class="circle"></span><div style="display:grid;gap:5px;flex:1"><div class="line w60"></div><div class="line w40"></div></div><span class="pill">Subscribe</span></div>
+          <div class="scard"><span class="circle"></span><div style="display:grid;gap:5px;flex:1"><div class="line w60"></div><div class="line w40"></div></div><span class="pill">Follow</span></div>
+          <div class="dots"><span>‹</span><i class="on"></i><i></i><i></i><i></i><i></i><span>›</span></div>
+        </section>
+        <section class="panel">
+          <div class="panel-h">Streams You Might Like <span>↻ ‹ ›</span></div>
+          <div class="live"><span class="circle"></span><div style="display:grid;gap:5px;flex:1"><div class="line w60"></div><div class="line w40"></div></div><span class="label">👥 24</span><span class="watch">Watch</span></div>
+          <div class="live"><span class="circle"></span><div style="display:grid;gap:5px;flex:1"><div class="line w60"></div><div class="line w40"></div></div><span class="label">👥 8</span><span class="watch">Watch</span></div>
+        </section>
+      </aside>
+    </div>
+  </div>
+</div>
+
+<!-- Phone bottom bar (F28) -->
+<nav class="bnav" aria-label="Bottom menu">
+  <div class="on"><span class="circle"></span>Home</div>
+  <div><span class="circle"></span>Discover</div>
+  <div><span class="circle"></span>Chat</div>
+  <div><span class="circle"></span>Alerts</div>
+  <div><span class="circle"></span>Menu</div>
+</nav>
+<script>
+  const p = new URLSearchParams(location.search);
+  const s = p.get('state') || 'feed';
+  if (p.has('shot')) document.body.classList.add('shot');
+  document.querySelectorAll('.wf-bar a[data-s]').forEach(a => a.classList.toggle('on', a.dataset.s === s));
+  document.querySelectorAll('.feed [data-s]').forEach(d => d.hidden = d.dataset.s !== s);
+  // search icon only on phone (tablet+ shows the search box)
+  const mq = matchMedia('(min-width: 640px)');
+  const sync = () => document.querySelector('[data-phone-only]').hidden = mq.matches;
+  sync(); mq.addEventListener('change', sync);
+</script>
+</body>
+</html>

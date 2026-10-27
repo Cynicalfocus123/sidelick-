@@ -1,0 +1,69 @@
+/* Wireframe kit: grey boxes only, no brand. Breakpoints match design.md:
+   phone < 640 | tablet 640-1023 | laptop 1024-1439 | desktop >= 1440 */
+:root {
+  --bg: #f4f4f5;
+  --box: #e4e4e7;
+  --box-2: #d4d4d8;
+  --line: #a1a1aa;
+  --ink: #3f3f46;
+  --soft: #71717a;
+  --white: #ffffff;
+  --radius: 10px;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font: 14px/1.4 system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+button, input { font: inherit; }
+
+/* Logo space: kept EMPTY on the real site. Dashed outline here only so the slot is visible in the wireframe. */
+.logo-slot {
+  width: 144px; height: 40px; flex-shrink: 0;
+  border: 1.5px dashed var(--line); border-radius: 6px;
+  display: grid; place-items: center;
+  color: var(--soft); font-size: 10px; letter-spacing: .04em; text-transform: uppercase; text-align: center;
+}
+.logo-slot.sm { width: 112px; height: 32px; font-size: 9px; }
+.logo-slot.icon { width: 36px; height: 36px; font-size: 8px; }
+
+.box { background: var(--box); border-radius: var(--radius); }
+.line { height: 10px; background: var(--box-2); border-radius: 5px; }
+.line.w30 { width: 30%; } .line.w40 { width: 40%; } .line.w60 { width: 60%; } .line.w80 { width: 80%; }
+.circle { border-radius: 50%; background: var(--box-2); flex-shrink: 0; }
+.label { font-size: 12px; color: var(--soft); }
+.note {
+  font-size: 11px; color: #92400e; background: #fef3c7; border: 1px solid #fcd34d;
+  border-radius: 6px; padding: 4px 8px; display: inline-block;
+}
+.btn {
+  height: 44px; border-radius: 999px; border: 1.5px solid var(--ink);
+  background: var(--ink); color: var(--white); font-weight: 600; width: 100%;
+}
+.btn.ghost { background: var(--white); color: var(--ink); }
+.btn.grey { background: var(--box-2); border-color: var(--box-2); color: var(--soft); }
+.field { display: grid; gap: 6px; }
+.input {
+  height: 44px; border: 1.5px solid var(--line); border-radius: 8px; background: var(--white);
+  display: flex; align-items: center; justify-content: space-between; padding: 0 12px; color: var(--soft);
+}
+.check { display: flex; gap: 10px; align-items: flex-start; font-size: 13px; }
+.check i { width: 18px; height: 18px; border: 1.5px solid var(--line); border-radius: 4px; flex-shrink: 0; background: var(--white); }
+a { color: var(--ink); }
+
+/* State switcher bar: wireframe tool only, not part of the design */
+.wf-bar {
+  position: sticky; top: 0; z-index: 50; display: flex; flex-wrap: wrap; gap: 6px; align-items: center;
+  padding: 6px 10px; background: #18181b; color: #fafafa; font-size: 12px;
+}
+.wf-bar a { color: #fafafa; padding: 3px 8px; border-radius: 999px; border: 1px solid #52525b; text-decoration: none; }
+.wf-bar a.on { background: #fafafa; color: #18181b; }
+.wf-bar .size { margin-left: auto; opacity: .7; }
+.wf-bar .size::after { content: "phone (<640)"; }
+@media (min-width: 640px) { .wf-bar .size::after { content: "tablet (640-1023)"; } }
+@media (min-width: 1024px) { .wf-bar .size::after { content: "laptop (1024-1439)"; } }
+@media (min-width: 1440px) { .wf-bar .size::after { content: "desktop (1440+)"; } }
+body.shot .wf-bar { display: none; }
+[hidden] { display: none !important; }

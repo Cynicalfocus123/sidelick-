@@ -1,0 +1,30 @@
+# live/ = deploy copy of what is in git (made by scripts/sync-live.mjs)
+/live/
+
+# dependencies and builds
+node_modules/
+.next/
+out/
+dist/
+build/
+coverage/
+*.tsbuildinfo
+next-env.d.ts
+
+# secrets (each app has a .env.example)
+.env
+.env.*
+!.env.example
+
+# owner working files (Excel task list, Office lock files)
+*.xlsx
+~$*
+
+# test output
+test-results/
+playwright-report/
+
+# os / editor
+.DS_Store
+Thumbs.db
+*.log

@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wireframe - Verify email</title>
+<link rel="stylesheet" href="wf.css">
+<style>
+  body { background: var(--white); }
+  .page { min-height: 100vh; position: relative; overflow: hidden; display: flex; flex-direction: column; align-items: center; padding: 20px 16px 40px; }
+  .glow { position: absolute; top: -140px; right: -140px; width: 360px; height: 360px; border-radius: 50%;
+          background: radial-gradient(circle, var(--box-2) 0%, transparent 70%); pointer-events: none; }
+  .glow-note { position: absolute; top: 12px; right: 12px; z-index: 2; }
+  .head { width: 100%; max-width: 520px; display: flex; justify-content: center; margin-bottom: 40px; position: relative; }
+  .body { width: 100%; max-width: 440px; display: grid; gap: 16px; text-align: center; position: relative; flex: 1; align-content: center; }
+  h1 { font-size: 28px; margin: 0; }
+  .icon { width: 64px; height: 64px; margin: 0 auto; display: grid; place-items: center; font-size: 26px; color: var(--soft); }
+  .spin { width: 40px; height: 40px; border-radius: 50%; border: 4px solid var(--box); border-top-color: var(--ink); margin: 0 auto; }
+  p { margin: 0; color: var(--soft); }
+  .toast { position: absolute; top: 16px; left: 16px; right: 16px; margin: 0 auto; max-width: 360px; background: #27272a; color: #fff;
+           border-radius: 12px; padding: 12px 14px; display: flex; gap: 10px; align-items: center; z-index: 3; }
+  .toast .circle { width: 20px; height: 20px; background: #a1a1aa; }
+  @media (min-width: 640px) {
+    .page { padding: 32px 32px 56px; }
+    .glow { width: 520px; height: 520px; top: -200px; right: -200px; }
+    h1 { font-size: 36px; }
+    .head { margin-bottom: 56px; }
+    .toast { left: 0; right: 0; }
+  }
+  @media (min-width: 1024px) { h1 { font-size: 40px; } .glow { width: 700px; height: 700px; top: -260px; right: -260px; } }
+  @media (min-width: 1440px) { h1 { font-size: 44px; } .body { max-width: 480px; } }
+</style>
+</head>
+<body>
+<div class="wf-bar">Verify email /verify-email (F12) - state:
+  <a href="?state=checking" data-s="checking">Checking</a>
+  <a href="?state=ok" data-s="ok">1. Verified</a>
+  <a href="?state=expired-in" data-s="expired-in">2. Expired (signed in)</a>
+  <a href="?state=expired-out" data-s="expired-out">2. Expired (signed out)</a>
+  <a href="?state=other-device" data-s="other-device">3. Other device, signed out</a>
+  <a href="index.html">All wireframes</a>
+  <span class="size"></span>
+</div>
+<div class="page">
+  <div class="glow"></div>
+  <span class="note glow-note">Soft glow in brand colour (after F5). Grey for now.</span>
+  <div class="head"><div class="logo-slot">Logo space<br>(empty)</div></div>
+
+  <div class="body">
+    <h1>Email Verification</h1>
+
+    <div data-s="checking">
+      <div class="spin"></div>
+      <p style="margin-top:16px">Verifying your request...</p>
+    </div>
+
+    <div data-s="ok" style="display:grid;gap:16px">
+      <div class="icon box circle">✓</div>
+      <p style="color:var(--ink);font-weight:600;font-size:18px">Your email is verified</p>
+      <button class="btn" type="button">Continue</button>
+      <span class="note">Goes to /home by itself after 2-3 seconds, with the toast 'Email verified'.</span>
+    </div>
+
+    <div data-s="expired-in" style="display:grid;gap:16px">
+      <div class="icon box circle">!</div>
+      <p style="color:var(--ink);font-weight:600;font-size:18px">This link has expired or was already used</p>
+      <button class="btn" type="button">Send a new link</button>
+    </div>
+
+    <div data-s="expired-out" style="display:grid;gap:16px">
+      <div class="icon box circle">!</div>
+      <p style="color:var(--ink);font-weight:600;font-size:18px">This link has expired or was already used</p>
+      <button class="btn" type="button">Sign in</button>
+    </div>
+
+    <div data-s="other-device" style="display:grid;gap:16px">
+      <div class="icon box circle">✓</div>
+      <p style="color:var(--ink);font-weight:600;font-size:18px">Your email is verified</p>
+      <p>Sign in to continue</p>
+      <button class="btn" type="button">Sign in</button>
+    </div>
+  </div>
+</div>
+<script>
+  const p = new URLSearchParams(location.search);
+  const s = p.get('state') || 'checking';
+  if (p.has('shot')) document.body.classList.add('shot');
+  document.querySelectorAll('.wf-bar a[data-s]').forEach(a => a.classList.toggle('on', a.dataset.s === s));
+  document.querySelectorAll('.body [data-s]').forEach(d => d.hidden = d.dataset.s !== s);
+</script>
+</body>
+</html>
