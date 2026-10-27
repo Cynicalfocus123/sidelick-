@@ -24,7 +24,7 @@ export const SIZES = {
 const PAGES = {
   register: ["form", "errors", "popup"],
   "verify-email": ["checking", "ok", "expired-in", "expired-out", "other-device"],
-  home: ["feed", "empty"],
+  home: ["discover", "subscribed", "subscribed-empty"],
 };
 
 const browser = await chromium.launch();

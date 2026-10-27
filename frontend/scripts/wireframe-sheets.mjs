@@ -18,7 +18,7 @@ const SIZES = ["desktop", "laptop", "tablet", "phone"];
 const PAGES = {
   register: { title: "Register (F10) + Check your email popup (F8)", states: ["form", "errors", "popup"] },
   "verify-email": { title: "Verify email /verify-email (F12)", states: ["checking", "ok", "expired-in", "expired-out", "other-device"] },
-  home: { title: "Home /home - Side Licks layout v2 (no left menu, dock at the bottom)", states: ["feed", "empty"] },
+  home: { title: "Home /home - layout v2: Discover tab opens first, Subscribed tab next to it", states: ["discover", "subscribed", "subscribed-empty"] },
 };
 // column widths keep the real proportions between sizes
 const COL = { desktop: "1.6fr", laptop: "1.3fr", tablet: "0.75fr", phone: "0.42fr" };

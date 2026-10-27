@@ -7,7 +7,8 @@
 <link rel="stylesheet" href="wf.css">
 <style>
   /* Side Licks own layout (v2, 2026-10-27): no left menu, no right sidebar.
-     Top bar with feed switch + floating dock at the bottom + live rings + post grid. */
+     Top bar with Discover / Subscribed tabs + floating dock at the bottom + live rings.
+     Discover opens first on every login (first time and coming back). */
   body { padding-bottom: 96px; }
   .wrap { max-width: 1440px; margin: 0 auto; padding: 0 12px; display: grid; gap: 14px; }
 
@@ -17,6 +18,7 @@
   .switch { display: none; background: #fff; border-radius: 999px; padding: 4px; gap: 2px; }
   .switch span { padding: 7px 14px; border-radius: 999px; font-weight: 600; font-size: 13px; color: var(--soft); white-space: nowrap; }
   .switch span.on { background: #0284c7; color: #fff; }
+  .switch span { min-width: 104px; text-align: center; }
   .ib { width: 36px; height: 36px; border-radius: 50%; background: #fff; position: relative; flex-shrink: 0; display: grid; place-items: center; font-size: 12px; color: var(--soft); }
   .badge { position: absolute; top: -2px; right: -2px; min-width: 16px; height: 16px; border-radius: 8px; background: #dc2626; color: #fff; font-size: 9px; display: grid; place-items: center; padding: 0 3px; }
   .wallet { height: 36px; border-radius: 999px; border: 1.5px solid #16a34a; background: #dcfce7; padding: 0 12px; display: flex; align-items: center; gap: 6px; font-weight: 700; font-size: 13px; white-space: nowrap; }
@@ -41,14 +43,6 @@
   .ring { display: grid; justify-items: center; gap: 5px; font-size: 11px; color: var(--soft); }
   .ring .circle { width: 60px; height: 60px; border: 3px solid #dc2626; box-shadow: inset 0 0 0 3px #fff; position: relative; }
   .ring .tag { margin-top: -14px; background: #dc2626; color: #fff; font-size: 9px; font-weight: 700; border-radius: 4px; padding: 0 4px; z-index: 1; }
-
-  /* ---------- Made For You reels ---------- */
-  .strip { border-radius: 16px; padding: 12px; display: grid; gap: 10px; }
-  .reels { display: grid; grid-auto-flow: column; grid-auto-columns: 44%; gap: 10px; overflow: hidden; }
-  .reel { aspect-ratio: 9 / 16; border-radius: 14px; background: #c7d2fe; position: relative; }
-  .reel::after { content: "▶"; position: absolute; inset: 0; display: grid; place-items: center; color: #6366f1; font-size: 26px; }
-  .reel .who { position: absolute; left: 8px; bottom: 8px; right: 8px; display: flex; gap: 6px; align-items: center; }
-  .reel .who .circle { width: 24px; height: 24px; }
 
   /* ---------- post grid ---------- */
   .grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
@@ -78,21 +72,29 @@
   .refer { grid-column: 1 / -1; border-radius: 16px; padding: 14px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
   .refer .txt { flex: 1; min-width: 180px; display: grid; gap: 2px; }
 
-  /* ---------- first login: build your feed ---------- */
-  .welcome { border-radius: 20px; padding: 20px 14px 36px; display: grid; gap: 16px; }
-  .welcome h2 { margin: 0; font-size: 22px; }
-  .progress { display: grid; gap: 6px; }
-  .bar { height: 8px; border-radius: 4px; background: #fff; overflow: hidden; }
-  .bar i { display: block; height: 100%; width: 0; background: #16a34a; }
-  .chips-zone { border-radius: 14px; padding: 12px 12px 28px; display: grid; gap: 10px; }
-  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
-  .chip { border: 1.5px solid #65a30d; border-radius: 999px; padding: 6px 12px; font-size: 13px; font-weight: 600; background: #fff; }
-  .chip.on { background: #65a30d; color: #fff; }
-  .follow-zone { border-radius: 14px; padding: 12px 12px 28px; display: grid; gap: 10px; }
-  .fgrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-  .fgrid .ccard .cover { height: 64px; }
-  .welcome .end { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: center; }
-  .welcome .end .btn { width: auto; padding: 0 24px; }
+  /* ---------- Discover video grid: 2 / 3 / 4 / 5 columns ---------- */
+  .disc { border-radius: 16px; padding: 12px 12px 30px; display: grid; gap: 10px; }
+  .vgrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .vid { aspect-ratio: 9 / 16; border-radius: 14px; background: #c7d2fe; position: relative; }
+  .vid::after { content: "\25B6"; position: absolute; inset: 0; display: grid; place-items: center; color: #6366f1; font-size: 26px; }
+  .vid .views { position: absolute; top: 8px; left: 8px; background: rgba(0,0,0,.55); color: #fff; font-size: 10px; border-radius: 999px; padding: 2px 8px; }
+  .vid .who { position: absolute; left: 8px; right: 8px; bottom: 8px; display: flex; gap: 6px; align-items: center; z-index: 1;
+              background: #fff; border: 1.5px dashed #db2777; border-radius: 999px; padding: 3px 8px 3px 3px; }
+  .vid .who .circle { width: 26px; height: 26px; }
+  .vid .name { flex: 1; display: grid; gap: 3px; font-size: 10px; font-weight: 700; color: #db2777; }
+  .vid .name .line { width: 80%; height: 6px; }
+
+  /* keep every row full: videos shown per size (phone 6+4, tablet 9+6, laptop 8+4, desktop 10+5) */
+  @media (max-width: 639px) { .vg1 .vid:nth-child(n+7), .vg2 .vid:nth-child(n+5) { display: none; } }
+  @media (min-width: 640px) and (max-width: 1023px) { .vg1 .vid:nth-child(n+10), .vg2 .vid:nth-child(n+7) { display: none; } }
+  @media (min-width: 1024px) and (max-width: 1439px) { .vg1 .vid:nth-child(n+9), .vg2 .vid:nth-child(n+5) { display: none; } }
+  @media (min-width: 1440px) { .vg2 .vid:nth-child(n+6) { display: none; } }
+
+  /* ---------- Subscribed tab, empty ---------- */
+  .sub-empty { border-radius: 20px; padding: 40px 20px 44px; display: grid; gap: 12px; justify-items: center; text-align: center; }
+  .sub-empty h2 { margin: 0; font-size: 22px; }
+  .sub-empty .icon { width: 56px; height: 56px; display: grid; place-items: center; font-size: 24px; color: var(--soft); }
+  .sub-empty .btn { width: auto; padding: 0 28px; }
 
   /* ---------- floating dock (main menu) ---------- */
   .dock { position: fixed; left: 8px; right: 8px; bottom: 8px; z-index: 30; height: 64px; border-radius: 22px;
@@ -112,21 +114,18 @@
     .hide-phone { display: grid; }
     .rings { grid-auto-columns: 72px; }
     .ring .circle { width: 68px; height: 68px; }
-    .reels { grid-auto-columns: 23%; }
     .grid { grid-template-columns: repeat(2, 1fr); gap: 18px; }
     .cards { grid-auto-columns: 32%; }
-    .welcome { padding: 28px 28px 40px; }
-    .welcome h2 { font-size: 28px; }
-    .fgrid { grid-template-columns: repeat(3, 1fr); }
+    .vgrid { grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .sub-empty h2 { font-size: 28px; }
     .dock { left: 50%; right: auto; transform: translateX(-50%); bottom: 16px; width: 440px; border-radius: 999px; }
   }
   /* ---------- laptop 1024+ ---------- */
   @media (min-width: 1024px) {
     .wrap { padding: 0 32px; gap: 20px; }
     .search-box { display: flex; align-items: center; height: 40px; border-radius: 999px; background: #fff; padding: 0 14px; color: var(--soft); width: 220px; }
-    .reels { grid-auto-columns: 15.5%; }
     .cards { grid-auto-columns: 23%; }
-    .fgrid { grid-template-columns: repeat(4, 1fr); }
+    .vgrid { grid-template-columns: repeat(4, 1fr); }
     .dock { width: 520px; }
   }
   /* ---------- desktop 1440+ ---------- */
@@ -136,12 +135,10 @@
     .search-box { width: 320px; }
     .rings { grid-auto-columns: 84px; }
     .ring .circle { width: 78px; height: 78px; }
-    .reels { grid-auto-columns: 12.5%; }
     .grid { grid-template-columns: repeat(3, 1fr); gap: 24px; }
     .cards { grid-auto-columns: 18.5%; }
-    .fgrid { grid-template-columns: repeat(6, 1fr); }
-    .welcome { padding: 36px 36px 44px; }
-    .welcome h2 { font-size: 32px; }
+    .vgrid { grid-template-columns: repeat(5, 1fr); gap: 18px; }
+    .sub-empty h2 { font-size: 32px; }
   }
 
   /* screenshot mode: full-page capture can not show fixed/sticky bars correctly */
@@ -153,18 +150,19 @@
 </style>
 </head>
 <body>
-<div class="wf-bar">Home /home - Side Licks layout v2 - state:
-  <a href="?state=feed" data-s="feed">Feed</a>
-  <a href="?state=empty" data-s="empty">First login (empty feed)</a>
+<div class="wf-bar">Home /home - Side Licks layout v2 - tab:
+  <a href="?state=discover" data-s="discover">Discover (opens first, every login)</a>
+  <a href="?state=subscribed" data-s="subscribed">Subscribed</a>
+  <a href="?state=subscribed-empty" data-s="subscribed-empty">Subscribed (following nobody yet)</a>
   <a href="index.html">All wireframes</a>
   <span class="size"></span>
 </div>
 
-<!-- Top bar: logo space, feed switch (tablet+), search, messages, bell, wallet, profile -->
+<!-- Top bar: logo space, Discover / Subscribed tabs (tablet+), search, messages, bell, wallet, profile -->
 <header class="topbar z-top lbl-bottom lbl-center" data-zone="Top bar">
   <div class="logo-slot sm">Logo space<br>(empty)</div>
   <div class="grow"></div>
-  <div class="switch"><span class="on">All</span><span>Subscribed</span><span>For You</span></div>
+  <div class="switch"><span data-tab="discover">Discover</span><span data-tab="subscribed">Subscribed</span></div>
   <div class="grow"></div>
   <div class="search-box">Search creators</div>
   <span class="ib" title="Search" data-phone-search>⌕</span>
@@ -175,8 +173,8 @@
 </header>
 
 <div class="wrap">
-  <!-- phone: feed switch under the top bar -->
-  <div class="switch-row"><div class="switch z-tabs lbl-bottom lbl-center" data-zone="Feed switch"><span class="on">All</span><span>Subscribed</span><span>For You</span></div></div>
+  <!-- phone: Discover / Subscribed tabs under the top bar -->
+  <div class="switch-row"><div class="switch z-tabs lbl-bottom lbl-center" data-zone="Discover / Subscribed tabs"><span data-tab="discover">Discover</span><span data-tab="subscribed">Subscribed</span></div></div>
 
   <!-- Live now rings (replaces the right-hand streams sidebar) -->
   <section class="live z-live lbl-bottom" data-zone="Live now rings">
@@ -197,23 +195,49 @@
     </div>
   </section>
 
-  <!-- ===================== FEED ===================== -->
-  <div data-s="feed" style="display:contents">
-    <!-- Made For You reels -->
-    <section class="strip z-strip lbl-bottom" data-zone="Made For You videos">
-      <div class="row-h"><span>Made For You</span><span class="arrows"><span class="ib">‹</span><span class="ib">›</span></span></div>
-      <div class="reels">
-        <div class="reel"><div class="who"><span class="circle"></span><div class="line w60"></div></div></div>
-        <div class="reel"><div class="who"><span class="circle"></span><div class="line w60"></div></div></div>
-        <div class="reel"><div class="who"><span class="circle"></span><div class="line w60"></div></div></div>
-        <div class="reel"><div class="who"><span class="circle"></span><div class="line w60"></div></div></div>
-        <div class="reel"><div class="who"><span class="circle"></span><div class="line w60"></div></div></div>
-        <div class="reel"><div class="who"><span class="circle"></span><div class="line w60"></div></div></div>
-        <div class="reel"><div class="who"><span class="circle"></span><div class="line w60"></div></div></div>
-        <div class="reel"><div class="who"><span class="circle"></span><div class="line w60"></div></div></div>
-      </div>
-    </section>
+  <!-- ===================== DISCOVER TAB (default) =====================
+       Opens first for every login: first time AND coming back. Videos from all creators.
+       Tap the video = play. Tap avatar / name = creator profile. -->
+  <section data-s="discover" class="disc z-strip lbl-bottom" data-zone="Discover videos">
+    <div class="row-h"><span>Discover</span><span class="label">Tap a name to open the profile</span></div>
+    <div class="vgrid vg1">
+      <div class="vid"><span class="views">12k views</span><div class="who"><span class="circle"></span><div class="name"><div class="line"></div><span>@creator</span></div></div></div>
+      <div class="vid"><span class="views">3.4k views</span><div class="who"><span class="circle"></span><div class="name"><div class="line"></div><span>@creator</span></div></div></div>
+      <div class="vid"><span class="views">890 views</span><div class="who"><span class="circle"></span><div class="name"><div class="line"></div><span>@creator</span></div></div></div>
+      <div class="vid"><span class="views">45k views</span><div class="who"><span class="circle"></span><div class="name"><div class="line"></div><span>@creator</span></div></div></div>
+      <div class="vid"><span class="views">2.1k views</span><div class="who"><span class="circle"></span><div class="name"><div class="line"></div><span>@creator</span></div></div></div>
+      <div class="vid"><span class="views">760 views</span><div class="who"><span class="circle"></span><div class="name"><div class="line"></div><span>@creator</span></div></div></div>
+      <div class="vid"><span class="views">18k views</span><div class="who"><span class="circle"></span><div class="name"><div class="line"></div><span>@creator</span></div></div></div>
+      <div class="vid"><span class="views">5k views</span><div class="who"><span class="circle"></span><div class="name"><div class="line"></div><span>@creator</span></div></div></div>
+      <div class="vid"><span class="views">1.2k views</span><div class="who"><span class="circle"></span><div class="name"><div class="line"></div><span>@creator</span></div></div></div>
+      <div class="vid"><span class="views">9.8k views</span><div class="who"><span class="circle"></span><div class="name"><div class="line"></div><span>@creator</span></div></div></div>
+    </div>
+  </section>
+  <section data-s="discover" class="band z-suggest lbl-bottom" data-zone="Creators you might like">
+    <div class="row-h"><span>Creators you might like</span><span class="arrows"><span class="ib">‹</span><span class="ib">›</span></span></div>
+    <div class="cards">
+      <div class="ccard"><div class="cover"></div><div class="body"><span class="circle"></span><div class="line" style="width:70%"></div><span class="pill">Follow</span></div></div>
+      <div class="ccard"><div class="cover"></div><div class="body"><span class="circle"></span><div class="line" style="width:70%"></div><span class="pill">Subscribe</span></div></div>
+      <div class="ccard"><div class="cover"></div><div class="body"><span class="circle"></span><div class="line" style="width:70%"></div><span class="pill">Follow</span></div></div>
+      <div class="ccard"><div class="cover"></div><div class="body"><span class="circle"></span><div class="line" style="width:70%"></div><span class="pill">Follow</span></div></div>
+      <div class="ccard"><div class="cover"></div><div class="body"><span class="circle"></span><div class="line" style="width:70%"></div><span class="pill">Subscribe</span></div></div>
+      <div class="ccard"><div class="cover"></div><div class="body"><span class="circle"></span><div class="line" style="width:70%"></div><span class="pill">Follow</span></div></div>
+    </div>
+  </section>
+  <section data-s="discover" class="disc z-strip lbl-bottom" data-zone="More Discover videos (keeps loading)">
+    <div class="vgrid vg2">
+      <div class="vid"><span class="views">4k views</span><div class="who"><span class="circle"></span><div class="name"><div class="line"></div><span>@creator</span></div></div></div>
+      <div class="vid"><span class="views">22k views</span><div class="who"><span class="circle"></span><div class="name"><div class="line"></div><span>@creator</span></div></div></div>
+      <div class="vid"><span class="views">610 views</span><div class="who"><span class="circle"></span><div class="name"><div class="line"></div><span>@creator</span></div></div></div>
+      <div class="vid"><span class="views">1.9k views</span><div class="who"><span class="circle"></span><div class="name"><div class="line"></div><span>@creator</span></div></div></div>
+      <div class="vid"><span class="views">7.5k views</span><div class="who"><span class="circle"></span><div class="name"><div class="line"></div><span>@creator</span></div></div></div>
+      <div class="vid"><span class="views">3.3k views</span><div class="who"><span class="circle"></span><div class="name"><div class="line"></div><span>@creator</span></div></div></div>
+    </div>
+  </section>
 
+  <!-- ===================== SUBSCRIBED TAB =====================
+       Only posts from creators the fan subscribes to / follows. Newest first. -->
+  <div data-s="subscribed" style="display:contents">
     <!-- Post grid: 1 / 2 / 2 / 3 columns -->
     <main class="grid">
       <article class="post z-post lbl-left lbl-bottom" data-zone="Post">
@@ -274,33 +298,12 @@
     </main>
   </div>
 
-  <!-- ===================== FIRST LOGIN: EMPTY FEED ===================== -->
-  <section data-s="empty" class="welcome z-empty lbl-bottom" data-zone="First login - build your feed">
-    <div style="display:grid;gap:8px">
-      <h2>Welcome! Let's build your feed</h2>
-      <span style="color:var(--soft)">Pick what you like and follow 3 creators. Your feed fills up with their posts.</span>
-      <div class="progress"><span class="label"><b>0 / 3</b> creators followed</span><div class="bar"><i></i></div></div>
-    </div>
-    <div class="chips-zone z-pick lbl-bottom" data-zone="1. Pick interests">
-      <b>What do you like?</b>
-      <div class="chips"><span class="chip on">Cosplay</span><span class="chip">Fitness</span><span class="chip on">Gaming</span><span class="chip">Music</span><span class="chip">Fashion</span><span class="chip">Travel</span><span class="chip">Art</span><span class="chip">Comedy</span><span class="chip">Lifestyle</span><span class="chip">+ more</span></div>
-    </div>
-    <div class="follow-zone z-suggest lbl-bottom" data-zone="2. Follow creators">
-      <b>Creators for you</b>
-      <div class="fgrid">
-        <div class="ccard"><div class="cover"></div><div class="body"><span class="circle"></span><div class="line" style="width:70%"></div><span class="pill">Follow</span></div></div>
-        <div class="ccard"><div class="cover"></div><div class="body"><span class="circle"></span><div class="line" style="width:70%"></div><span class="pill">Follow</span></div></div>
-        <div class="ccard"><div class="cover"></div><div class="body"><span class="circle"></span><div class="line" style="width:70%"></div><span class="pill">Follow</span></div></div>
-        <div class="ccard"><div class="cover"></div><div class="body"><span class="circle"></span><div class="line" style="width:70%"></div><span class="pill">Follow</span></div></div>
-        <div class="ccard"><div class="cover"></div><div class="body"><span class="circle"></span><div class="line" style="width:70%"></div><span class="pill">Follow</span></div></div>
-        <div class="ccard"><div class="cover"></div><div class="body"><span class="circle"></span><div class="line" style="width:70%"></div><span class="pill">Follow</span></div></div>
-      </div>
-    </div>
-    <div class="end">
-      <button class="btn grey" type="button">Show my feed (follow 3 first)</button>
-      <button class="btn ghost" type="button">Discover more creators</button>
-      <a href="#" class="label">Skip for now</a>
-    </div>
+  <!-- ===================== SUBSCRIBED TAB, FOLLOWING NOBODY YET ===================== -->
+  <section data-s="subscribed-empty" class="sub-empty z-empty lbl-bottom" data-zone="Subscribed - empty">
+    <div class="icon circle">+</div>
+    <h2>No subscriptions yet</h2>
+    <span style="color:var(--soft)">Creators you subscribe to or follow show up here.</span>
+    <button class="btn" type="button">Go to Discover</button>
   </section>
 </div>
 
@@ -308,18 +311,20 @@
      Become a Creator, Promotions, Following, Subscriptions, Wallet, My Collection, Refer & Earn, Settings -->
 <nav class="dock z-menu lbl-left" data-zone="Dock (main menu)" aria-label="Main menu">
   <div class="it on"><span class="circle"></span><span>Home</span></div>
-  <div class="it"><span class="circle"></span><span>Discover</span></div>
-  <div class="plus" title="Create post / go live (creators) - Discover (fans)">+</div>
+  <div class="it"><span class="circle"></span><span>Search</span></div>
+  <div class="plus" title="Create post / go live (creators) - Search (fans)">+</div>
   <div class="it"><span class="circle"></span><span>Chat</span></div>
   <div class="it"><span class="circle"></span><span>More</span></div>
 </nav>
 
 <script>
   const p = new URLSearchParams(location.search);
-  const s = p.get('state') || 'feed';
+  const s = p.get('state') || 'discover';
   if (p.has('shot')) document.body.classList.add('shot');
   document.querySelectorAll('.wf-bar a[data-s]').forEach(a => a.classList.toggle('on', a.dataset.s === s));
   document.querySelectorAll('.wrap > [data-s]').forEach(d => d.hidden = d.dataset.s !== s);
+  const tab = s === 'discover' ? 'discover' : 'subscribed';
+  document.querySelectorAll('[data-tab]').forEach(t => t.classList.toggle('on', t.dataset.tab === tab));
   // laptop + desktop show a search box, smaller screens a search icon
   const mq = matchMedia('(min-width: 1024px)');
   const sync = () => document.querySelector('[data-phone-search]').hidden = mq.matches;
