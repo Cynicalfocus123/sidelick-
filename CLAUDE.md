@@ -32,7 +32,7 @@ Details: `code.md` (how to run, structure, tests), `design.md` (screens, sizes, 
 
 ## Status (update every task)
 
-- 2026-10-27 Step 1 (B20 + F6 wireframes): project set up, start page + `/api/health` working, wireframes for register / verify email / home made at 4 sizes - **waiting for owner approval**. F5 (logo) waits for owner. Git remote `origin` = GitHub repo above; Excel task list now v63. First approval message was withdrawn by the owner (no pictures had been shown); colour-coded pictures sent 2026-10-27, waiting for approval.
+- 2026-10-27 Step 1 (B20 + F6 wireframes): project set up, start page + `/api/health` working, wireframes for register / verify email / home made at 4 sizes - **waiting for owner approval**. F5 (logo) waits for owner. Git remote `origin` = GitHub repo above; Excel task list now v64. First approval message was withdrawn by the owner (no pictures had been shown); colour-coded pictures sent 2026-10-27. Home redesigned (layout v2, owner wants it different from competitors: dock instead of left menu, live rings, post grid, suggestions inside the feed) + new first-login screen - pictures sent, waiting for approval.
 
 ## Working notes for Claude
 

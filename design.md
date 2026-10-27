@@ -6,12 +6,12 @@
 |---|---|---|---|
 | Register (F10) + "Check your email" popup (F8) | `wireframes/register.html` | waiting | no |
 | Verify email /verify-email (F12), 5 states | `wireframes/verify-email.html` | waiting | no |
-| Home /home (F1, F20-F29, F110, F111) + empty feed | `wireframes/home.html` | waiting | no |
+| Home /home layout v2 (own design) + first-login screen | `wireframes/home.html` | waiting | no |
 | Start page `/` (setup check only, not a real screen) | - | - | yes |
 
 Rule: no screen is built until its wireframe is approved (hard rule 6). Screenshots of every state at every size: `wireframes/shots/` + `wireframes/index.html`; one overview picture per screen (all states x 4 sizes): `wireframes/sheets/<screen>.webp`. All made by `npm --prefix frontend run wireframes:shots` (WebP via FFmpeg). The sheets are what gets sent to the owner in chat every time.
 
-Wireframe colour code (wireframe only - NOT the site colours): top bar blue, left menu + phone bottom bar purple, feed tabs sky blue, Made For You indigo, post green, locked post orange, promoted post yellow, suggested creators pink, live streams teal, Refer & Earn amber, info panel teal, forms blue outline, popups amber outline, message area green outline, logo space red dashed (empty on the real site), buttons dark blue. Colours + tags live in `wireframes/wf.css` (`data-zone` + `z-*` classes).
+Wireframe colour code (wireframe only - NOT the site colours): top bar blue, dock (main menu) purple, feed switch sky blue, interest chips lime, Made For You indigo, post green, locked post orange, promoted post yellow, suggested creators pink, live streams teal, Refer & Earn amber, info panel teal, forms blue outline, popups amber outline, message area green outline, logo space red dashed (empty on the real site), buttons dark blue. Colours + tags live in `wireframes/wf.css` (`data-zone` + `z-*` classes).
 
 ## Logo
 
@@ -50,7 +50,7 @@ Font: Geist (next/font, self-hosted at build). Change brand colours in one place
 
 **Verify email** - white page, soft glow top-right (brand colour after F5), logo space centred at top, big "Email Verification". States: Checking (spinner, "Verifying your request..."), Verified (+ Continue, auto to /home in 2-3 s with toast), Expired signed in (Send a new link), Expired signed out (Sign in), Other device signed out (verified + Sign in to continue).
 
-**Home** - desktop / laptop: left menu (logo space + collapse, Home, Chat, Notifications, Discover, My Collection, Become a Creator, Promotions, Following, Subscriptions, Wallet + balance, Refer & Earn card at the bottom), top bar (search, help, language, messages + badge, bell + badge, wallet balance, avatar with online dot), feed centre (tabs All / Subscribed / For You + refresh + create post, Made For You video strip, post cards, locked post with Subscribe, Promoted post), right column (Suggested Creators 3 cards + arrows + dots, Streams You Might Like). Tablet: left menu shrinks to icons, right column hidden. Phone: top bar (logo space, search, bell, wallet, avatar), feed full width, bottom bar (Home, Discover, Chat, Alerts, Menu). Empty feed state: "Create your feed" + Discover Creators.
+**Home - Side Licks layout v2 (2026-10-27, owner: "more different than competitor")** - NOT the usual left menu + feed + right sidebar. Top bar: logo space left, All / Subscribed / For You switch in the centre (phone: full-width switch under the top bar), search box (laptop+) or search icon, messages + badge, bell + badge, wallet chip, avatar with online dot. No left menu: main menu is a floating DOCK at the bottom on every size (Home, Discover, big + button = create post / go live for creators, Chat, More; More opens Become a Creator, Promotions, Following, Subscriptions, Wallet, My Collection, Refer & Earn, Settings). Phone: dock full width with rounded corners; tablet+: centred pill. "Live now" row of round creator rings with red LIVE tag + viewer count (replaces the right-hand streams sidebar). "Made For You" vertical video reels row. Posts in a GRID: desktop 3 columns, laptop + tablet 2, phone 1 (rows always full). "Creators you might like" = full-width row of cards inside the feed (replaces the suggestions sidebar). Promoted post looks like a post with a Promoted label + View profile. Refer & Earn = banner at the end of the feed (was in the left menu). **First login (empty feed)** - "Welcome! Let's build your feed" + progress "0 / 3 creators followed", step 1 interest chips ("What do you like?"), step 2 grid of creators with Follow buttons (6 = desktop 6 across, laptop 4, tablet 3, phone 2), then "Show my feed" (grey until 3 followed), "Discover more creators", "Skip for now". Live now row stays on top.
 
 ## Media (hard rule 5)
 

@@ -74,3 +74,4 @@ npm run db:stop           # when finished
 - 2026-10-27 GitHub remote added (origin -> Cynicalfocus123/sidelick-), all commits pushed. `.env` files and the Excel are git-ignored, so they never go to GitHub.
 - 2026-10-27 Added wireframe overview pictures (`wireframes/sheets/`, script `wireframe-sheets.mjs`, runs after `wireframes:shots`). Phone bottom bar now shows at the bottom of full-page screenshots.
 - 2026-10-27 Wireframes colour-coded with name tags (`data-zone` + `z-*` classes in `wireframes/wf.css`); register form padded on phone.
+- 2026-10-27 Home wireframe rebuilt as Side Licks layout v2 (dock, live rings, post grid, in-feed suggestions, first-login 'build your feed' screen).
