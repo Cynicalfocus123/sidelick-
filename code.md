@@ -77,3 +77,4 @@ npm run db:stop           # when finished
 - 2026-10-27 Home wireframe rebuilt as Side Licks layout v2 (dock, live rings, post grid, in-feed suggestions, first-login 'build your feed' screen).
 - 2026-10-27 Home tabs changed to Discover (default, every login) + Subscribed; wireframe states now discover / subscribed / subscribed-empty. Old home-feed-* / home-empty-* shots left in wireframes/shots (not deleted, rule 11).
 - 2026-10-27 Home wireframe layout v3: bottom dock removed, left menu on every size (phone icon rail, tablet rail with words, laptop/desktop sidebar).
+- 2026-10-27 Discover wireframe: grid rows replaced by one scrolling column + mixed-in "Creator you may like" cards.
