@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "test:e2e": "playwright test",
-    "wireframes:shots": "node scripts/wireframe-shots.mjs"
+    "wireframes:shots": "node scripts/wireframe-shots.mjs && node scripts/wireframe-sheets.mjs"
   },
   "dependencies": {
     "next": "16.4.3",

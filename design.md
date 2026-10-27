@@ -9,7 +9,7 @@
 | Home /home (F1, F20-F29, F110, F111) + empty feed | `wireframes/home.html` | waiting | no |
 | Start page `/` (setup check only, not a real screen) | - | - | yes |
 
-Rule: no screen is built until its wireframe is approved (hard rule 6). Screenshots of every state at every size: `wireframes/index.html` (WebP, made by `npm --prefix frontend run wireframes:shots`).
+Rule: no screen is built until its wireframe is approved (hard rule 6). Screenshots of every state at every size: `wireframes/shots/` + `wireframes/index.html`; one overview picture per screen (all states x 4 sizes): `wireframes/sheets/<screen>.webp`. All made by `npm --prefix frontend run wireframes:shots` (WebP via FFmpeg). The sheets are what gets sent to the owner in chat every time.
 
 ## Logo
 

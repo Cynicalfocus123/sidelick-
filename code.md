@@ -19,7 +19,8 @@ side lick new site/
     src/app/                           pages (layout.tsx, page.tsx, globals.css)
     src/components/                    LogoSlot (empty logo space), ApiStatus
     e2e/                               Playwright tests (4 screen sizes)
-    scripts/wireframe-shots.mjs        wireframe screenshots -> WebP
+    scripts/wireframe-shots.mjs        wireframe screenshots -> WebP (wireframes/shots/)
+    scripts/wireframe-sheets.mjs       one overview picture per screen (wireframes/sheets/)
   backend/                             NestJS app
     src/main.ts, src/env.ts            boot, loads backend/.env
     src/database/                      DatabaseModule + DatabaseService (pg pool)
@@ -71,3 +72,4 @@ npm run db:stop           # when finished
 
 - 2026-10-27 Step 1 (B20): scaffolded both apps, PostgreSQL 18.6 installed portable on D:, database `sidelick` created, health endpoint, start page with empty logo slot, Playwright at 4 sizes, wireframes, live/ sync script.
 - 2026-10-27 GitHub remote added (origin -> Cynicalfocus123/sidelick-), all commits pushed. `.env` files and the Excel are git-ignored, so they never go to GitHub.
+- 2026-10-27 Added wireframe overview pictures (`wireframes/sheets/`, script `wireframe-sheets.mjs`, runs after `wireframes:shots`). Phone bottom bar now shows at the bottom of full-page screenshots.
