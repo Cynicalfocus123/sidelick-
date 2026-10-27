@@ -60,40 +60,43 @@
   .ring .circle { width: 60px; height: 60px; border: 3px solid #dc2626; box-shadow: inset 0 0 0 3px #fff; position: relative; }
   .ring .tag { margin-top: -14px; background: #dc2626; color: #fff; font-size: 9px; font-weight: 700; border-radius: 4px; padding: 0 4px; z-index: 1; }
 
-  /* ---------- Discover: ONE scrolling column (no rows) ---------- */
-  .rf { display: grid; justify-items: center; gap: 18px; }
-  .rv, .mix { width: 100%; max-width: var(--colw, 100%); }
-  .rv { position: relative; border-radius: 18px; padding: 8px 8px 26px; display: flex; gap: 12px; align-items: flex-end; }
-  .screen { flex: 1; aspect-ratio: 9 / 16; border-radius: 14px; background: #c7d2fe; position: relative; }
-  .screen::after { content: "\25B6"; position: absolute; inset: 0; display: grid; place-items: center; color: #6366f1; font-size: 34px; }
-  .screen .views { position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,.55); color: #fff; font-size: 11px; border-radius: 999px; padding: 2px 8px; }
-  .screen .who { position: absolute; left: 10px; right: 64px; bottom: 12px; display: flex; gap: 8px; align-items: center; z-index: 1;
-                 background: #fff; border: 1.5px dashed #db2777; border-radius: 999px; padding: 4px 4px 4px 4px; }
-  .screen .who .circle { width: 32px; height: 32px; }
-  .screen .who .name { flex: 1; min-width: 0; display: grid; gap: 3px; font-size: 12px; color: #db2777; }
-  .screen .who .name .line { width: 70%; height: 6px; }
-  .screen .who .pill { padding: 6px 12px; font-size: 12px; }
-  /* like / comment / tip / share: over the video on phone, beside it on tablet+ */
-  .acts { position: absolute; right: 18px; bottom: 90px; z-index: 2; display: grid; justify-items: center; gap: 2px; font-size: 10px; color: #fff; }
-  .acts .ib { width: 40px; height: 40px; font-size: 15px; margin-top: 8px; }
-  .acts small { text-shadow: 0 1px 2px rgba(0,0,0,.6); }
-  .mix { border-radius: 18px; padding: 14px 14px 30px; display: grid; gap: 10px; }
-  .mh { display: flex; gap: 10px; align-items: center; }
-  .mh .circle { width: 48px; height: 48px; border: 3px solid #db2777; }
-  .mh .mn { flex: 1; min-width: 0; display: grid; gap: 6px; }
-  .mthumbs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-  .th { aspect-ratio: 3 / 4; border-radius: 10px; background: #f9a8d4; display: grid; place-items: center; color: #be185d; }
+  /* ---------- Discover: one-line rows that scroll sideways ---------- */
+  .disc-stack { display: grid; gap: 14px; }
+  .vrow, .crow { border-radius: 16px; padding: 12px 12px 30px; display: grid; gap: 10px; min-width: 0; }
+  .track { display: grid; grid-auto-flow: column; gap: 10px; overflow: hidden; }
+  .vrow .track { grid-auto-columns: 42%; }
+  .crow .track { grid-auto-columns: 78%; }
+  .vid { aspect-ratio: 9 / 16; border-radius: 14px; background: #c7d2fe; position: relative; }
+  .vid::after { content: "\25B6"; position: absolute; inset: 0; display: grid; place-items: center; color: #6366f1; font-size: 26px; }
+  .vid .views { position: absolute; top: 8px; left: 8px; background: rgba(0,0,0,.55); color: #fff; font-size: 10px; border-radius: 999px; padding: 2px 8px; }
+  .vid .who { position: absolute; left: 6px; right: 6px; bottom: 6px; display: flex; gap: 6px; align-items: center; z-index: 1;
+              background: #fff; border: 1.5px dashed #db2777; border-radius: 999px; padding: 3px 8px 3px 3px; }
+  .vid .who .circle { width: 24px; height: 24px; }
+  .vid .name { flex: 1; min-width: 0; display: grid; gap: 3px; font-size: 10px; color: #db2777; }
+  .vid .name .line { width: 80%; height: 6px; }
+  .cc { border-radius: 14px; background: #fbcfe8; padding: 10px; display: grid; gap: 8px; justify-items: start; }
+  .cc-h { display: flex; gap: 10px; align-items: center; width: 100%; }
+  .cc-h .circle { width: 42px; height: 42px; border: 3px solid #db2777; }
+  .cc .mn { flex: 1; min-width: 0; display: grid; gap: 6px; }
+  .mthumbs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; width: 100%; }
+  .th { aspect-ratio: 3 / 4; border-radius: 8px; background: #f9a8d4; display: grid; place-items: center; color: #be185d; font-size: 12px; }
   .th.locked { background: repeating-linear-gradient(45deg, #fbcfe8, #fbcfe8 8px, #f9a8d4 8px, #f9a8d4 16px); }
-  .th .pill { padding: 5px 10px; font-size: 11px; }
-  .more-link { font-weight: 700; color: #be185d; font-size: 13px; }
+  .cc .pill { padding: 6px 14px; font-size: 12px; }
   @media (min-width: 640px) {
-    .rf { --colw: 470px; }
-    .acts { position: static; color: var(--soft); }
-    .acts small { text-shadow: none; }
-    .screen .who { right: 10px; }
+    .disc-stack { gap: 18px; }
+    .vrow .track { grid-auto-columns: 30%; gap: 14px; }
+    .crow .track { grid-auto-columns: 46%; gap: 14px; }
   }
-  @media (min-width: 1024px) { .rf { --colw: 500px; } }
-  @media (min-width: 1440px) { .rf { --colw: 540px; gap: 24px; } }
+  @media (min-width: 1024px) {
+    .disc-stack { gap: 20px; }
+    .vrow .track { grid-auto-columns: 22.5%; }
+    .crow .track { grid-auto-columns: 31%; }
+  }
+  @media (min-width: 1440px) {
+    .disc-stack { gap: 24px; }
+    .vrow .track { grid-auto-columns: 15.5%; gap: 16px; }
+    .crow .track { grid-auto-columns: 23.5%; gap: 16px; }
+  }
 
   /* ---------- Subscribed: post grid 1 / 2 / 2 / 3 columns ---------- */
   .grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
@@ -246,49 +249,76 @@
     </section>
 
     <!-- ===================== DISCOVER TAB (default) =====================
-         Opens first for every login: first time AND coming back. ONE column, the fan scrolls down video after video
-         (phone: one full video per swipe). Every few videos a "Creator you may like" card is mixed in.
-         Tap the video = play / pause. Tap avatar / name = creator profile. -->
-    <section data-s="discover" class="rf">
-      <article class="rv z-strip lbl-bottom lbl-left" data-zone="Discover video">
-        <div class="screen"><span class="views">12k views</span>
-          <div class="who"><span class="circle"></span><div class="name"><b>@creator</b><div class="line"></div></div><span class="pill">Follow</span></div>
+         Opens first for every login: first time AND coming back.
+         Pattern (owner 2026-10-28): ONE row of videos (scrolls sideways) -> "Creators you may like" row ->
+         a new video row with DIFFERENT creators -> creators row -> ... keeps loading down the page.
+         Tap a video = play. Tap avatar / name = creator profile. -->
+    <div data-s="discover" class="disc-stack">
+      <section class="vrow z-strip lbl-bottom" data-zone="Video row 1 (scroll sideways)">
+        <div class="row-h"><span>Discover</span><span class="arrows"><span class="ib">&#8249;</span><span class="ib">&#8250;</span></span></div>
+        <div class="track">
+          <div class="vid"><span class="views">12k views</span><div class="who"><span class="circle"></span><div class="name"><b>@creator</b><div class="line"></div></div></div></div>
+          <div class="vid"><span class="views">3.4k views</span><div class="who"><span class="circle"></span><div class="name"><b>@creator</b><div class="line"></div></div></div></div>
+          <div class="vid"><span class="views">890 views</span><div class="who"><span class="circle"></span><div class="name"><b>@creator</b><div class="line"></div></div></div></div>
+          <div class="vid"><span class="views">45k views</span><div class="who"><span class="circle"></span><div class="name"><b>@creator</b><div class="line"></div></div></div></div>
+          <div class="vid"><span class="views">2.1k views</span><div class="who"><span class="circle"></span><div class="name"><b>@creator</b><div class="line"></div></div></div></div>
+          <div class="vid"><span class="views">760 views</span><div class="who"><span class="circle"></span><div class="name"><b>@creator</b><div class="line"></div></div></div></div>
+          <div class="vid"><span class="views">18k views</span><div class="who"><span class="circle"></span><div class="name"><b>@creator</b><div class="line"></div></div></div></div>
+          <div class="vid"><span class="views">5k views</span><div class="who"><span class="circle"></span><div class="name"><b>@creator</b><div class="line"></div></div></div></div>
         </div>
-        <div class="acts"><span class="ib">&#9825;</span><small>1.2k</small><span class="ib">&#128172;</span><small>48</small><span class="ib">$</span><small>Tip</small><span class="ib">&#8599;</span><small>Share</small></div>
-      </article>
-      <article class="rv z-strip lbl-bottom lbl-left" data-zone="Discover video">
-        <div class="screen"><span class="views">3.4k views</span>
-          <div class="who"><span class="circle"></span><div class="name"><b>@creator</b><div class="line"></div></div><span class="pill">Follow</span></div>
+      </section>
+      <section class="crow z-suggest lbl-bottom" data-zone="Creators you may like">
+        <div class="row-h"><span>Creators you may like</span><span class="arrows"><span class="ib">&#8249;</span><span class="ib">&#8250;</span></span></div>
+        <div class="track">
+          <div class="cc"><div class="cc-h"><span class="circle"></span><div class="mn"><b>Creator name</b><div class="line w60"></div></div></div><div class="mthumbs"><div class="th">&#9654;</div><div class="th">&#9654;</div><div class="th locked">&#128274;</div></div><span class="pill">Follow</span></div>
+          <div class="cc"><div class="cc-h"><span class="circle"></span><div class="mn"><b>Creator name</b><div class="line w60"></div></div></div><div class="mthumbs"><div class="th">&#9654;</div><div class="th">&#9654;</div><div class="th locked">&#128274;</div></div><span class="pill">Follow</span></div>
+          <div class="cc"><div class="cc-h"><span class="circle"></span><div class="mn"><b>Creator name</b><div class="line w60"></div></div></div><div class="mthumbs"><div class="th">&#9654;</div><div class="th">&#9654;</div><div class="th locked">&#128274;</div></div><span class="pill">Follow</span></div>
+          <div class="cc"><div class="cc-h"><span class="circle"></span><div class="mn"><b>Creator name</b><div class="line w60"></div></div></div><div class="mthumbs"><div class="th">&#9654;</div><div class="th">&#9654;</div><div class="th locked">&#128274;</div></div><span class="pill">Follow</span></div>
+          <div class="cc"><div class="cc-h"><span class="circle"></span><div class="mn"><b>Creator name</b><div class="line w60"></div></div></div><div class="mthumbs"><div class="th">&#9654;</div><div class="th">&#9654;</div><div class="th locked">&#128274;</div></div><span class="pill">Follow</span></div>
+          <div class="cc"><div class="cc-h"><span class="circle"></span><div class="mn"><b>Creator name</b><div class="line w60"></div></div></div><div class="mthumbs"><div class="th">&#9654;</div><div class="th">&#9654;</div><div class="th locked">&#128274;</div></div><span class="pill">Follow</span></div>
+          <div class="cc"><div class="cc-h"><span class="circle"></span><div class="mn"><b>Creator name</b><div class="line w60"></div></div></div><div class="mthumbs"><div class="th">&#9654;</div><div class="th">&#9654;</div><div class="th locked">&#128274;</div></div><span class="pill">Follow</span></div>
         </div>
-        <div class="acts"><span class="ib">&#9825;</span><small>1.2k</small><span class="ib">&#128172;</span><small>48</small><span class="ib">$</span><small>Tip</small><span class="ib">&#8599;</span><small>Share</small></div>
-      </article>
-      <article class="rv z-strip lbl-bottom lbl-left" data-zone="Discover video">
-        <div class="screen"><span class="views">890 views</span>
-          <div class="who"><span class="circle"></span><div class="name"><b>@creator</b><div class="line"></div></div><span class="pill">Follow</span></div>
+      </section>
+      <section class="vrow z-strip lbl-bottom" data-zone="Video row 2 - different creators">
+        <div class="row-h"><span>More to discover</span><span class="arrows"><span class="ib">&#8249;</span><span class="ib">&#8250;</span></span></div>
+        <div class="track">
+          <div class="vid"><span class="views">5k views</span><div class="who"><span class="circle"></span><div class="name"><b>@creator</b><div class="line"></div></div></div></div>
+          <div class="vid"><span class="views">18k views</span><div class="who"><span class="circle"></span><div class="name"><b>@creator</b><div class="line"></div></div></div></div>
+          <div class="vid"><span class="views">760 views</span><div class="who"><span class="circle"></span><div class="name"><b>@creator</b><div class="line"></div></div></div></div>
+          <div class="vid"><span class="views">2.1k views</span><div class="who"><span class="circle"></span><div class="name"><b>@creator</b><div class="line"></div></div></div></div>
+          <div class="vid"><span class="views">45k views</span><div class="who"><span class="circle"></span><div class="name"><b>@creator</b><div class="line"></div></div></div></div>
+          <div class="vid"><span class="views">890 views</span><div class="who"><span class="circle"></span><div class="name"><b>@creator</b><div class="line"></div></div></div></div>
+          <div class="vid"><span class="views">3.4k views</span><div class="who"><span class="circle"></span><div class="name"><b>@creator</b><div class="line"></div></div></div></div>
+          <div class="vid"><span class="views">12k views</span><div class="who"><span class="circle"></span><div class="name"><b>@creator</b><div class="line"></div></div></div></div>
         </div>
-        <div class="acts"><span class="ib">&#9825;</span><small>1.2k</small><span class="ib">&#128172;</span><small>48</small><span class="ib">$</span><small>Tip</small><span class="ib">&#8599;</span><small>Share</small></div>
-      </article>
-      <!-- mixed in every few videos: a creator the fan may like, with a peek at their content -->
-      <article class="mix z-suggest lbl-bottom lbl-left" data-zone="Creator you may like (mixed in)">
-        <span class="label">Creator you may like</span>
-        <div class="mh"><span class="circle"></span><div class="mn"><b>Creator name</b><div class="line w60"></div></div><span class="pill">Follow</span></div>
-        <div class="mthumbs"><div class="th">&#9654;</div><div class="th">&#9654;</div><div class="th locked"><span class="pill">Subscribe</span></div></div>
-        <span class="more-link">View profile &#8250;</span>
-      </article>
-      <article class="rv z-strip lbl-bottom lbl-left" data-zone="Discover video">
-        <div class="screen"><span class="views">45k views</span>
-          <div class="who"><span class="circle"></span><div class="name"><b>@creator</b><div class="line"></div></div><span class="pill">Follow</span></div>
+      </section>
+      <section class="crow z-suggest lbl-bottom" data-zone="Creators you may like">
+        <div class="row-h"><span>More creators you may like</span><span class="arrows"><span class="ib">&#8249;</span><span class="ib">&#8250;</span></span></div>
+        <div class="track">
+          <div class="cc"><div class="cc-h"><span class="circle"></span><div class="mn"><b>Creator name</b><div class="line w60"></div></div></div><div class="mthumbs"><div class="th">&#9654;</div><div class="th">&#9654;</div><div class="th locked">&#128274;</div></div><span class="pill">Follow</span></div>
+          <div class="cc"><div class="cc-h"><span class="circle"></span><div class="mn"><b>Creator name</b><div class="line w60"></div></div></div><div class="mthumbs"><div class="th">&#9654;</div><div class="th">&#9654;</div><div class="th locked">&#128274;</div></div><span class="pill">Follow</span></div>
+          <div class="cc"><div class="cc-h"><span class="circle"></span><div class="mn"><b>Creator name</b><div class="line w60"></div></div></div><div class="mthumbs"><div class="th">&#9654;</div><div class="th">&#9654;</div><div class="th locked">&#128274;</div></div><span class="pill">Follow</span></div>
+          <div class="cc"><div class="cc-h"><span class="circle"></span><div class="mn"><b>Creator name</b><div class="line w60"></div></div></div><div class="mthumbs"><div class="th">&#9654;</div><div class="th">&#9654;</div><div class="th locked">&#128274;</div></div><span class="pill">Follow</span></div>
+          <div class="cc"><div class="cc-h"><span class="circle"></span><div class="mn"><b>Creator name</b><div class="line w60"></div></div></div><div class="mthumbs"><div class="th">&#9654;</div><div class="th">&#9654;</div><div class="th locked">&#128274;</div></div><span class="pill">Follow</span></div>
+          <div class="cc"><div class="cc-h"><span class="circle"></span><div class="mn"><b>Creator name</b><div class="line w60"></div></div></div><div class="mthumbs"><div class="th">&#9654;</div><div class="th">&#9654;</div><div class="th locked">&#128274;</div></div><span class="pill">Follow</span></div>
+          <div class="cc"><div class="cc-h"><span class="circle"></span><div class="mn"><b>Creator name</b><div class="line w60"></div></div></div><div class="mthumbs"><div class="th">&#9654;</div><div class="th">&#9654;</div><div class="th locked">&#128274;</div></div><span class="pill">Follow</span></div>
         </div>
-        <div class="acts"><span class="ib">&#9825;</span><small>1.2k</small><span class="ib">&#128172;</span><small>48</small><span class="ib">$</span><small>Tip</small><span class="ib">&#8599;</span><small>Share</small></div>
-      </article>
-      <article class="rv z-strip lbl-bottom lbl-left" data-zone="Discover video">
-        <div class="screen"><span class="views">2.1k views</span>
-          <div class="who"><span class="circle"></span><div class="name"><b>@creator</b><div class="line"></div></div><span class="pill">Follow</span></div>
+      </section>
+      <section class="vrow z-strip lbl-bottom" data-zone="Video row 3 - different creators">
+        <div class="row-h"><span>Keep exploring</span><span class="arrows"><span class="ib">&#8249;</span><span class="ib">&#8250;</span></span></div>
+        <div class="track">
+          <div class="vid"><span class="views">890 views</span><div class="who"><span class="circle"></span><div class="name"><b>@creator</b><div class="line"></div></div></div></div>
+          <div class="vid"><span class="views">45k views</span><div class="who"><span class="circle"></span><div class="name"><b>@creator</b><div class="line"></div></div></div></div>
+          <div class="vid"><span class="views">2.1k views</span><div class="who"><span class="circle"></span><div class="name"><b>@creator</b><div class="line"></div></div></div></div>
+          <div class="vid"><span class="views">760 views</span><div class="who"><span class="circle"></span><div class="name"><b>@creator</b><div class="line"></div></div></div></div>
+          <div class="vid"><span class="views">18k views</span><div class="who"><span class="circle"></span><div class="name"><b>@creator</b><div class="line"></div></div></div></div>
+          <div class="vid"><span class="views">5k views</span><div class="who"><span class="circle"></span><div class="name"><b>@creator</b><div class="line"></div></div></div></div>
+          <div class="vid"><span class="views">12k views</span><div class="who"><span class="circle"></span><div class="name"><b>@creator</b><div class="line"></div></div></div></div>
+          <div class="vid"><span class="views">3.4k views</span><div class="who"><span class="circle"></span><div class="name"><b>@creator</b><div class="line"></div></div></div></div>
         </div>
-        <div class="acts"><span class="ib">&#9825;</span><small>1.2k</small><span class="ib">&#128172;</span><small>48</small><span class="ib">$</span><small>Tip</small><span class="ib">&#8599;</span><small>Share</small></div>
-      </article>
-      <span class="note">Keeps loading as the fan scrolls. A creator card comes back every 3-5 videos.</span>
-    </section>
+      </section>
+      <span class="note">Keeps going: video row, creators row, video row... Each new row has creators not shown above.</span>
+    </div>
 
     <!-- ===================== SUBSCRIBED TAB =====================
          Only posts from creators the fan subscribes to / follows. Newest first. -->
