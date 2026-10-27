@@ -73,3 +73,4 @@ npm run db:stop           # when finished
 - 2026-10-27 Step 1 (B20): scaffolded both apps, PostgreSQL 18.6 installed portable on D:, database `sidelick` created, health endpoint, start page with empty logo slot, Playwright at 4 sizes, wireframes, live/ sync script.
 - 2026-10-27 GitHub remote added (origin -> Cynicalfocus123/sidelick-), all commits pushed. `.env` files and the Excel are git-ignored, so they never go to GitHub.
 - 2026-10-27 Added wireframe overview pictures (`wireframes/sheets/`, script `wireframe-sheets.mjs`, runs after `wireframes:shots`). Phone bottom bar now shows at the bottom of full-page screenshots.
+- 2026-10-27 Wireframes colour-coded with name tags (`data-zone` + `z-*` classes in `wireframes/wf.css`); register form padded on phone.

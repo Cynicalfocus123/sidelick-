@@ -19,9 +19,9 @@
             display: flex; align-items: center; gap: 8px; height: 56px; padding: 0 12px; }
   .topbar .logo-slot { margin-right: auto; }
   .ib { width: 36px; height: 36px; border-radius: 50%; background: var(--box); position: relative; flex-shrink: 0; display: grid; place-items: center; font-size: 11px; color: var(--soft); }
-  .badge { position: absolute; top: -2px; right: -2px; min-width: 16px; height: 16px; border-radius: 8px; background: #71717a; color: #fff; font-size: 9px; display: grid; place-items: center; padding: 0 3px; }
+  .badge { position: absolute; top: -2px; right: -2px; min-width: 16px; height: 16px; border-radius: 8px; background: #dc2626; color: #fff; font-size: 9px; display: grid; place-items: center; padding: 0 3px; }
   .search { display: none; height: 40px; border-radius: 999px; background: var(--box); flex: 1; max-width: 420px; align-items: center; padding: 0 14px; color: var(--soft); }
-  .wallet { height: 36px; border-radius: 999px; border: 1.5px solid var(--line); padding: 0 12px; display: flex; align-items: center; font-weight: 600; font-size: 13px; white-space: nowrap; }
+  .wallet { height: 36px; border-radius: 999px; border: 1.5px solid #16a34a; background: #dcfce7; padding: 0 12px; display: flex; align-items: center; font-weight: 600; font-size: 13px; white-space: nowrap; }
   .avatar { width: 36px; height: 36px; position: relative; }
   .avatar .dot { position: absolute; right: 0; bottom: 0; width: 10px; height: 10px; border-radius: 50%; background: #a1a1aa; border: 2px solid #fff; }
   .hide-phone { display: none; }
@@ -29,18 +29,18 @@
   /* ---------- feed parts ---------- */
   .tabs { display: flex; align-items: center; gap: 4px; padding: 8px 12px; background: var(--white); border-bottom: 1px solid var(--box-2); }
   .tab { padding: 8px 12px; border-radius: 999px; color: var(--soft); font-weight: 600; font-size: 13px; }
-  .tab.on { background: var(--ink); color: #fff; }
+  .tab.on { background: #0284c7; color: #fff; }
   .tabs .sp { margin-left: auto; display: flex; gap: 6px; }
   .strip { padding: 4px 12px; display: grid; gap: 8px; }
   .strip-row { display: grid; grid-auto-flow: column; grid-auto-columns: 38%; gap: 8px; overflow: hidden; }
-  .vcard { aspect-ratio: 9 / 14; border-radius: 12px; background: var(--box); position: relative; }
+  .vcard { aspect-ratio: 9 / 14; border-radius: 12px; background: #c7d2fe; position: relative; }
   .vcard::after { content: "▶"; position: absolute; inset: 0; display: grid; place-items: center; color: var(--line); font-size: 22px; }
   .post { background: var(--white); border-top: 1px solid var(--box-2); border-bottom: 1px solid var(--box-2); padding: 12px; display: grid; gap: 10px; }
   .phead { display: flex; gap: 10px; align-items: center; }
   .phead .circle { width: 40px; height: 40px; }
-  .media { aspect-ratio: 4 / 5; border-radius: 10px; background: var(--box); display: grid; place-items: center; color: var(--soft); }
-  .media.locked { background: repeating-linear-gradient(45deg, var(--box), var(--box) 10px, var(--box-2) 10px, var(--box-2) 20px); }
-  .media .pill { background: var(--ink); color: #fff; border-radius: 999px; padding: 10px 18px; font-weight: 600; }
+  .media { aspect-ratio: 4 / 5; border-radius: 10px; background: #bbf7d0; display: grid; place-items: center; color: var(--soft); }
+  .media.locked { background: repeating-linear-gradient(45deg, #fed7aa, #fed7aa 10px, #fdba74 10px, #fdba74 20px); }
+  .media .pill { background: #1d4ed8; color: #fff; border-radius: 999px; padding: 10px 18px; font-weight: 600; }
   .actions { display: flex; gap: 14px; }
   .actions .ib { width: 30px; height: 30px; }
   .promoted { font-size: 11px; color: var(--soft); }
@@ -51,22 +51,22 @@
   /* ---------- right rail ---------- */
   .panel { background: var(--white); border-radius: 16px; padding: 14px; display: grid; gap: 10px; }
   .panel-h { display: flex; align-items: center; justify-content: space-between; font-weight: 700; }
-  .scard { height: 112px; border-radius: 14px; background: var(--box); position: relative; padding: 10px; display: flex; align-items: flex-end; gap: 8px; }
+  .scard { height: 112px; border-radius: 14px; background: #fbcfe8; position: relative; padding: 10px; display: flex; align-items: flex-end; gap: 8px; }
   .scard .circle { width: 40px; height: 40px; border: 2px solid #fff; }
-  .scard .pill { margin-left: auto; background: var(--ink); color: #fff; border-radius: 999px; padding: 6px 12px; font-size: 12px; font-weight: 600; }
+  .scard .pill { margin-left: auto; background: #1d4ed8; color: #fff; border-radius: 999px; padding: 6px 12px; font-size: 12px; font-weight: 600; }
   .dots { display: flex; justify-content: center; align-items: center; gap: 6px; }
   .dots i { width: 7px; height: 7px; border-radius: 50%; background: var(--box-2); }
   .dots i.on { background: var(--ink); }
-  .live { display: flex; align-items: center; gap: 8px; padding: 8px; border-radius: 12px; background: var(--box); }
+  .live { display: flex; align-items: center; gap: 8px; padding: 8px; border-radius: 12px; background: #99f6e4; }
   .live .circle { width: 40px; height: 40px; border: 2px solid #71717a; }
-  .live .watch { margin-left: auto; background: #71717a; color: #fff; border-radius: 999px; padding: 6px 10px; font-size: 12px; font-weight: 600; }
+  .live .watch { margin-left: auto; background: #dc2626; color: #fff; border-radius: 999px; padding: 6px 10px; font-size: 12px; font-weight: 600; }
 
   /* ---------- left menu ---------- */
   .menu { flex-direction: column; gap: 4px; padding: 12px; background: var(--white); border-right: 1px solid var(--box-2); position: sticky; top: 0; height: 100vh; }
   .menu .mhead { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
   .mi { display: flex; align-items: center; gap: 12px; padding: 10px; border-radius: 10px; font-weight: 600; color: var(--ink); }
   .mi .circle { width: 22px; height: 22px; }
-  .mi.on { background: var(--box); }
+  .mi.on { background: #c4b5fd; }
   .mi .t { white-space: nowrap; }
   .mi .val { margin-left: auto; font-size: 12px; color: var(--soft); }
   .refer { margin-top: auto; border-radius: 14px; background: var(--box); padding: 14px; display: grid; gap: 4px; }
@@ -125,9 +125,9 @@
     .scard { height: 128px; }
   }
   /* screenshot mode: full-page capture can not show fixed/sticky bars correctly */
-  body.shot .bnav { position: static; }
-  body.shot .menu { height: auto; position: static; }
-  body.shot .topbar, body.shot .rail { position: static; }
+  body.shot .bnav { position: relative; }
+  body.shot .menu { height: auto; position: relative; }
+  body.shot .topbar, body.shot .rail { position: relative; }
 </style>
 </head>
 <body>
@@ -139,7 +139,7 @@
 </div>
 <div class="shell">
   <!-- Left menu (F111). Tablet = icons only. Phone = hidden, bottom bar instead. -->
-  <nav class="menu" aria-label="Main menu">
+  <nav class="menu z-menu lbl-bottom" data-zone="Left menu" aria-label="Main menu">
     <div class="mhead">
       <div class="logo-slot sm">Logo space<br>(empty)</div>
       <div class="logo-slot icon">Logo</div>
@@ -155,12 +155,12 @@
     <div class="mi"><span class="circle"></span><span class="t">Following</span></div>
     <div class="mi"><span class="circle"></span><span class="t">Subscriptions</span></div>
     <div class="mi"><span class="circle"></span><span class="t">Wallet</span><span class="val">$0.00</span></div>
-    <div class="refer"><b class="txt">Refer &amp; Earn</b><span class="txt label">Know a Creator? Earn 5%</span></div>
+    <div class="refer z-refer" data-zone="Refer"><b class="txt">Refer &amp; Earn</b><span class="txt label">Know a Creator? Earn 5%</span></div>
   </nav>
 
   <div class="main">
     <!-- Top bar (F20) -->
-    <header class="topbar">
+    <header class="topbar z-top lbl-bottom lbl-center" data-zone="Top bar">
       <div class="logo-slot sm">Logo space<br>(empty)</div>
       <div class="search">Search creators</div>
       <span class="ib hide-phone" title="Help">?</span>
@@ -175,20 +175,20 @@
     <div class="cols">
       <main class="feed">
         <!-- Tabs (F21) -->
-        <div class="tabs">
+        <div class="tabs z-tabs lbl-bottom lbl-center" data-zone="Feed tabs">
           <span class="tab on">All</span><span class="tab">Subscribed</span><span class="tab">For You</span>
           <span class="sp"><span class="ib" title="Refresh">↻</span><span class="ib" title="Create post (creators only)">✎</span></span>
         </div>
 
         <div data-s="feed" style="display:contents">
           <!-- Made For You (F1) -->
-          <section class="strip">
+          <section class="strip z-strip" data-zone="Made For You videos">
             <b>Made For You</b>
             <div class="strip-row"><div class="vcard"></div><div class="vcard"></div><div class="vcard"></div><div class="vcard"></div><div class="vcard"></div></div>
           </section>
 
           <!-- Post: paid / followed (F23, F104) -->
-          <article class="post">
+          <article class="post z-post lbl-left lbl-bottom" data-zone="Post (paid / free)">
             <div class="phead"><span class="circle"></span>
               <div style="flex:1;display:grid;gap:6px"><div class="line w40"></div><div class="line w30"></div></div>
               <span class="label">2h</span><span class="ib" style="width:28px;height:28px">⋯</span></div>
@@ -199,7 +199,7 @@
           </article>
 
           <!-- Post: locked (F110) -->
-          <article class="post">
+          <article class="post z-locked lbl-left lbl-bottom" data-zone="Locked post">
             <div class="phead"><span class="circle"></span>
               <div style="flex:1;display:grid;gap:6px"><div class="line w40"></div><div class="line w30"></div></div>
               <span class="label">1d</span><span class="ib" style="width:28px;height:28px">⋯</span></div>
@@ -209,7 +209,7 @@
           </article>
 
           <!-- Promoted post (F110) -->
-          <article class="post">
+          <article class="post z-promo" data-zone="Promoted post">
             <span class="promoted">Promoted</span>
             <div class="phead"><span class="circle"></span>
               <div style="flex:1;display:grid;gap:6px"><div class="line w40"></div><div class="line w30"></div></div></div>
@@ -218,7 +218,7 @@
         </div>
 
         <!-- Empty feed (F29) -->
-        <div data-s="empty" class="empty">
+        <div data-s="empty" class="empty z-empty" data-zone="Empty feed">
           <span class="circle">+</span>
           <b style="font-size:18px">Create your feed</b>
           <span style="color:var(--soft);max-width:340px">Start following or subscribing to creators to fill your feed with content</span>
@@ -228,14 +228,14 @@
 
       <!-- Right rail: laptop + desktop only (F26, F27) -->
       <aside class="rail">
-        <section class="panel">
+        <section class="panel z-suggest lbl-bottom" data-zone="Suggested creators">
           <div class="panel-h">Suggested Creators</div>
           <div class="scard"><span class="circle"></span><div style="display:grid;gap:5px;flex:1"><div class="line w60"></div><div class="line w40"></div></div><span class="pill">Follow</span></div>
           <div class="scard"><span class="circle"></span><div style="display:grid;gap:5px;flex:1"><div class="line w60"></div><div class="line w40"></div></div><span class="pill">Subscribe</span></div>
           <div class="scard"><span class="circle"></span><div style="display:grid;gap:5px;flex:1"><div class="line w60"></div><div class="line w40"></div></div><span class="pill">Follow</span></div>
           <div class="dots"><span>‹</span><i class="on"></i><i></i><i></i><i></i><i></i><span>›</span></div>
         </section>
-        <section class="panel">
+        <section class="panel z-live lbl-bottom" data-zone="Live streams">
           <div class="panel-h">Streams You Might Like <span>↻ ‹ ›</span></div>
           <div class="live"><span class="circle"></span><div style="display:grid;gap:5px;flex:1"><div class="line w60"></div><div class="line w40"></div></div><span class="label">👥 24</span><span class="watch">Watch</span></div>
           <div class="live"><span class="circle"></span><div style="display:grid;gap:5px;flex:1"><div class="line w60"></div><div class="line w40"></div></div><span class="label">👥 8</span><span class="watch">Watch</span></div>
@@ -246,7 +246,7 @@
 </div>
 
 <!-- Phone bottom bar (F28) -->
-<nav class="bnav" aria-label="Bottom menu">
+<nav class="bnav z-menu" data-zone="Bottom bar" aria-label="Bottom menu">
   <div class="on"><span class="circle"></span>Home</div>
   <div><span class="circle"></span>Discover</div>
   <div><span class="circle"></span>Chat</div>

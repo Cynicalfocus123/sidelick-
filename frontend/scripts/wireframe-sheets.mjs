@@ -37,7 +37,7 @@ for (const [name, { title, states }] of Object.entries(PAGES)) {
     figure{margin:0;background:#fff;border-radius:8px;padding:6px;box-shadow:0 1px 3px rgba(0,0,0,.15)}
     img{width:100%;display:block;max-height:900px;object-fit:cover;object-position:top}
     figcaption{font-size:13px;color:#52525b;padding-top:4px}
-  </style></head><body><h1>${title}</h1><p>Columns: desktop 1920 / laptop 1366 / tablet 768 / phone 390. Dashed box = logo space (empty on the real site).</p>${rows}</body></html>`;
+  </style></head><body><h1>${title}</h1><p>Columns: desktop 1920 / laptop 1366 / tablet 768 / phone 390. Each colour + tag = one part of the page (colours only for this wireframe, not the site colours). Red dashed box = logo space (empty on the real site).</p>${rows}</body></html>`;
   const htmlPath = join(tmp, `sheet-${name}.html`);
   writeFileSync(htmlPath, html);
   await page.goto(pathToFileURL(htmlPath).href);

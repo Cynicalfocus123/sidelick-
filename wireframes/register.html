@@ -11,7 +11,7 @@
   .split { flex: 1; display: grid; grid-template-columns: 1fr; }
   .side { display: none; }
   .formwrap { display: flex; justify-content: center; padding: 8px 16px 32px; }
-  .card { width: 100%; max-width: 440px; display: grid; gap: 16px; }
+  .card { width: 100%; max-width: 440px; display: grid; gap: 16px; padding: 20px 16px; border-radius: 14px; }
   h1 { font-size: 24px; margin: 0; }
   .or { display: flex; align-items: center; gap: 10px; color: var(--soft); font-size: 12px; }
   .or::before, .or::after { content: ""; flex: 1; height: 1px; background: var(--line); }
@@ -66,7 +66,7 @@
     <span class="small">Have an account? <a href="#">Sign in</a></span>
   </div>
   <div class="split">
-    <aside class="side" aria-label="Info panel">
+    <aside class="side z-info lbl-bottom" data-zone="Info panel" aria-label="Info panel">
       <div class="big" style="width:70%"></div>
       <div class="line w80"></div>
       <div class="item"><span class="circle"></span><div class="line w60"></div></div>
@@ -75,7 +75,7 @@
       <span class="note">Info panel: short lines about Side Licks. Picture / colours come after the logo (F5).</span>
     </aside>
     <div class="formwrap">
-      <form class="card" onsubmit="return false">
+      <form class="card z-form lbl-bottom" data-zone="Sign-up form" onsubmit="return false">
         <h1>Create your account</h1>
         <button class="btn ghost g" type="button"><span class="circle"></span>Continue with Google</button>
         <div class="or">or</div>
@@ -101,7 +101,7 @@
 </div>
 
 <div class="overlay" data-popup hidden>
-  <div class="modal" role="dialog" aria-label="Check your email">
+  <div class="modal z-popup lbl-bottom" data-zone="Check your email popup" role="dialog" aria-label="Check your email">
     <span class="x">✕</span>
     <h2>Check your email</h2>
     <p style="margin:0">We sent a link to: <b>you@example.com</b></p>

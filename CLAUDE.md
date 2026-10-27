@@ -7,7 +7,7 @@
 3. Short, to-the-point replies.
 4. Test a few times only. Pass = done. If it keeps failing, stop and explain the error clearly.
 5. Always optimized. Use FFmpeg for every video / GIF / image (MP4 + WebM, AVIF / WebP, right sizes, metadata stripped).
-6. Wireframe first, owner's approval before any design is built. Every time a wireframe or screen is made or changed, SEND the owner the pictures in chat (overview images in `wireframes/sheets/`). The owner can not see files on disk - no pictures = not shown. (owner, 2026-10-27)
+6. Wireframe first, owner's approval before any design is built. Every time a wireframe or screen is made or changed, SEND the owner the pictures in chat (overview images in `wireframes/sheets/`). The owner can not see files on disk - no pictures = not shown. Wireframes are COLOUR-CODED: each part of the page has its own colour + name tag (colours are for the wireframe only, not the site). (owner, 2026-10-27)
 7. Every screen size: desktop, laptop, tablet, phone. Images, layout, text and positions scale correctly.
 8. Update CLAUDE.md, design.md, code.md every task. Not updated = not done.
 9. Update the Excel task list every task (Not started -> Pending -> Done only when work really happens).
@@ -32,7 +32,7 @@ Details: `code.md` (how to run, structure, tests), `design.md` (screens, sizes, 
 
 ## Status (update every task)
 
-- 2026-10-27 Step 1 (B20 + F6 wireframes): project set up, start page + `/api/health` working, wireframes for register / verify email / home made at 4 sizes - **waiting for owner approval**. F5 (logo) waits for owner. Git remote `origin` = GitHub repo above; Excel task list now v62. First approval message was withdrawn by the owner (no pictures had been shown); overview pictures sent 2026-10-27, waiting for approval.
+- 2026-10-27 Step 1 (B20 + F6 wireframes): project set up, start page + `/api/health` working, wireframes for register / verify email / home made at 4 sizes - **waiting for owner approval**. F5 (logo) waits for owner. Git remote `origin` = GitHub repo above; Excel task list now v63. First approval message was withdrawn by the owner (no pictures had been shown); colour-coded pictures sent 2026-10-27, waiting for approval.
 
 ## Working notes for Claude
 

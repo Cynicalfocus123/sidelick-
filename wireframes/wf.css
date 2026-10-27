@@ -67,3 +67,41 @@ a { color: var(--ink); }
 @media (min-width: 1440px) { .wf-bar .size::after { content: "desktop (1440+)"; } }
 body.shot .wf-bar { display: none; }
 [hidden] { display: none !important; }
+
+/* ---------- Colour-coded zones (owner asked for colour, 2026-10-27) ----------
+   Colours ONLY show which part of the page is which. They are NOT the site colours
+   (site stays neutral until the brand colours arrive with the logo, F5). */
+[data-zone] { position: relative; outline: 2px solid var(--z); outline-offset: -2px; background: var(--zbg) !important; }
+[data-zone]::before {
+  content: attr(data-zone); position: absolute; top: 4px; right: 6px; z-index: 6;
+  background: var(--z); color: #fff; font: 700 10px/1.5 system-ui, sans-serif; letter-spacing: .03em;
+  text-transform: uppercase; padding: 0 6px; border-radius: 4px; pointer-events: none; white-space: nowrap;
+}
+[data-zone].lbl-bottom::before { top: auto; bottom: 4px; }
+[data-zone].lbl-left::before { right: auto; left: 6px; }
+.z-top     { --z: #2563eb; --zbg: #dbeafe; }  /* top bar - blue */
+.z-menu    { --z: #7c3aed; --zbg: #ede9fe; }  /* left menu + phone bottom bar - purple */
+.z-tabs    { --z: #0284c7; --zbg: #e0f2fe; }  /* feed tabs - sky */
+.z-strip   { --z: #4f46e5; --zbg: #e0e7ff; }  /* Made For You - indigo */
+.z-post    { --z: #16a34a; --zbg: #f0fdf4; }  /* post - green */
+.z-locked  { --z: #ea580c; --zbg: #fff7ed; }  /* locked post - orange */
+.z-promo   { --z: #ca8a04; --zbg: #fefce8; }  /* promoted post - yellow */
+.z-suggest { --z: #db2777; --zbg: #fdf2f8; }  /* suggested creators - pink */
+.z-live    { --z: #0d9488; --zbg: #f0fdfa; }  /* live streams - teal */
+.z-refer   { --z: #d97706; --zbg: #fef3c7; }  /* refer & earn - amber */
+.z-form    { --z: #2563eb; --zbg: #ffffff; }  /* forms - blue outline */
+.z-info    { --z: #0d9488; --zbg: #ccfbf1; }  /* info panel - teal */
+.z-popup   { --z: #d97706; --zbg: #ffffff; }  /* popup - amber outline */
+.z-msg     { --z: #16a34a; --zbg: #ffffff; }  /* message area - green outline */
+.z-empty   { --z: #16a34a; --zbg: #f0fdf4; }  /* empty feed - green */
+
+/* logo space - red dashed, stays EMPTY on the real site */
+.logo-slot { border: 2px dashed #dc2626; background: #fee2e2; color: #b91c1c; font-weight: 700; }
+/* things inside the zones */
+.btn { background: #1d4ed8; border-color: #1d4ed8; }
+.btn.ghost { background: #fff; color: #1d4ed8; }
+.circle { background: #cbd5e1; }
+.line { background: #94a3b8; opacity: .55; }
+.input { border-color: #60a5fa; }
+.check i { border-color: #60a5fa; }
+[data-zone].lbl-center::before { right: auto; left: 50%; transform: translateX(-50%); }

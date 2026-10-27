@@ -11,6 +11,8 @@
 
 Rule: no screen is built until its wireframe is approved (hard rule 6). Screenshots of every state at every size: `wireframes/shots/` + `wireframes/index.html`; one overview picture per screen (all states x 4 sizes): `wireframes/sheets/<screen>.webp`. All made by `npm --prefix frontend run wireframes:shots` (WebP via FFmpeg). The sheets are what gets sent to the owner in chat every time.
 
+Wireframe colour code (wireframe only - NOT the site colours): top bar blue, left menu + phone bottom bar purple, feed tabs sky blue, Made For You indigo, post green, locked post orange, promoted post yellow, suggested creators pink, live streams teal, Refer & Earn amber, info panel teal, forms blue outline, popups amber outline, message area green outline, logo space red dashed (empty on the real site), buttons dark blue. Colours + tags live in `wireframes/wf.css` (`data-zone` + `z-*` classes).
+
 ## Logo
 
 NO logo on the site until the owner sends it (F5). The header keeps an EMPTY space (`frontend/src/components/LogoSlot.tsx`, 112-144 px wide x 32-40 px high, grows with screen size). Wireframes draw a dashed box there only to show where it goes. Default Next.js / Vercel icons and favicon were moved out of the project (to `D:\dev\tmp\sidelick-held`, not deleted).
