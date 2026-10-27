@@ -36,6 +36,7 @@ Details: `code.md` (how to run, structure, tests), `design.md` (screens, sizes, 
 
 ## Working notes for Claude
 
+- Diff: after every code change, open the diff pane so the owner sees the code (owner, 2026-10-27).
 - Servers: do not leave dev servers running. Tests start and stop their own servers (Playwright `webServer`). Give the owner localhost links and the start commands; the owner starts them.
 - Read `frontend/AGENTS.md` before writing Next.js code (Next 16 has breaking changes; docs in `frontend/node_modules/next/dist/docs/`).
 - Temp files / screenshots before conversion: `D:\dev\tmp` (never C:).
