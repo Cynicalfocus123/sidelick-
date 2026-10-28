@@ -41,6 +41,8 @@ side lick new site/
 
 ## Run on localhost (owner starts these)
 
+- Preview in the Claude app: `.claude/launch.json` -> "sidelick-frontend" (`npm --prefix frontend run start`, port 3000; needs `npm --prefix frontend run build` first).
+
 From the project folder:
 
 ```
