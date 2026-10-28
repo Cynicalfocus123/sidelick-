@@ -1,9 +1,11 @@
-import { BadRequestException, ConflictException, HttpException, HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, ConflictException, ForbiddenException, HttpException, HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common';
 import { DatabaseService, type Query } from '../database/database.service.js';
 import { MailService } from '../mail/mail.service.js';
-import { hashPassword, newToken, sha256 } from './crypto.js';
+import { hashPassword, newToken, sha256, verifyPassword } from './crypto.js';
 
 export const SESSION_DAYS = 30;
+// Log in without "Keep me logged in": the cookie ends when the browser closes, the server session after 1 day.
+export const SHORT_SESSION_DAYS = 1;
 const VERIFY_HOURS = 24;
 const RESEND_WAIT_SECONDS = 60;
 const RESEND_MAX_PER_HOUR = 5;
@@ -17,6 +19,10 @@ type FieldErrors = Partial<Record<'email' | 'password' | 'terms', string>>;
 function fail(fields: FieldErrors): never {
   throw new BadRequestException({ message: 'Please fix the highlighted fields', fields });
 }
+
+// Used when the email has no account, so a wrong email takes as long as a wrong password (nobody can test which emails exist).
+let dummyHash: Promise<string> | undefined;
+const WRONG_LOGIN = 'Wrong email or password. Try again or reset your password.';
 
 function normEmail(v: unknown) {
   return typeof v === 'string' ? v.trim().toLowerCase() : '';
@@ -59,6 +65,27 @@ export class AuthService {
     }
   }
 
+  /**
+   * Log in (F11 / B25). Wrong email or password = one message for both. Correct password but email not verified yet =
+   * 403 "unverified" and NO session (approved wireframe: verify first).
+   */
+  async login(body: Record<string, unknown>): Promise<{ me: Me; sessionToken: string; keep: boolean }> {
+    const { user, keep } = await this.checkPassword(body);
+    if (!user.email_verified_at) {
+      throw new ForbiddenException({ message: 'Please verify your email first', code: 'unverified', email: user.email });
+    }
+    const sessionToken = await this.db.transaction((q) => this.createSession(q, user.id, keep ? SESSION_DAYS : SHORT_SESSION_DAYS));
+    return { me: { id: user.id, email: user.email, emailVerified: true }, sessionToken, keep };
+  }
+
+  /** "Send it again" on the log-in page (not signed in yet): needs the right email + password, same limits as the popup. */
+  async loginResendVerification(body: Record<string, unknown>) {
+    const { user } = await this.checkPassword(body);
+    if (user.email_verified_at) throw new BadRequestException({ message: 'Your email is already verified' });
+    await this.resendTo(user.id, user.email);
+    return { sentTo: user.email };
+  }
+
   async me(sessionToken: string | undefined): Promise<Me> {
     if (!sessionToken) throw new UnauthorizedException('Not signed in');
     const [row] = await this.db.query<{ id: string; email: string; email_verified_at: Date | null }>(
@@ -74,12 +101,17 @@ export class AuthService {
   async resendVerification(sessionToken: string | undefined) {
     const me = await this.me(sessionToken);
     if (me.emailVerified) throw new BadRequestException({ message: 'Your email is already verified' });
+    await this.resendTo(me.id, me.email);
+    return { sentTo: me.email };
+  }
+
+  private async resendTo(userId: string, email: string) {
     await this.db.transaction(async (q) => {
       const [last] = await q<{ age: number | null; hour: number }>(
         `SELECT extract(epoch FROM now() - max(created_at))::float AS age,
                 count(*) FILTER (WHERE created_at > now() - interval '1 hour')::int AS hour
          FROM email_tokens WHERE user_id = $1 AND purpose = 'verify'`,
-        [me.id],
+        [userId],
       );
       if (last && last.hour >= RESEND_MAX_PER_HOUR) {
         throw new HttpException({ message: 'Too many emails sent. Please try again in an hour' }, HttpStatus.TOO_MANY_REQUESTS);
@@ -87,9 +119,8 @@ export class AuthService {
       if (last?.age !== null && last?.age !== undefined && last.age < RESEND_WAIT_SECONDS) {
         throw new HttpException({ message: `Please wait ${Math.ceil(RESEND_WAIT_SECONDS - last.age)} seconds before sending again` }, HttpStatus.TOO_MANY_REQUESTS);
       }
-      await this.sendVerifyLink(q, me.id, me.email);
+      await this.sendVerifyLink(q, userId, email);
     });
-    return { sentTo: me.email };
   }
 
   /** "Change email" in the popup: only before the email is verified. Old links stop working. */
@@ -117,9 +148,23 @@ export class AuthService {
     if (sessionToken) await this.db.query('DELETE FROM sessions WHERE token_hash = $1', [sha256(sessionToken)]);
   }
 
-  private async createSession(q: Query, userId: string) {
+  private async checkPassword(body: Record<string, unknown>) {
+    const email = normEmail(body.email);
+    const password = typeof body.password === 'string' ? body.password : '';
+    if (!email || !password) throw new UnauthorizedException({ message: WRONG_LOGIN });
+    const [user] = await this.db.query<{ id: string; email: string; password_hash: string; email_verified_at: Date | null }>(
+      'SELECT id, email, password_hash, email_verified_at FROM users WHERE email = $1',
+      [email],
+    );
+    dummyHash ??= hashPassword(newToken());
+    const ok = await verifyPassword(password.slice(0, 200), user?.password_hash ?? (await dummyHash));
+    if (!user || !ok) throw new UnauthorizedException({ message: WRONG_LOGIN });
+    return { user, keep: body.keepLoggedIn === true };
+  }
+
+  private async createSession(q: Query, userId: string, days = SESSION_DAYS) {
     const token = newToken();
-    await q(`INSERT INTO sessions (token_hash, user_id, expires_at) VALUES ($1, $2, now() + interval '${SESSION_DAYS} days')`, [sha256(token), userId]);
+    await q(`INSERT INTO sessions (token_hash, user_id, expires_at) VALUES ($1, $2, now() + make_interval(days => $3))`, [sha256(token), userId, days]);
     return token;
   }
 

@@ -1,5 +1,5 @@
 import { Body, Controller, Get, HttpCode, Patch, Post, Req, Res } from '@nestjs/common';
-import type { Request, Response } from 'express';
+import type { CookieOptions, Request, Response } from 'express';
 import { AuthService, SESSION_DAYS } from './auth.service.js';
 
 export const SESSION_COOKIE = 'sl_session';
@@ -12,6 +12,12 @@ function readCookie(req: Request, name: string) {
   return undefined;
 }
 
+function setSession(res: Response, token: string, keep: boolean) {
+  const opts: CookieOptions = { httpOnly: true, sameSite: 'lax', secure: process.env.NODE_ENV === 'production', path: '/' };
+  // keep = 30-day cookie; otherwise a browser-session cookie (gone when the browser closes)
+  res.cookie(SESSION_COOKIE, token, keep ? { ...opts, maxAge: SESSION_DAYS * 24 * 3600 * 1000 } : opts);
+}
+
 @Controller('auth')
 export class AuthController {
   constructor(private readonly auth: AuthService) {}
@@ -19,14 +25,22 @@ export class AuthController {
   @Post('register')
   async register(@Body() body: Record<string, unknown>, @Res({ passthrough: true }) res: Response) {
     const { me, sessionToken } = await this.auth.register(body ?? {});
-    res.cookie(SESSION_COOKIE, sessionToken, {
-      httpOnly: true,
-      sameSite: 'lax',
-      secure: process.env.NODE_ENV === 'production',
-      path: '/',
-      maxAge: SESSION_DAYS * 24 * 3600 * 1000,
-    });
+    setSession(res, sessionToken, true);
     return me;
+  }
+
+  @Post('login')
+  @HttpCode(200)
+  async login(@Body() body: Record<string, unknown>, @Res({ passthrough: true }) res: Response) {
+    const { me, sessionToken, keep } = await this.auth.login(body ?? {});
+    setSession(res, sessionToken, keep);
+    return me;
+  }
+
+  @Post('login/resend-verification')
+  @HttpCode(200)
+  loginResend(@Body() body: Record<string, unknown>) {
+    return this.auth.loginResendVerification(body ?? {});
   }
 
   @Get('me')

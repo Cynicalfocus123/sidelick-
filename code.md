@@ -16,22 +16,23 @@ side lick new site/
   scripts/db.mjs                       start / stop / status PostgreSQL
   scripts/sync-live.mjs                copy git HEAD -> live/ (never deletes)
   frontend/                            Next.js app
-    src/app/                           pages: / (setup check), /home (Step 1A), /register (Step 1B), /c/[handle] (profile stub)
+    src/app/                           pages: / (setup check), /home (Step 1A), /register + /login (Step 1B), /c/[handle] (profile stub)
     src/components/                    LogoSlot (empty logo space), ApiStatus
     src/components/auth/RegisterForm.tsx  register form + Check your email popup
+    src/components/auth/LoginForm.tsx     log-in form (wrong password / not verified boxes)
     src/components/Toaster.tsx         toast messages (F7), mounted in the root layout
     src/lib/api.ts, src/lib/toast.ts   API calls (cookie included), toast()
     src/components/home/               home page: HomeView, SideMenu, DiscoverFeed, Rows, SubscribedFeed, Icon, parts
     src/lib/sample-data.ts             SAMPLE creators / videos / posts (fixed seed) until the real API exists
     src/lib/discover.ts                Discover feed rules (section below) - runs in the browser for now
-    e2e/                               Playwright tests (4 screen sizes): start-page, home; screenshots.spec.ts (SHOTS=1 only)
+    e2e/                               Playwright tests (4 screen sizes): start-page, home, register, login; screenshots.spec.ts (SHOTS=1 only)
     scripts/wireframe-shots.mjs        wireframe screenshots -> WebP (wireframes/shots/)
     scripts/wireframe-sheets.mjs       one overview picture per screen (wireframes/sheets/)
   backend/                             NestJS app
     src/main.ts, src/env.ts            boot, loads backend/.env
     src/database/                      DatabaseModule + DatabaseService (pg pool)
     src/app.controller.ts              GET /api/health
-    src/auth/                          sign-up, session cookie, /me, resend, change email, logout (argon2id)
+    src/auth/                          sign-up, log in, session cookie, /me, resend, change email, logout (argon2id)
     src/mail/mail.service.ts           emails -> email_outbox table (no real sending yet)
     src/database/migrations.ts         database tables (applied on startup)
     test/                              e2e tests against the real database
@@ -82,6 +83,8 @@ npm run db:stop           # when finished
 |---|---|---|
 | GET | /api/health | `{ status: 'ok'|'error', database: 'up'|'down', databaseName, time }` - runs a real query |
 | POST | /api/auth/register | body `{ email, password, isAdult, acceptTerms }` -> 201 `{ id, email, emailVerified:false }` + httpOnly cookie `sl_session` (30 days). 400 `{ message, fields: { email?, password?, terms? } }`, 409 email taken. Saves email (trim + lower case), argon2id hash, 18+, terms time + `TERMS_VERSION`; queues the verify email |
+| POST | /api/auth/login | body `{ email, password, keepLoggedIn? }` -> 200 `{ id, email, emailVerified:true }` + cookie (keepLoggedIn: 30 days, else browser session; server session 30 / 1 day). 401 "Wrong email or password..." (same for unknown email), 403 `{ code:"unverified", email }` = right password but not verified (no session) |
+| POST | /api/auth/login/resend-verification | body `{ email, password }` -> 200 `{ sentTo }`; 401 wrong; 429 same limits as below |
 | GET | /api/auth/me | 200 `{ id, email, emailVerified }` or 401 |
 | POST | /api/auth/resend-verification | 200 `{ sentTo }`; 429 if < 60 s since the last link or 5 already this hour; 400 if verified |
 | PATCH | /api/auth/email | body `{ email }` - change email before verifying; cancels old links, sends a new one; 409 if taken |
@@ -136,3 +139,4 @@ Goal: Discover never ends, rows never look cut off, and the fan is not worn out 
 - 2026-10-28 Home: Live now shows 5 rings at a time (owner), arrows page by 5 and grey out at the ends; test added (home.spec.ts), 36/36 passed x2.
 - 2026-10-28 STEP 1B (part 1): login wireframe made (waiting). Register built for real: /register page + Check your email popup + toasts (F7), backend sign-up / me / resend / change email / logout, migrations, email outbox. argon2 added (backend). Tests: backend e2e 8/8 against the real DB (values checked), Playwright 32/32 at 4 sizes, 2 runs.
 - 2026-10-28 STEP 1A: home page built at /home (Next.js, client components): left menu (rail / sidebar), Discover / Subscribed tabs, live rings, Discover video rows + creators rows with continuous scroll (loads 1.5 screens early, placeholder row while loading, sideways loading per row), Subscribed post grid + empty state, follow (sample, saved in the browser), back-to-top, "comes in a later step" notice for menu items not built yet, /c/[handle] profile stub. Sample data only. Playwright home.spec.ts: 4 tests x 4 sizes, passed 3 runs (20/20 with start page).
+- 2026-10-28 STEP 1B (part 2): login wireframe approved and built: /login page (LoginForm), POST /api/auth/login (argon2 check, same message for wrong email or password, dummy hash so unknown emails take as long; unverified = 403 code "unverified", no session; keepLoggedIn = 30-day cookie, else browser-session cookie + 1-day server session), POST /api/auth/login/resend-verification (needs email + password, same limits). Tests: backend e2e 13/13 against the real DB (sessions + cookies checked), Playwright 48/48 at 4 sizes x 3 runs (login test marks the account verified in the real DB with psql). Not yet: limit on failed log-in tries (brute force) - add with B34 / security tasks.

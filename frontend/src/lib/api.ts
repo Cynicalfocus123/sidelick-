@@ -1,7 +1,8 @@
 // Calls to the NestJS API. credentials: "include" sends / receives the sl_session cookie.
 export const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000/api";
 
-export type ApiError = { status: number; message: string; fields?: Record<string, string> };
+// code / email: extra details some answers carry (log in: code "unverified" + the account email).
+export type ApiError = { status: number; message: string; fields?: Record<string, string>; code?: string; email?: string };
 
 export async function api<T>(path: string, init: { method?: string; body?: unknown } = {}): Promise<T> {
   let res: Response;
@@ -21,6 +22,8 @@ export async function api<T>(path: string, init: { method?: string; body?: unkno
       status: res.status,
       message: (typeof data?.message === "string" && data.message) || "Something went wrong. Please try again.",
       fields: data?.fields,
+      code: data?.code,
+      email: data?.email,
     } satisfies ApiError;
   }
   return data as T;
