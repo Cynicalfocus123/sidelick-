@@ -109,3 +109,6 @@ body.shot .wf-bar { display: none; }
 .z-slide   { --z: #9333ea; --zbg: #faf5ff; }  /* onboarding slide (picture + headline) - violet */
 .z-steps   { --z: #0891b2; --zbg: #ecfeff; }  /* step bar + arrows - cyan */
 .z-cta     { --z: #1e3a8a; --zbg: #eff6ff; }  /* bottom buttons + terms line - dark blue */
+.z-hero    { --z: #c026d3; --zbg: #fdf4ff; }  /* landing hero - fuchsia */
+.z-how     { --z: #16a34a; --zbg: #f0fdf4; }  /* how it works - green */
+.z-foot    { --z: #475569; --zbg: #f1f5f9; }  /* footer - slate */
