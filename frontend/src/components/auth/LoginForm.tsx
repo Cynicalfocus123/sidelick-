@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { api, type ApiError, type Me } from "@/lib/api";
@@ -118,6 +119,10 @@ export default function LoginForm() {
       <button type="submit" disabled={!ready || busy} className="h-11 rounded-full bg-accent font-semibold text-white disabled:cursor-not-allowed disabled:bg-border disabled:text-muted">
         {busy ? "Logging in…" : "Log in"}
       </button>
+      {/* owner 2026-10-28: sign-up button under Log in (like Fanvue) */}
+      <Link href="/register" className="grid h-11 place-items-center rounded-full border border-text font-semibold hover:bg-bg">
+        New to Side Licks? Sign up
+      </Link>
     </form>
   );
 }

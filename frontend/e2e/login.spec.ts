@@ -37,6 +37,11 @@ test("login: layout, button waits for both fields, wrong password shows the red 
   await expect(page.getByRole("heading", { name: "Welcome back", exact: true })).toBeVisible();
   for (const slot of await page.locator('[data-slot="logo"]').all()) await expect(slot).toBeEmpty();
   await expect(page.getByRole("link", { name: "Create account" })).toHaveAttribute("href", "/register");
+  const signUp = page.getByRole("link", { name: "New to Side Licks? Sign up" });
+  await expect(signUp).toBeVisible();
+  const [loginBox, signUpBox] = [await page.getByRole("button", { name: "Log in" }).boundingBox(), await signUp.boundingBox()];
+  expect(signUpBox!.y).toBeGreaterThan(loginBox!.y); // under the Log in button
+  expect(Math.abs(signUpBox!.width - loginBox!.width)).toBeLessThan(2); // same width
   const wide = page.viewportSize()!.width >= 1024;
   await expect(page.getByRole("complementary", { name: "About Side Licks" })).toBeVisible({ visible: wide });
 
@@ -55,6 +60,8 @@ test("login: layout, button waits for both fields, wrong password shows the red 
   await page.getByRole("button", { name: "Forgot password?" }).click();
   await expect(page.getByTestId("toast")).toContainText("Password reset comes in a later step");
   expect(await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth)).toBe(false);
+  await signUp.click();
+  await expect(page).toHaveURL(/\/register$/);
 });
 
 test("login: email not verified yet shows the yellow box and Send it again", async ({ page }) => {
