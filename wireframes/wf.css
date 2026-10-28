@@ -106,3 +106,6 @@ body.shot .wf-bar { display: none; }
 .check i { border-color: #60a5fa; }
 [data-zone].lbl-center::before { right: auto; left: 50%; transform: translateX(-50%); }
 .z-pick    { --z: #65a30d; --zbg: #f7fee7; }  /* pick interests - lime */
+.z-slide   { --z: #9333ea; --zbg: #faf5ff; }  /* onboarding slide (picture + headline) - violet */
+.z-steps   { --z: #0891b2; --zbg: #ecfeff; }  /* step bar + arrows - cyan */
+.z-cta     { --z: #1e3a8a; --zbg: #eff6ff; }  /* bottom buttons + terms line - dark blue */

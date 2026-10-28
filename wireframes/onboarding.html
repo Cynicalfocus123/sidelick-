@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wireframe - After sign-up: Become a creator (F117)</title>
+<link rel="stylesheet" href="wf.css">
+<style>
+  /* F117: shown to EVERY new user right after sign-up (email or Google), before Home. Also opens from "Become a Creator" in the menu.
+     Different from the competitor: step bar "Step N of 6" instead of dots, and on laptop + desktop the picture sits LEFT of the text. */
+  body { background: #fff; }
+  .page { min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 12px 16px 24px; gap: 12px;
+          background: radial-gradient(120% 60% at 50% -10%, #ede9fe, #fff 60%); }
+  .top { width: 100%; display: flex; justify-content: center; }
+  .stage { width: 100%; max-width: 480px; display: grid; gap: 16px; flex: 1; align-content: center; }
+  .slide { display: grid; justify-items: center; gap: 18px; padding: 24px 12px; border-radius: 16px; text-align: center; }
+  .picwrap { display: grid; place-items: center; }
+  .pic { width: 150px; height: 150px; border-radius: 28px; background: var(--box-2); display: grid; place-items: center; color: var(--soft); font-size: 12px; padding: 8px; text-align: center; }
+  .text { display: grid; gap: 10px; justify-items: center; }
+  .slide h1 { margin: 0; font-size: 26px; line-height: 1.15; max-width: 340px; }
+  .slide p { margin: 0; color: var(--soft); font-size: 14px; max-width: 340px; }
+  .steps { display: grid; gap: 10px; padding: 12px; border-radius: 12px; }
+  .steps .row { display: flex; align-items: center; justify-content: space-between; gap: 12px; font-size: 13px; }
+  .arrow { width: 36px; height: 36px; border-radius: 50%; border: 1.5px solid var(--line); display: grid; place-items: center; background: #fff; font-size: 20px; }
+  .arrow.off { visibility: hidden; }
+  .bar { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; }
+  .bar i { height: 6px; border-radius: 3px; background: var(--box-2); }
+  .bar i.on { background: #1d4ed8; }
+  .cta { display: grid; gap: 10px; padding: 12px; border-radius: 12px; }
+  .terms { font-size: 12px; color: var(--soft); text-align: center; }
+  .btn.close { background: var(--box); border-color: var(--box); color: var(--ink); }
+
+  @media (min-width: 640px) {
+    .page { padding: 20px 32px 40px; }
+    .stage { max-width: 560px; }
+    .pic { width: 200px; height: 200px; }
+    .slide h1 { font-size: 32px; max-width: 420px; }
+  }
+  /* laptop + desktop: picture on the LEFT, headline / steps / buttons on the right */
+  @media (min-width: 1024px) {
+    .stage { max-width: 960px; grid-template-columns: 1fr 1fr; column-gap: 40px; align-items: center; }
+    .slide { grid-column: 1 / -1; grid-template-columns: 1fr 1fr; column-gap: 40px; text-align: left; justify-items: stretch; padding: 32px; }
+    .picwrap { border-radius: 20px; padding: 40px; background: #f3e8ff; }
+    .text { justify-items: start; }
+    .pic { width: 260px; height: 260px; }
+    .slide h1 { font-size: 40px; max-width: none; }
+    .slide p { max-width: none; }
+    .steps { grid-column: 2; }
+    .cta { grid-column: 2; }
+  }
+  @media (min-width: 1440px) {
+    .stage { max-width: 1120px; }
+    .pic { width: 320px; height: 320px; }
+    .slide h1 { font-size: 46px; }
+  }
+</style>
+</head>
+<body>
+<div class="wf-bar">After sign-up: Become a creator (F117) - step:
+  <a href="?state=1" data-s="1">1</a><a href="?state=2" data-s="2">2</a><a href="?state=3" data-s="3">3</a>
+  <a href="?state=4" data-s="4">4</a><a href="?state=5" data-s="5">5</a><a href="?state=6" data-s="6">6</a>
+  <a href="index.html">All wireframes</a>
+  <span class="size"></span>
+</div>
+<div class="page">
+  <div class="top">
+    <div class="logo-slot">Logo space<br>(empty)</div>
+  </div>
+  <div class="stage">
+    <section class="slide z-slide" data-zone="Step: 3D picture + headline">
+      <div class="picwrap"><div class="pic" id="pic"></div></div>
+      <div class="text">
+        <h1 id="head"></h1>
+        <p id="sub"></p>
+      </div>
+    </section>
+    <div class="steps z-steps lbl-bottom" data-zone="Step bar + arrows">
+      <div class="row">
+        <span class="arrow" id="prev">&lsaquo;</span>
+        <b id="count"></b>
+        <span class="arrow" id="next">&rsaquo;</span>
+      </div>
+      <div class="bar" id="bar"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    </div>
+    <div class="cta z-cta lbl-bottom" data-zone="Buttons + terms line">
+      <div class="terms">By becoming a creator on Side Licks you reconfirm your agreement to our <a href="#">Terms &amp; Conditions</a>, <a href="#">Acceptable Use Policy</a> and <a href="#">Privacy Policy</a>.</div>
+      <button class="btn" type="button">Start earning</button>
+      <button class="btn close" type="button">Close</button>
+      <span class="note">Start earning = creator application (F35). Close = continue as a fan -> Home (Discover first). Shown once. Steps move by themselves every few seconds until touched; swipe on phone / tablet. Numbers come from admin settings (fees B15, referral B109).</span>
+    </div>
+  </div>
+</div>
+<script>
+  const STEPS = [
+    ["3D coins", "Top creators earn over $X per month", "Real number from admin settings"],
+    ["3D globe", "One platform. Built to make creators money", "Subscriptions, tips, paid posts, messages and live in one place"],
+    ["3D coins", "Keep X% for N days after you verify. Then Y%", "Fee numbers from admin settings (B15)"],
+    ["3D bar chart", "Analytics built to grow your income", "See what earns the most"],
+    ["3D pie chart", "Refer a creator. Earn X% of their income", "Referral numbers from admin settings (B109)"],
+    ["3D tick", "Verified fast. Earning faster", "Get verified and start earning sooner"],
+  ];
+  const p = new URLSearchParams(location.search);
+  const n = Math.min(6, Math.max(1, +(p.get('state') || 1)));
+  if (p.has('shot')) document.body.classList.add('shot');
+  document.querySelectorAll('.wf-bar a[data-s]').forEach(a => a.classList.toggle('on', +a.dataset.s === n));
+  const [pic, head, sub] = STEPS[n - 1];
+  document.getElementById('pic').textContent = pic + ' (artwork after logo F5)';
+  document.getElementById('head').textContent = head;
+  document.getElementById('sub').textContent = sub;
+  document.getElementById('count').textContent = 'Step ' + n + ' of 6';
+  document.querySelectorAll('#bar i').forEach((i, k) => i.classList.toggle('on', k < n));
+  document.getElementById('prev').classList.toggle('off', n === 1);
+  document.getElementById('next').classList.toggle('off', n === 6);
+</script>
+</body>
+</html>

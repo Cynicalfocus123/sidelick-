@@ -26,6 +26,7 @@ const PAGES = {
   login: ["form", "wrong", "unverified"],
   "verify-email": ["checking", "ok", "expired-in", "expired-out", "other-device"],
   home: ["discover", "subscribed", "subscribed-empty"],
+  onboarding: ["1", "2", "3", "4", "5", "6"],
 };
 
 const browser = await chromium.launch();
