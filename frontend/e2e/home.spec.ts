@@ -94,3 +94,32 @@ test("Subscribed: empty until you follow, then shows that creator's posts", asyn
   await page.getByRole("tab", { name: "Subscribed" }).click();
   await expect(page.getByTestId("subscribed-feed")).toBeVisible();
 });
+
+test("Live now: 5 at a time, arrows move to the next 5", async ({ page }) => {
+  await page.goto("/home");
+  const track = page.getByTestId("live-track");
+  const inView = () =>
+    track.evaluate((el) => {
+      const t = el.getBoundingClientRect();
+      return Array.from(el.children).filter((c) => {
+        const r = c.getBoundingClientRect();
+        return r.left >= t.left - 1 && r.right <= t.right + 1;
+      }).length;
+    });
+  expect(await inView()).toBe(5);
+  const left = page.getByRole("button", { name: "Scroll live left" });
+  const right = page.getByRole("button", { name: "Scroll live right" });
+  await expect(left).toBeDisabled();
+  const first = await track.locator("a").first().getAttribute("href");
+  await right.click();
+  await expect(left).toBeEnabled();
+  await expect.poll(inView).toBe(5);
+  const sixth = await track.locator("a").nth(5).evaluate((el) => {
+    const t = el.parentElement!.getBoundingClientRect();
+    return Math.abs(el.getBoundingClientRect().left - t.left) < 2;
+  });
+  expect(sixth).toBe(true); // the 6th ring is now first in view
+  await right.click();
+  await expect(right).toBeDisabled(); // 12 live: 5 + 5 + last 2
+  expect(first).toMatch(/^\/c\//);
+});

@@ -23,13 +23,14 @@ export function CreatorLink({ creator, className = "", children }: { creator: Cr
   );
 }
 
-export function ArrowButton({ dir, onClick, label }: { dir: "left" | "right"; onClick: () => void; label: string }) {
+export function ArrowButton({ dir, onClick, label, disabled = false }: { dir: "left" | "right"; onClick: () => void; label: string; disabled?: boolean }) {
   return (
     <button
       type="button"
       onClick={onClick}
       aria-label={label}
-      className="grid h-9 w-9 place-items-center rounded-full border border-border bg-surface text-text hover:bg-bg"
+      disabled={disabled}
+      className="grid h-9 w-9 place-items-center rounded-full border border-border bg-surface text-text hover:bg-bg disabled:cursor-default disabled:opacity-35 disabled:hover:bg-surface"
     >
       <svg viewBox="0 0 24 24" aria-hidden="true" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round">
         <path d={dir === "left" ? "M15 5l-7 7 7 7" : "M9 5l7 7-7 7"} />

@@ -47,7 +47,7 @@ side lick new site/
 
 ## Run on localhost (owner starts these)
 
-- Preview in the Claude app: `.claude/launch.json` -> "sidelick-frontend" (`npm --prefix frontend run start`, port 3000; needs `npm --prefix frontend run build` first).
+- Preview in the Claude app: `.claude/launch.json` -> "sidelick-frontend" (`npm --prefix frontend run start`, port 3000; needs `npm --prefix frontend run build` first) and "sidelick-backend" (`node dist/main.js` in backend/, port 4000; needs the DB running + `npm --prefix backend run build`).
 
 From the project folder:
 
@@ -133,5 +133,6 @@ Goal: Discover never ends, rows never look cut off, and the fan is not worn out 
 - 2026-10-28 Discover wireframe: one-line sideways video rows alternating with "Creators you may like" rows (each new video row = different creators).
 - 2026-10-28 Wireframes approved by owner. Discover: continuous scroll (next rows load by themselves, loader + back-to-top button).
 - 2026-10-28 Discover feed algorithm written (section above): seen list, scoring, creator repeat limits, fallback, no cut-off rows.
+- 2026-10-28 Home: Live now shows 5 rings at a time (owner), arrows page by 5 and grey out at the ends; test added (home.spec.ts), 36/36 passed x2.
 - 2026-10-28 STEP 1B (part 1): login wireframe made (waiting). Register built for real: /register page + Check your email popup + toasts (F7), backend sign-up / me / resend / change email / logout, migrations, email outbox. argon2 added (backend). Tests: backend e2e 8/8 against the real DB (values checked), Playwright 32/32 at 4 sizes, 2 runs.
 - 2026-10-28 STEP 1A: home page built at /home (Next.js, client components): left menu (rail / sidebar), Discover / Subscribed tabs, live rings, Discover video rows + creators rows with continuous scroll (loads 1.5 screens early, placeholder row while loading, sideways loading per row), Subscribed post grid + empty state, follow (sample, saved in the browser), back-to-top, "comes in a later step" notice for menu items not built yet, /c/[handle] profile stub. Sample data only. Playwright home.spec.ts: 4 tests x 4 sizes, passed 3 runs (20/20 with start page).

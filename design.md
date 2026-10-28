@@ -51,6 +51,8 @@ Font: Geist (next/font, self-hosted at build). Change brand colours in one place
 
 **Log in** (new 2026-10-28, waiting) - same frame as Register (info panel on laptop+, centred card on tablet, plain form on phone). "Welcome back", Continue with Google, or, Email, Password + Show, "Keep me logged in" tick, "Forgot password?" link, Log in button (grey until both filled), "New here? Create account" top right. States: wrong email or password = red box above the form; email not verified yet = yellow box "Please verify your email first" + "Send it again". After log in -> Home (Discover first).
 
+**Live now row** (owner 2026-10-28): exactly 5 rings in view on every size (each 1/5 of the row, ring 50 / 68 / 80 / 92 px phone / tablet / laptop / desktop), first name + "N watching" (phone: eye icon + N), arrows / swipe move a full 5, left arrow grey at the start, right arrow grey at the end.
+
 **Toasts** (F7, built 2026-10-28) - dark rounded box at the top centre, round icon (green tick / red ! / blue i) + short text, slides in, gone after 3 s, several stack; phones full width with side margins.
 
 **Verify email** - white page, soft glow top-right (brand colour after F5), logo space centred at top, big "Email Verification". States: Checking (spinner, "Verifying your request..."), Verified (+ Continue, auto to /home in 2-3 s with toast), Expired signed in (Send a new link), Expired signed out (Sign in), Other device signed out (verified + Sign in to continue).

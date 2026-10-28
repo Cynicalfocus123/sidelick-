@@ -4,8 +4,22 @@
     {
       "name": "sidelick-frontend",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["--prefix", "frontend", "run", "start"],
+      "runtimeArgs": [
+        "--prefix",
+        "frontend",
+        "run",
+        "start"
+      ],
       "port": 3000
+    },
+    {
+      "name": "sidelick-backend",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "dist/main.js"
+      ],
+      "cwd": "backend",
+      "port": 4000
     }
   ]
 }

@@ -31,26 +31,48 @@ function Tabs({ tab, setTab, wide = false }: { tab: Tab; setTab: (t: Tab) => voi
   );
 }
 
+// Live now: 5 rings at a time on every size (owner 2026-10-28). Arrows / swipe move to the next 5.
+const LIVE_PER_VIEW = 5;
+
 function LiveRings() {
   const ref = useRef<HTMLDivElement>(null);
-  const by = (d: 1 | -1) => ref.current?.scrollBy({ left: d * ref.current.clientWidth * 0.8, behavior: "smooth" });
+  const [atStart, setAtStart] = useState(true);
+  const [atEnd, setAtEnd] = useState(liveNow.length <= LIVE_PER_VIEW);
+  const onScroll = () => {
+    const el = ref.current;
+    if (!el) return;
+    setAtStart(el.scrollLeft < 4);
+    setAtEnd(el.scrollLeft + el.clientWidth > el.scrollWidth - 4);
+  };
+  const by = (d: 1 | -1) => ref.current?.scrollBy({ left: d * ref.current.clientWidth, behavior: "smooth" });
   return (
     <section data-testid="live-now" className="grid min-w-0 gap-3 rounded-2xl border border-border bg-surface p-3 sm:p-4">
       <div className="flex items-center justify-between">
         <h2 className="text-base font-semibold sm:text-lg">Live now</h2>
         <div className="flex gap-2">
-          <ArrowButton dir="left" label="Scroll live left" onClick={() => by(-1)} />
-          <ArrowButton dir="right" label="Scroll live right" onClick={() => by(1)} />
+          <ArrowButton dir="left" label="Scroll live left" onClick={() => by(-1)} disabled={atStart} />
+          <ArrowButton dir="right" label="Scroll live right" onClick={() => by(1)} disabled={atEnd} />
         </div>
       </div>
-      <div ref={ref} className="no-scrollbar flex gap-3 overflow-x-auto px-1 pb-1 pt-1.5">
+      <div ref={ref} onScroll={onScroll} data-testid="live-track" className="no-scrollbar flex snap-x snap-mandatory overflow-x-auto pb-1 pt-1.5">
         {liveNow.map(({ creator, viewers }) => (
-          <CreatorLink key={creator.id} creator={creator} className="grid w-16 shrink-0 justify-items-center gap-1 text-[11px] text-muted sm:w-[72px] desk:w-[84px]">
+          <CreatorLink
+            key={creator.id}
+            creator={creator}
+            className="grid w-1/5 shrink-0 snap-start justify-items-center gap-1 px-1 text-center text-[10px] leading-tight text-muted sm:text-[11px]"
+          >
             <span className="relative">
-              <Avatar creator={creator} size="h-[60px] w-[60px] sm:h-[68px] sm:w-[68px] desk:h-[78px] desk:w-[78px] text-lg" ring="ring-[3px] ring-bad ring-offset-2 ring-offset-surface" />
+              <Avatar creator={creator} size="h-[50px] w-[50px] sm:h-[68px] sm:w-[68px] lg:h-[80px] lg:w-[80px] desk:h-[92px] desk:w-[92px] text-lg" ring="ring-[3px] ring-bad ring-offset-2 ring-offset-surface" />
               <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 rounded bg-bad px-1 text-[9px] font-bold text-white">LIVE</span>
             </span>
-            <span className="mt-1">{viewers} watching</span>
+            <span className="mt-1 w-full truncate">
+              <b className="font-semibold text-text">{creator.name.split(" ")[0]}</b>
+              <span className="hidden sm:block">{viewers} watching</span>
+              <span className="flex items-center justify-center gap-0.5 sm:hidden" aria-label={`${viewers} watching`}>
+                <Icon name="eye" className="h-3 w-3" />
+                {viewers}
+              </span>
+            </span>
           </CreatorLink>
         ))}
       </div>
