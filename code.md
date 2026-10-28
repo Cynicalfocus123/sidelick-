@@ -16,10 +16,11 @@ side lick new site/
   scripts/db.mjs                       start / stop / status PostgreSQL
   scripts/sync-live.mjs                copy git HEAD -> live/ (never deletes)
   frontend/                            Next.js app
-    src/app/                           pages: / (setup check), /home (Step 1A), /register + /login (Step 1B), /c/[handle] (profile stub)
+    src/app/                           pages: / (setup check), /home (Step 1A), /register + /login + /onboarding (Step 1B), /c/[handle] (profile stub)
     src/components/                    LogoSlot (empty logo space), ApiStatus
     src/components/auth/RegisterForm.tsx  register form + Check your email popup
     src/components/auth/LoginForm.tsx     log-in form (wrong password / not verified boxes)
+    src/components/onboarding/CreatorIntro.tsx  "Become a creator" steps after sign-up (F117)
     src/components/Toaster.tsx         toast messages (F7), mounted in the root layout
     src/lib/api.ts, src/lib/toast.ts   API calls (cookie included), toast()
     src/components/home/               home page: HomeView, SideMenu, DiscoverFeed, Rows, SubscribedFeed, Icon, parts
@@ -32,6 +33,7 @@ side lick new site/
     src/main.ts, src/env.ts            boot, loads backend/.env
     src/database/                      DatabaseModule + DatabaseService (pg pool)
     src/app.controller.ts              GET /api/health
+    src/settings/settings.controller.ts  GET /api/settings/creator-intro (admin numbers, null until set)
     src/auth/                          sign-up, log in, session cookie, /me, resend, change email, logout (argon2id)
     src/mail/mail.service.ts           emails -> email_outbox table (no real sending yet)
     src/database/migrations.ts         database tables (applied on startup)
@@ -85,6 +87,8 @@ npm run db:stop           # when finished
 | POST | /api/auth/register | body `{ email, password, isAdult, acceptTerms }` -> 201 `{ id, email, emailVerified:false }` + httpOnly cookie `sl_session` (30 days). 400 `{ message, fields: { email?, password?, terms? } }`, 409 email taken. Saves email (trim + lower case), argon2id hash, 18+, terms time + `TERMS_VERSION`; queues the verify email |
 | POST | /api/auth/login | body `{ email, password, keepLoggedIn? }` -> 200 `{ id, email, emailVerified:true }` + cookie (keepLoggedIn: 30 days, else browser session; server session 30 / 1 day). 401 "Wrong email or password..." (same for unknown email), 403 `{ code:"unverified", email }` = right password but not verified (no session) |
 | POST | /api/auth/login/resend-verification | body `{ email, password }` -> 200 `{ sentTo }`; 401 wrong; 429 same limits as below |
+| POST | /api/auth/creator-intro-seen | 200 me with `creatorIntroSeen:true`; saves `users.creator_intro_seen_at` once (F117); 401 if signed out |
+| GET | /api/settings/creator-intro | 200 `{ topCreatorMonthlyUsd, creatorKeepPctIntro, creatorIntroDays, creatorKeepPct, referralPct }` from `site_settings` (null = not set yet) |
 | GET | /api/auth/me | 200 `{ id, email, emailVerified }` or 401 |
 | POST | /api/auth/resend-verification | 200 `{ sentTo }`; 429 if < 60 s since the last link or 5 already this hour; 400 if verified |
 | PATCH | /api/auth/email | body `{ email }` - change email before verifying; cancels old links, sends a new one; 409 if taken |
@@ -143,3 +147,4 @@ Goal: Discover never ends, rows never look cut off, and the fan is not worn out 
 - 2026-10-28 Login: "New to Side Licks? Sign up" button under Log in -> /register (owner, wireframe + page). Login tests 12/12 x 2 runs at 4 sizes (register 12/12).
 - 2026-10-28 Wireframe: wireframes/onboarding.html (F117 "Become a creator" steps after sign-up, 6 states) + new zones z-slide / z-steps / z-cta in wf.css; index.html now also lists login + onboarding.
 - 2026-10-28 onboarding.html layout v2: one centred column on every size, picture above the headline, arrows + dots (owner: v1 side-by-side looked bad).
+- 2026-10-28 F117 built: /onboarding (CreatorIntro), migration 003_creator_intro (users.creator_intro_seen_at, site_settings), POST /api/auth/creator-intro-seen, GET /api/settings/creator-intro; `me` now has creatorIntroSeen; sign-up popup + first log-in go to /onboarding, menu "Become a Creator" links there. Tests: backend e2e 15/15 (real DB), Playwright 68/68 at 4 sizes x 2 runs.

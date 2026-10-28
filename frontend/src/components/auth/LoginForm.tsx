@@ -7,7 +7,8 @@ import { api, type ApiError, type Me } from "@/lib/api";
 import { toast } from "@/lib/toast";
 
 // Log in (F11, approved wireframe 2026-10-28). States: form / wrong email or password (red box) /
-// email not verified yet (yellow box + "Send it again", no session until verified). Success -> Home (Discover first).
+// email not verified yet (yellow box + "Send it again", no session until verified). Success -> Home (Discover first),
+// or first the "Become a creator" steps (F117) if this account has not seen them yet.
 export default function LoginForm() {
   const router = useRouter();
   const [email, setEmail] = useState("");
@@ -27,8 +28,8 @@ export default function LoginForm() {
     setWrong("");
     setUnverified(null);
     try {
-      await api<Me>("/auth/login", { method: "POST", body: { email, password, keepLoggedIn: keep } });
-      router.push("/home");
+      const me = await api<Me>("/auth/login", { method: "POST", body: { email, password, keepLoggedIn: keep } });
+      router.push(me.creatorIntroSeen ? "/home" : "/onboarding"); // F117 steps until they have been seen once
     } catch (err) {
       const x = err as ApiError;
       if (x.code === "unverified") setUnverified(x.email ?? email.trim().toLowerCase());

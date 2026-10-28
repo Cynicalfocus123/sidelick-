@@ -59,6 +59,12 @@ export class AuthController {
     return this.auth.changeEmail(readCookie(req, SESSION_COOKIE), body ?? {});
   }
 
+  @Post('creator-intro-seen')
+  @HttpCode(200)
+  creatorIntroSeen(@Req() req: Request) {
+    return this.auth.creatorIntroSeen(readCookie(req, SESSION_COOKIE));
+  }
+
   @Post('logout')
   @HttpCode(204)
   async logout(@Req() req: Request, @Res({ passthrough: true }) res: Response) {

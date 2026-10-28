@@ -57,10 +57,10 @@ test("register: button waits for all fields, errors show, account is created and
   expect(sideways).toBe(false);
 
   await popup.getByRole("button", { name: "Close" }).click();
-  await expect(page).toHaveURL(/\/home$/);
+  await expect(page).toHaveURL(/\/onboarding$/); // F117 steps come right after sign-up
 });
 
-test("register: Send again after a minute closes the popup and shows 'Verification email resent'", async ({ page }) => {
+test("register: Send again after a minute closes the popup, shows 'Verification email resent' and opens the creator steps", async ({ page }) => {
   await page.goto("/register");
   await page.getByLabel("Email").fill(unique("resend"));
   await page.getByLabel("Password", { exact: true }).fill("good password 1");
@@ -73,7 +73,7 @@ test("register: Send again after a minute closes the popup and shows 'Verificati
   // here only the screen behaviour is checked, so the API answer is stubbed
   await page.route("**/api/auth/resend-verification", (route) => route.fulfill({ status: 200, contentType: "application/json", body: '{"sentTo":"x"}' }));
   await popup.getByRole("button", { name: "Send again" }).click();
-  await expect(page).toHaveURL(/\/home$/);
+  await expect(page).toHaveURL(/\/onboarding$/);
   await expect(page.getByTestId("toast")).toContainText("Verification email resent");
 });
 

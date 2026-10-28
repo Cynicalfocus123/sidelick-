@@ -29,4 +29,4 @@ export async function api<T>(path: string, init: { method?: string; body?: unkno
   return data as T;
 }
 
-export type Me = { id: string; email: string; emailVerified: boolean };
+export type Me = { id: string; email: string; emailVerified: boolean; creatorIntroSeen: boolean };

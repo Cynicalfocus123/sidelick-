@@ -49,3 +49,12 @@ test("login screenshots", async ({ page }, info) => {
   await page.getByTestId("login-unverified").waitFor();
   await page.screenshot({ path: `${OUT}/login-unverified-${size}.png`, fullPage: true });
 });
+
+test("onboarding screenshots", async ({ page }, info) => {
+  const size = info.project.name;
+  await page.request.post("http://localhost:4000/api/auth/register", { data: { email: `shot-intro-${Date.now()}-${size}@example.com`, password: "good password 1", isAdult: true, acceptTerms: true } });
+  await page.goto("/onboarding");
+  await page.getByTestId("intro-step").waitFor();
+  await page.getByRole("button", { name: "Go to step 1" }).click(); // stop moving by itself
+  await page.screenshot({ path: `${OUT}/onboarding-1-${size}.png` });
+});

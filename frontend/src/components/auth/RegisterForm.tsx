@@ -138,7 +138,8 @@ export default function RegisterForm() {
 }
 
 // "Check your email" popup (F8 + F9): Send again = popup closes + toast "Verification email resent" (too soon = toast
-// "Please wait N seconds..." and the popup stays), Change email, X = close for this visit -> Home.
+// "Please wait N seconds..." and the popup stays), Change email, X = close for this visit. Both then go to the
+// "Become a creator" steps (F117, shown once after sign-up), which end on Home.
 function CheckEmailPopup({ email, onEmailChanged }: { email: string; onEmailChanged: (e: string) => void }) {
   const router = useRouter();
   const [editing, setEditing] = useState(false);
@@ -151,7 +152,7 @@ function CheckEmailPopup({ email, onEmailChanged }: { email: string; onEmailChan
     try {
       await api("/auth/resend-verification", { method: "POST" });
       toast("Verification email resent", "ok"); // the Toaster lives in the root layout, so it stays on screen across the page change
-      router.push("/home");
+      router.push("/onboarding");
     } catch (e) {
       toast((e as ApiError).message, "bad");
       setBusy(false);
@@ -179,7 +180,7 @@ function CheckEmailPopup({ email, onEmailChanged }: { email: string; onEmailChan
   return (
     <div className="fixed inset-0 z-50 grid items-end bg-black/45 sm:place-items-center">
       <div role="dialog" aria-modal="true" aria-label="Check your email" className="relative grid w-full gap-3 rounded-t-3xl bg-surface p-5 pb-7 sm:max-w-[440px] sm:rounded-3xl sm:p-8">
-        <button type="button" aria-label="Close" onClick={() => router.push("/home")} className="absolute right-3.5 top-3.5 grid h-8 w-8 place-items-center rounded-full border border-border hover:bg-bg">
+        <button type="button" aria-label="Close" onClick={() => router.push("/onboarding")} className="absolute right-3.5 top-3.5 grid h-8 w-8 place-items-center rounded-full border border-border hover:bg-bg">
           ✕
         </button>
         <h2 className="text-xl font-semibold">Check your email</h2>

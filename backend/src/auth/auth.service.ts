@@ -13,7 +13,7 @@ const RESEND_MAX_PER_HOUR = 5;
 export const TERMS_VERSION = 'draft-2026-10-26';
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
-export type Me = { id: string; email: string; emailVerified: boolean };
+export type Me = { id: string; email: string; emailVerified: boolean; creatorIntroSeen: boolean };
 type FieldErrors = Partial<Record<'email' | 'password' | 'terms', string>>;
 
 function fail(fields: FieldErrors): never {
@@ -55,7 +55,7 @@ export class AuthService {
         );
         await this.sendVerifyLink(q, user.id, email);
         const sessionToken = await this.createSession(q, user.id);
-        return { me: { id: user.id, email, emailVerified: false }, sessionToken };
+        return { me: { id: user.id, email, emailVerified: false, creatorIntroSeen: false }, sessionToken };
       });
     } catch (e) {
       if ((e as { code?: string }).code === '23505') {
@@ -75,7 +75,7 @@ export class AuthService {
       throw new ForbiddenException({ message: 'Please verify your email first', code: 'unverified', email: user.email });
     }
     const sessionToken = await this.db.transaction((q) => this.createSession(q, user.id, keep ? SESSION_DAYS : SHORT_SESSION_DAYS));
-    return { me: { id: user.id, email: user.email, emailVerified: true }, sessionToken, keep };
+    return { me: { id: user.id, email: user.email, emailVerified: true, creatorIntroSeen: !!user.creator_intro_seen_at }, sessionToken, keep };
   }
 
   /** "Send it again" on the log-in page (not signed in yet): needs the right email + password, same limits as the popup. */
@@ -88,13 +88,13 @@ export class AuthService {
 
   async me(sessionToken: string | undefined): Promise<Me> {
     if (!sessionToken) throw new UnauthorizedException('Not signed in');
-    const [row] = await this.db.query<{ id: string; email: string; email_verified_at: Date | null }>(
-      `SELECT u.id, u.email, u.email_verified_at FROM sessions s JOIN users u ON u.id = s.user_id
+    const [row] = await this.db.query<{ id: string; email: string; email_verified_at: Date | null; creator_intro_seen_at: Date | null }>(
+      `SELECT u.id, u.email, u.email_verified_at, u.creator_intro_seen_at FROM sessions s JOIN users u ON u.id = s.user_id
        WHERE s.token_hash = $1 AND s.expires_at > now()`,
       [sha256(sessionToken)],
     );
     if (!row) throw new UnauthorizedException('Not signed in');
-    return { id: row.id, email: row.email, emailVerified: !!row.email_verified_at };
+    return { id: row.id, email: row.email, emailVerified: !!row.email_verified_at, creatorIntroSeen: !!row.creator_intro_seen_at };
   }
 
   /** "Send again" in the Check your email popup. Max once a minute and 5 an hour (B34). */
@@ -144,6 +144,13 @@ export class AuthService {
     return { ...me, email };
   }
 
+  /** F117: "Become a creator" steps closed (Close or Start earning). Keeps the first time; shown once. */
+  async creatorIntroSeen(sessionToken: string | undefined): Promise<Me> {
+    const me = await this.me(sessionToken);
+    await this.db.query('UPDATE users SET creator_intro_seen_at = coalesce(creator_intro_seen_at, now()) WHERE id = $1', [me.id]);
+    return { ...me, creatorIntroSeen: true };
+  }
+
   async logout(sessionToken: string | undefined) {
     if (sessionToken) await this.db.query('DELETE FROM sessions WHERE token_hash = $1', [sha256(sessionToken)]);
   }
@@ -152,8 +159,8 @@ export class AuthService {
     const email = normEmail(body.email);
     const password = typeof body.password === 'string' ? body.password : '';
     if (!email || !password) throw new UnauthorizedException({ message: WRONG_LOGIN });
-    const [user] = await this.db.query<{ id: string; email: string; password_hash: string; email_verified_at: Date | null }>(
-      'SELECT id, email, password_hash, email_verified_at FROM users WHERE email = $1',
+    const [user] = await this.db.query<{ id: string; email: string; password_hash: string; email_verified_at: Date | null; creator_intro_seen_at: Date | null }>(
+      'SELECT id, email, password_hash, email_verified_at, creator_intro_seen_at FROM users WHERE email = $1',
       [email],
     );
     dummyHash ??= hashPassword(newToken());

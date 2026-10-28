@@ -79,7 +79,7 @@ test("login: email not verified yet shows the yellow box and Send it again", asy
   await expect(page.getByTestId("toast")).toContainText(/Please wait \d+ seconds before sending again/);
 });
 
-test("login: verified account + Keep me logged in goes to Home and stays signed in", async ({ page }) => {
+test("login: verified account + Keep me logged in, first time = creator steps, then Home, and stays signed in", async ({ page }) => {
   const email = await makeAccount(page, "login-ok");
   markVerified(email);
   await page.goto("/login");
@@ -87,6 +87,8 @@ test("login: verified account + Keep me logged in goes to Home and stays signed 
   await page.getByLabel("Password", { exact: true }).fill(PASSWORD);
   await page.getByLabel("Keep me logged in").check();
   await page.getByRole("button", { name: "Log in" }).click();
+  await expect(page).toHaveURL(/\/onboarding$/); // never saw the F117 steps
+  await page.getByRole("button", { name: "Close", exact: true }).click();
   await expect(page).toHaveURL(/\/home$/);
   await expect(page.getByRole("tab", { name: "Discover" })).toHaveAttribute("aria-selected", "true");
   // really signed in, with a 30-day cookie
@@ -94,4 +96,22 @@ test("login: verified account + Keep me logged in goes to Home and stays signed 
   const cookie = (await page.context().cookies()).find((c) => c.name === "sl_session")!;
   expect(cookie.httpOnly).toBe(true);
   expect(cookie.expires - Date.now() / 1000).toBeGreaterThan(29 * 86400);
+});
+
+test("login: an account that already saw the creator steps goes straight to Home", async ({ page }) => {
+  const email = await makeAccount(page, "login-seen");
+  markVerified(email);
+  await page.goto("/login");
+  await page.getByLabel("Email").fill(email);
+  await page.getByLabel("Password", { exact: true }).fill(PASSWORD);
+  await page.getByRole("button", { name: "Log in" }).click();
+  await expect(page).toHaveURL(/\/onboarding$/);
+  await page.getByRole("button", { name: "Start earning" }).click();
+  await expect(page).toHaveURL(/\/home$/);
+  await page.request.post(`${API}/auth/logout`);
+  await page.goto("/login");
+  await page.getByLabel("Email").fill(email);
+  await page.getByLabel("Password", { exact: true }).fill(PASSWORD);
+  await page.getByRole("button", { name: "Log in" }).click();
+  await expect(page).toHaveURL(/\/home$/);
 });

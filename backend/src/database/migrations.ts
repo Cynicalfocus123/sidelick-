@@ -53,4 +53,19 @@ export const MIGRATIONS: { id: string; sql: string }[] = [
     // B25: save WHICH terms + privacy version was accepted, not only when
     sql: `ALTER TABLE users ADD COLUMN terms_version text NOT NULL DEFAULT 'draft-2026-10-26'; ALTER TABLE users ALTER COLUMN terms_version DROP DEFAULT;`,
   },
+  {
+    id: '003_creator_intro',
+    // F117: "Become a creator" steps after sign-up are shown once. site_settings = numbers the admin sets (B15 fees,
+    // B109 referral); NULL = not set yet, then the step shows a headline without a number (numbers must be true).
+    sql: `
+      ALTER TABLE users ADD COLUMN creator_intro_seen_at timestamptz;
+      CREATE TABLE site_settings (
+        key text PRIMARY KEY,
+        value numeric,
+        updated_at timestamptz NOT NULL DEFAULT now()
+      );
+      INSERT INTO site_settings (key) VALUES
+        ('top_creator_monthly_usd'), ('creator_keep_pct_intro'), ('creator_intro_days'), ('creator_keep_pct'), ('referral_pct');
+    `,
+  },
 ];

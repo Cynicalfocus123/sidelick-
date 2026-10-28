@@ -21,7 +21,7 @@ const MID: Item[] = [
 const EXTRA: Item[] = [
   { label: "Following", icon: "users" },
   { label: "My Collection", icon: "bookmark" },
-  { label: "Become a Creator", icon: "sparkle" },
+  { label: "Become a Creator", icon: "sparkle", href: "/onboarding" },
   { label: "Promotions", icon: "megaphone" },
   { label: "Refer & Earn", icon: "gift" },
   { label: "Settings", icon: "gear" },
@@ -114,20 +114,27 @@ export default function SideMenu({ onSoon }: { onSoon: (label: string) => void }
                 <Icon name="close" />
               </button>
             </div>
-            {EXTRA.map((it) => (
-              <button
-                key={it.label}
-                type="button"
-                onClick={() => {
-                  setMoreOpen(false);
-                  onSoon(it.label);
-                }}
-                className="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left hover:bg-bg"
-              >
-                <Icon name={it.icon} />
-                {it.label}
-              </button>
-            ))}
+            {EXTRA.map((it) =>
+              it.href ? (
+                <Link key={it.label} href={it.href} className="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left hover:bg-bg">
+                  <Icon name={it.icon} />
+                  {it.label}
+                </Link>
+              ) : (
+                <button
+                  key={it.label}
+                  type="button"
+                  onClick={() => {
+                    setMoreOpen(false);
+                    onSoon(it.label);
+                  }}
+                  className="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left hover:bg-bg"
+                >
+                  <Icon name={it.icon} />
+                  {it.label}
+                </button>
+              ),
+            )}
           </div>
         </div>
       ) : null}
