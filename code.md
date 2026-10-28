@@ -152,3 +152,4 @@ Goal: Discover never ends, rows never look cut off, and the fan is not worn out 
 - 2026-10-28 landing.html v2: header video zone (z-video) with the menu on top + phone/tablet menu state ("menu").
 - 2026-10-28 landing.html v3: sections are full-width bands (.band) like the video header.
 - 2026-10-28 landing.html: laptop + desktop hero = 3 picture boxes in one row next to the text (owner).
+- 2026-10-28 landing.html: laptop + desktop hero = 4 boxes (owner).
