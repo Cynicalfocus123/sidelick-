@@ -21,7 +21,7 @@ const PAGES = {
   "verify-email": { title: "Verify email /verify-email (F12)", states: ["checking", "ok", "expired-in", "expired-out", "other-device"] },
   home: { title: "Home /home - layout v3: left menu on every size, Discover tab opens first", states: ["discover", "subscribed", "subscribed-empty"] },
   onboarding: { title: "After sign-up: Become a creator, 6 steps (F117) - approved + built", states: ["1", "2", "3", "4", "5", "6"] },
-  landing: { title: "Main page / (signed out) - NEW, waiting for approval", states: ["page"] },
+  landing: { title: "Main page / (signed out) v2: header video - waiting for approval", states: ["page", "menu"] },
 };
 // column widths keep the real proportions between sizes
 const COL = { desktop: "1.6fr", laptop: "1.3fr", tablet: "0.75fr", phone: "0.42fr" };

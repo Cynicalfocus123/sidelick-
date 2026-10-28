@@ -112,3 +112,4 @@ body.shot .wf-bar { display: none; }
 .z-hero    { --z: #c026d3; --zbg: #fdf4ff; }  /* landing hero - fuchsia */
 .z-how     { --z: #16a34a; --zbg: #f0fdf4; }  /* how it works - green */
 .z-foot    { --z: #475569; --zbg: #f1f5f9; }  /* footer - slate */
+.z-video   { --z: #e11d48; --zbg: #1f2937; }  /* header video - rose outline on dark */

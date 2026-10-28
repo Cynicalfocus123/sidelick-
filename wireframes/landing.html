@@ -7,7 +7,8 @@
 <link rel="stylesheet" href="wf.css">
 <style>
   /* Main page www.sidelicks.com "/" for people who are NOT signed in (owner 2026-10-28).
-     Signed-in people go to /home instead. One centred content width, nothing touching the edges. */
+     Signed-in people go to /home instead. v2 (owner): header = full-width video with the menu on top
+     (Logo | Features | Partnership | About | Blog | Login | Signup), then the hero, then creators / how it works / for creators. */
   body { background: #fff; }
   .wrap { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 16px; }
   section, header, footer { border-radius: 14px; }
@@ -53,6 +54,43 @@
   footer .links { display: flex; flex-wrap: wrap; gap: 8px 16px; }
   footer .age { font-weight: 700; }
 
+
+  /* ---- Header video (owner 2026-10-28, wireframe v2): full width, edge to edge, nav on top of it ---- */
+  .vhead { position: relative; height: 88vh; overflow: hidden; border-radius: 0 0 22px 22px; color: #fff; margin-bottom: 8px; }
+  .vhead .film { position: absolute; inset: -20%; display: grid; grid-template-columns: repeat(6, 1fr); gap: 18px; transform: rotate(-14deg);
+                 background: linear-gradient(160deg, #1f2937, #334155); padding: 18px; }
+  .vhead .film i { border-radius: 16px; background: #475569; border: 1.5px dashed #94a3b8; min-height: 200px; opacity: .85; }
+  .vhead .film i:nth-child(odd) { transform: translateY(60px); }
+  .vhead::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(15,23,42,.55), rgba(15,23,42,.1) 30%, rgba(15,23,42,.35)); }
+  .vhead .vlabel { position: absolute; left: 50%; top: 52%; transform: translate(-50%, -50%); z-index: 3; background: #0f172a; border-radius: 10px;
+                   padding: 10px 14px; text-align: center; font-size: 12px; max-width: 260px; }
+  .vhead .vlabel b { display: block; font-size: 13px; margin-bottom: 4px; }
+  .vhead .scroll { position: absolute; bottom: 14px; left: 50%; transform: translateX(-50%); z-index: 3; font-size: 12px; opacity: .85; }
+  .nav { position: absolute; inset: 0 0 auto 0; z-index: 4; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 16px; }
+  .nav.z-top { --zbg: transparent; }
+  .nav .logo-slot { background: transparent; color: #fecaca; }
+  .nav .links { display: none; gap: 22px; font-size: 13px; font-weight: 600; }
+  .nav .acts { display: flex; gap: 8px; align-items: center; }
+  .nav .pill { height: 36px; padding: 0 16px; border-radius: 999px; border: 1.5px solid #fff; display: none; place-items: center; font-size: 13px; font-weight: 600; }
+  .nav .pill.solid { background: #fff; color: #0f172a; }
+  .nav .burger { width: 38px; height: 38px; border-radius: 50%; background: #fff; color: #0f172a; display: grid; place-items: center; font-size: 18px; }
+  .drawer { position: fixed; inset: 0 0 0 auto; width: min(80vw, 320px); background: #fff; z-index: 60; padding: 18px; display: grid; align-content: start; gap: 16px; box-shadow: -6px 0 24px rgba(0,0,0,.25); }
+  .drawer .x { justify-self: end; font-size: 20px; }
+  .drawer a { font-weight: 700; text-decoration: none; }
+  .drawer .btn { height: 40px; }
+  .shade { position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index: 55; }
+  @media (min-width: 640px) {
+    .vhead { height: 62vh; }
+    .nav { padding: 18px 28px; }
+    .nav .pill { display: grid; }
+    .vhead .vlabel { max-width: 340px; }
+  }
+  @media (min-width: 1024px) {
+    .vhead { height: 80vh; border-radius: 0 0 28px 28px; }
+    .nav { padding: 20px 40px; }
+    .nav .links { display: flex; }
+    .nav .burger { display: none; }
+  }
   @media (min-width: 640px) {
     .wrap { padding: 0 32px; }
     .hero { padding: 40px 32px; }
@@ -86,15 +124,29 @@
 </style>
 </head>
 <body>
-<div class="wf-bar">Main page / (signed out) - <a href="?state=page" data-s="page" class="on">Page</a> <a href="index.html">All wireframes</a> <span class="size"></span></div>
-<div class="wrap stack">
-  <header class="z-top" data-zone="Top bar">
+<div class="wf-bar">Main page / (signed out) - <a href="?state=page" data-s="page">Page</a> <a href="?state=menu" data-s="menu">Menu open (phone / tablet)</a> <a href="index.html">All wireframes</a> <span class="size"></span></div>
+<div class="vhead z-video lbl-bottom" data-zone="Header video (full width, edge to edge)">
+  <div class="film"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  <nav class="nav z-top" data-zone="Menu on the video">
     <div class="logo-slot sm">Logo space<br>(empty)</div>
+    <div class="links"><span>Features</span><span>Partnership</span><span>About</span><span>Blog</span></div>
     <div class="acts">
-      <button class="btn ghost" type="button">Log in</button>
-      <button class="btn" type="button">Sign up</button>
+      <span class="pill">Login</span>
+      <span class="pill solid">Signup</span>
+      <span class="burger">&#9776;</span>
     </div>
-  </header>
+  </nav>
+  <div class="vlabel"><b>VIDEO (full width, edge to edge)</b>Silent, autoplay, loops 8-12 s - tilted creator cards slowly drifting left to right. Desktop / laptop: height 80% of the screen. Tablet: 62%, cropped to the centre. Phone: 88%, separate vertical video. MP4 + WebM (FFmpeg), poster first; reduced motion / slow data = poster only. Safe-for-work only.</div>
+  <span class="scroll">&#8964; scroll</span>
+</div>
+<div class="shade" data-only="menu" hidden></div>
+<aside class="drawer z-popup" data-zone="Phone / tablet menu" data-only="menu" hidden>
+  <span class="x">&#10005;</span>
+  <a href="#">Features</a><a href="#">Partnership</a><a href="#">About</a><a href="#">Blog</a>
+  <button class="btn ghost" type="button">Login</button>
+  <button class="btn" type="button">Signup</button>
+</aside>
+<div class="wrap stack">
 
   <section class="hero z-hero lbl-bottom" data-zone="Hero: headline + sign up">
     <div style="display:grid;gap:16px">
@@ -153,11 +205,15 @@
   <footer class="z-foot lbl-bottom" data-zone="Footer">
     <div class="links"><a href="#">Terms</a><a href="#">Privacy</a><a href="#">Acceptable Use</a><a href="#">Help</a><a href="#">Contact</a></div>
     <span class="age">18+ only</span>
-    <span class="note" style="grid-column:1/-1">Signed-in people never see this page: "/" sends them to /home. Signed-out people opening /home are sent here. "View profile" = public creator profile; anything paid / follow / message = sign-up popup.</span>
+    <span class="note" style="grid-column:1/-1">Header menu: desktop + laptop show all 6; tablet = Login + Signup + menu button (4 links inside); phone = menu button only, menu slides in from the right with all 6. Signed-in people never see this page: "/" sends them to /home. Signed-out people opening /home are sent here. "View profile" = public creator profile; anything paid / follow / message = sign-up popup.</span>
   </footer>
 </div>
 <script>
-  if (new URLSearchParams(location.search).has('shot')) document.body.classList.add('shot');
+  const p = new URLSearchParams(location.search);
+  const s = p.get('state') || 'page';
+  if (p.has('shot')) document.body.classList.add('shot');
+  document.querySelectorAll('.wf-bar a[data-s]').forEach(a => a.classList.toggle('on', a.dataset.s === s));
+  document.querySelectorAll('[data-only]').forEach(e => e.hidden = e.dataset.only !== s);
 </script>
 </body>
 </html>
