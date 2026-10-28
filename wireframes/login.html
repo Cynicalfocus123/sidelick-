@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wireframe - Log in</title>
+<link rel="stylesheet" href="wf.css">
+<style>
+  /* Same frame as Register (approved 2026-10-28) so the two pages feel like one flow. */
+  .page { min-height: 100vh; display: flex; flex-direction: column; }
+  .top { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; }
+  .split { flex: 1; display: grid; grid-template-columns: 1fr; }
+  .side { display: none; }
+  .formwrap { display: flex; justify-content: center; padding: 8px 16px 32px; }
+  .card { width: 100%; max-width: 440px; display: grid; gap: 16px; padding: 20px 16px 34px; border-radius: 14px; }
+  h1 { font-size: 24px; margin: 0; }
+  .or { display: flex; align-items: center; gap: 10px; color: var(--soft); font-size: 12px; }
+  .or::before, .or::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+  .g { display: flex; align-items: center; justify-content: center; gap: 8px; }
+  .g .circle { width: 18px; height: 18px; }
+  .small { font-size: 13px; text-align: center; color: var(--soft); }
+  .row { display: flex; justify-content: space-between; align-items: center; gap: 10px; font-size: 13px; }
+  .alert { border-radius: 10px; padding: 10px 12px; font-size: 13px; display: grid; gap: 6px; }
+  .alert.bad { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
+  .alert.warn { background: #fef3c7; color: #92400e; border: 1px solid #fcd34d; }
+  .alert a { color: inherit; font-weight: 700; }
+
+  @media (min-width: 640px) {
+    .top { padding: 20px 32px; }
+    .formwrap { padding: 24px 32px 48px; align-items: center; flex: 1; }
+    .card { background: var(--white); border-radius: 16px; padding: 32px 32px 40px; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+    h1 { font-size: 28px; }
+  }
+  @media (min-width: 1024px) {
+    .split { grid-template-columns: 1fr 1fr; }
+    .side { display: flex; flex-direction: column; justify-content: center; gap: 18px; padding: 48px; margin: 0 0 24px 24px; border-radius: 20px; background: var(--box); }
+    .side .big { height: 22px; border-radius: 6px; background: var(--box-2); }
+    .side .item { display: flex; gap: 12px; align-items: center; }
+    .side .item .circle { width: 32px; height: 32px; }
+  }
+  @media (min-width: 1440px) {
+    .split { grid-template-columns: 1.1fr 1fr; max-width: 1600px; margin: 0 auto; width: 100%; }
+    .side { padding: 72px; }
+    .card { max-width: 480px; padding: 40px 40px 48px; }
+    h1 { font-size: 32px; }
+  }
+</style>
+</head>
+<body>
+<div class="wf-bar">Log in /login - state:
+  <a href="?state=form" data-s="form">Form</a>
+  <a href="?state=wrong" data-s="wrong">Wrong email or password</a>
+  <a href="?state=unverified" data-s="unverified">Email not verified yet</a>
+  <a href="index.html">All wireframes</a>
+  <span class="size"></span>
+</div>
+<div class="page">
+  <div class="top">
+    <div class="logo-slot">Logo space<br>(empty)</div>
+    <span class="small">New here? <a href="register.html">Create account</a></span>
+  </div>
+  <div class="split">
+    <aside class="side z-info lbl-bottom" data-zone="Info panel (same as Register)" aria-label="Info panel">
+      <div class="big" style="width:60%"></div>
+      <div class="line w80"></div>
+      <div class="item"><span class="circle"></span><div class="line w60"></div></div>
+      <div class="item"><span class="circle"></span><div class="line w60"></div></div>
+      <div class="item"><span class="circle"></span><div class="line w40"></div></div>
+      <span class="note">Same info panel as Register. Picture / colours come after the logo (F5).</span>
+    </aside>
+    <div class="formwrap">
+      <form class="card z-form lbl-bottom" data-zone="Log-in form" onsubmit="return false">
+        <h1>Welcome back</h1>
+
+        <div class="alert bad" data-only="wrong">Wrong email or password. Try again or reset your password.</div>
+        <div class="alert warn" data-only="unverified">
+          <b>Please verify your email first.</b>
+          <span>We sent a link to you@example.com. <a href="#">Send it again</a></span>
+        </div>
+
+        <button class="btn ghost g" type="button"><span class="circle"></span>Continue with Google</button>
+        <div class="or">or</div>
+        <div class="field">
+          <span class="label">Email</span>
+          <div class="input">you@example.com</div>
+        </div>
+        <div class="field">
+          <span class="label">Password</span>
+          <div class="input">••••••••<span>Show</span></div>
+        </div>
+        <div class="row">
+          <label class="check"><i></i><span>Keep me logged in</span></label>
+          <a href="#">Forgot password?</a>
+        </div>
+        <button class="btn" type="button">Log in</button>
+        <span class="note">After log in: goes to Home (Discover tab first). Button stays grey until email + password are filled.</span>
+      </form>
+    </div>
+  </div>
+</div>
+<script>
+  const p = new URLSearchParams(location.search);
+  const s = p.get('state') || 'form';
+  if (p.has('shot')) document.body.classList.add('shot');
+  document.querySelectorAll('.wf-bar a[data-s]').forEach(a => a.classList.toggle('on', a.dataset.s === s));
+  document.querySelectorAll('[data-only]').forEach(e => e.hidden = e.dataset.only !== s);
+</script>
+</body>
+</html>

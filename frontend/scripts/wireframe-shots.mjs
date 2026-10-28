@@ -23,6 +23,7 @@ export const SIZES = {
 };
 const PAGES = {
   register: ["form", "errors", "popup"],
+  login: ["form", "wrong", "unverified"],
   "verify-email": ["checking", "ok", "expired-in", "expired-out", "other-device"],
   home: ["discover", "subscribed", "subscribed-empty"],
 };

@@ -17,6 +17,7 @@ mkdirSync(tmp, { recursive: true });
 const SIZES = ["desktop", "laptop", "tablet", "phone"];
 const PAGES = {
   register: { title: "Register (F10) + Check your email popup (F8)", states: ["form", "errors", "popup"] },
+  login: { title: "Log in /login (NEW - waiting for approval)", states: ["form", "wrong", "unverified"] },
   "verify-email": { title: "Verify email /verify-email (F12)", states: ["checking", "ok", "expired-in", "expired-out", "other-device"] },
   home: { title: "Home /home - layout v3: left menu on every size, Discover tab opens first", states: ["discover", "subscribed", "subscribed-empty"] },
 };

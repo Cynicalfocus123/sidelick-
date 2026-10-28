@@ -4,7 +4,8 @@
 
 | Screen | Wireframe | Owner approval | Built |
 |---|---|---|---|
-| Register (F10) + "Check your email" popup (F8) | `wireframes/register.html` | **approved 2026-10-28** | no |
+| Register (F10) + "Check your email" popup (F8) | `wireframes/register.html` | **approved 2026-10-28** | **yes - Step 1B, /register (real API + DB)** |
+| Log in /login (F11): form, wrong password, email not verified | `wireframes/login.html` | **waiting** (made 2026-10-28) | no |
 | Verify email /verify-email (F12), 5 states | `wireframes/verify-email.html` | **approved 2026-10-28** | no |
 | Home /home layout v3: left menu + Discover tab (opens first) + Subscribed tab | `wireframes/home.html` | **approved 2026-10-28** (+ continuous scroll) | **yes - Step 1A, /home (sample data)** |
 | Start page `/` (setup check only, not a real screen) | - | - | yes |
@@ -47,6 +48,10 @@ Font: Geist (next/font, self-hosted at build). Change brand colours in one place
 ## Wireframe layouts (approved by owner 2026-10-28)
 
 **Register** - phone: full-width form. Tablet: centred white card. Laptop / desktop: grey info panel on the left (short lines about Side Licks; picture / colours after F5) + form card on the right. Form: title "Create your account", Continue with Google, "or", Email, Password (Show, "At least 8 characters"), "I am 18 or older" tick, Terms + Privacy tick, Create account (grey until all filled), "Have an account? Sign in" top right. After sign-up: "Check your email" popup (bottom sheet on phone, centred box on tablet+) with Send again + Change email + X.
+
+**Log in** (new 2026-10-28, waiting) - same frame as Register (info panel on laptop+, centred card on tablet, plain form on phone). "Welcome back", Continue with Google, or, Email, Password + Show, "Keep me logged in" tick, "Forgot password?" link, Log in button (grey until both filled), "New here? Create account" top right. States: wrong email or password = red box above the form; email not verified yet = yellow box "Please verify your email first" + "Send it again". After log in -> Home (Discover first).
+
+**Toasts** (F7, built 2026-10-28) - dark rounded box at the top centre, round icon (green tick / red ! / blue i) + short text, slides in, gone after 3 s, several stack; phones full width with side margins.
 
 **Verify email** - white page, soft glow top-right (brand colour after F5), logo space centred at top, big "Email Verification". States: Checking (spinner, "Verifying your request..."), Verified (+ Continue, auto to /home in 2-3 s with toast), Expired signed in (Send a new link), Expired signed out (Sign in), Other device signed out (verified + Sign in to continue).
 

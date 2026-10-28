@@ -7,6 +7,7 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
   app.enableCors({
     origin: (process.env.CORS_ORIGIN ?? 'http://localhost:3000').split(','),
+    credentials: true, // session cookie (sl_session)
   });
   await app.listen(Number(process.env.PORT ?? 4000), 'localhost');
 }

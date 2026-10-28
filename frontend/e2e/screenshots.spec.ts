@@ -18,3 +18,16 @@ test("home screenshots", async ({ page }, info) => {
   await page.getByTestId("subscribed-feed").waitFor();
   await page.screenshot({ path: `${OUT}/home-subscribed-${size}.png` });
 });
+
+test("register screenshots", async ({ page }, info) => {
+  const size = info.project.name;
+  await page.goto("/register");
+  await page.screenshot({ path: `${OUT}/register-form-${size}.png`, fullPage: true });
+  await page.getByLabel("Email").fill(`shot-${Date.now()}-${size}@example.com`);
+  await page.getByLabel("Password", { exact: true }).fill("good password 1");
+  await page.getByLabel("I am 18 or older").check();
+  await page.getByLabel(/I agree to the/).check();
+  await page.getByRole("button", { name: "Create account" }).click();
+  await page.getByRole("dialog", { name: "Check your email" }).waitFor();
+  await page.screenshot({ path: `${OUT}/register-popup-${size}.png` });
+});
