@@ -16,8 +16,11 @@ side lick new site/
   scripts/db.mjs                       start / stop / status PostgreSQL
   scripts/sync-live.mjs                copy git HEAD -> live/ (never deletes)
   frontend/                            Next.js app
-    src/app/                           pages: / (setup check), /home (Step 1A), /register + /login + /onboarding (Step 1B), /c/[handle] (profile stub)
-    src/components/                    LogoSlot (empty logo space), ApiStatus
+    src/app/                           pages: / main page (Step 1C), /status (setup check), /home (Step 1A, signed in only), /register + /login + /onboarding (Step 1B), /c/[handle] (profile stub)
+    src/proxy.ts                       signed in at / -> /home, signed out at /home -> / (asks GET /api/auth/me)
+    src/components/                    LogoSlot (empty logo space), ApiStatus, SignupPopup (+ src/lib/signup-popup.ts askToSignUp()), ProfileActions
+    src/components/landing/            main page /: LandingPage, HeaderVideo, LandingNav, SoonButton
+    public/media/header/               header video MP4 + WebM + posters (made by scripts/make-header-video.mjs)
     src/components/auth/RegisterForm.tsx  register form + Check your email popup
     src/components/auth/LoginForm.tsx     log-in form (wrong password / not verified boxes)
     src/components/onboarding/CreatorIntro.tsx  "Become a creator" steps after sign-up (F117)
@@ -26,7 +29,8 @@ side lick new site/
     src/components/home/               home page: HomeView, SideMenu, DiscoverFeed, Rows, SubscribedFeed, Icon, parts
     src/lib/sample-data.ts             SAMPLE creators / videos / posts (fixed seed) until the real API exists
     src/lib/discover.ts                Discover feed rules (section below) - runs in the browser for now
-    e2e/                               Playwright tests (4 screen sizes): start-page, home, register, login; screenshots.spec.ts (SHOTS=1 only)
+    e2e/                               Playwright tests (4 screen sizes): landing, status-page, home, register, login, onboarding; screenshots.spec.ts (SHOTS=1 only)
+    scripts/make-header-video.mjs      header video (Playwright draws the cards, FFmpeg makes the loop + posters)
     scripts/wireframe-shots.mjs        wireframe screenshots -> WebP (wireframes/shots/)
     scripts/wireframe-sheets.mjs       one overview picture per screen (wireframes/sheets/)
   backend/                             NestJS app
@@ -70,6 +74,10 @@ npm run db:stop           # when finished
 - Playwright runs with 2 workers (more made the first page loads time out on this PC).
 - Start the DB with output to a file (`node scripts/db.mjs start > D:/dev/tmp/sidelick-db.log 2>&1`). Piping it (`| tail`) keeps the command waiting forever because postgres holds the pipe; killing that command crashed postgres once (2026-10-28).
 - Real-page pictures for the owner: `SHOTS=1 npx playwright test e2e/screenshots.spec.ts` -> D:/dev/tmp/sidelick-real-shots, then FFmpeg -> WebP.
+
+## Signed in or not (main page / home)
+
+`frontend/src/proxy.ts` (Next 16 "proxy" = old middleware) runs on `/` and `/home` only. No `sl_session` cookie = signed out. With a cookie it asks `GET /api/auth/me` (2.5 s limit): 200 = signed in, 401 = signed out (old cookie, no redirect loop), API down = nobody is moved. On the real server the site must receive the `sl_session` cookie: same host for site + API (e.g. API under www.sidelicks.com/api) or the cookie set for `.sidelicks.com` - decide with deploy.
 
 ## Git + live/
 
@@ -153,3 +161,4 @@ Goal: Discover never ends, rows never look cut off, and the fan is not worn out 
 - 2026-10-28 landing.html v3: sections are full-width bands (.band) like the video header.
 - 2026-10-28 landing.html: laptop + desktop hero = 3 picture boxes in one row next to the text (owner).
 - 2026-10-28 landing.html: laptop + desktop hero = 4 boxes (owner).
+- 2026-10-28 STEP 1C (F121): main page / built: header video (FFmpeg, 3 sizes, MP4 + WebM + AVIF / WebP posters, poster only for reduced motion / save-data / 2g), menu on the video + slide-in menu, hero, Popular creators (sample), How it works, creators band, footer, sign-up popup, proxy.ts redirects. Setup check moved from / to /status (file moved, nothing deleted). home.spec now signs up first (home is signed-in only); Live now test waits for the smooth scroll (was flaky). Tests: Playwright 92/92 at 4 sizes x 3 runs (landing.spec 6 tests x 4 sizes, against the real API + database). Backend code not changed.

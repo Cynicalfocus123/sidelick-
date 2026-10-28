@@ -1,6 +1,12 @@
 import { expect, test, type Page } from "@playwright/test";
 
 // Step 1A home page. Runs at desktop / laptop / tablet / phone (playwright.config.ts projects).
+// /home is for signed-in people only (F121), so every test signs up a fresh account first (real API + database).
+test.beforeEach(async ({ page }) => {
+  const email = `home-${Date.now()}-${Math.floor(Math.random() * 1e6)}@example.com`;
+  const res = await page.request.post("http://localhost:4000/api/auth/register", { data: { email, password: "good password 1", isAdult: true, acceptTerms: true } });
+  expect(res.status()).toBe(201);
+});
 
 async function rowsSnapshot(page: Page) {
   return page.getByTestId("video-row").evaluateAll((rows) =>
@@ -114,11 +120,12 @@ test("Live now: 5 at a time, arrows move to the next 5", async ({ page }) => {
   await right.click();
   await expect(left).toBeEnabled();
   await expect.poll(inView).toBe(5);
-  const sixth = await track.locator("a").nth(5).evaluate((el) => {
-    const t = el.parentElement!.getBoundingClientRect();
-    return Math.abs(el.getBoundingClientRect().left - t.left) < 2;
-  });
-  expect(sixth).toBe(true); // the 6th ring is now first in view
+  const sixthFirst = () =>
+    track.locator("a").nth(5).evaluate((el) => {
+      const t = el.parentElement!.getBoundingClientRect();
+      return Math.abs(el.getBoundingClientRect().left - t.left) < 2;
+    });
+  await expect.poll(sixthFirst).toBe(true); // the 6th ring is now first in view (waits for the smooth scroll to settle)
   await right.click();
   await expect(right).toBeDisabled(); // 12 live: 5 + 5 + last 2
   expect(first).toMatch(/^\/c\//);

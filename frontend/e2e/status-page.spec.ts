@@ -1,8 +1,8 @@
 import { expect, test } from "@playwright/test";
 
-test("start page: empty logo space, API + database connected, no sideways scroll", async ({ page }) => {
-  await page.goto("/");
-  await expect(page).toHaveTitle("Side Licks");
+test("setup check /status: empty logo space, API + database connected, no sideways scroll", async ({ page }) => {
+  await page.goto("/status");
+  await expect(page).toHaveTitle("Setup check - Side Licks");
 
   // Rule: NO logo anywhere until the owner sends it (F5). The slot exists but is empty.
   const slot = page.locator('[data-slot="logo"]');

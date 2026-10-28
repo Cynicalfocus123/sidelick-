@@ -5,8 +5,17 @@ import { test } from "@playwright/test";
 const OUT = process.env.SHOTS_DIR ?? "D:/dev/tmp/sidelick-real-shots";
 test.skip(!process.env.SHOTS, "set SHOTS=1 to take screenshots");
 
+test("main page screenshots", async ({ page }, info) => {
+  const size = info.project.name;
+  await page.goto("/");
+  await page.getByTestId("hero").waitFor();
+  await page.waitForTimeout(1500); // header video starts
+  await page.screenshot({ path: `${OUT}/landing-page-${size}.png`, fullPage: true });
+});
+
 test("home screenshots", async ({ page }, info) => {
   const size = info.project.name;
+  await page.request.post("http://localhost:4000/api/auth/register", { data: { email: `shot-home-${Date.now()}-${size}@example.com`, password: "good password 1", isAdult: true, acceptTerms: true } });
   await page.goto("/home");
   await page.getByTestId("video-row").first().waitFor();
   await page.waitForTimeout(800);

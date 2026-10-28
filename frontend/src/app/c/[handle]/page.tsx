@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
+import ProfileActions from "@/components/ProfileActions";
 import { creatorByHandle, creators } from "@/lib/sample-data";
 
 export const metadata: Metadata = { title: "Creator - Side Licks" };
@@ -19,9 +19,7 @@ export default async function CreatorPage({ params }: PageProps<"/c/[handle]">) 
       <h1 data-testid="profile-name" className="text-3xl font-semibold">{creator.name}</h1>
       <p className="text-muted">@{creator.handle}</p>
       <p className="text-muted">The creator profile page is built in a later step (wireframe first).</p>
-      <Link href="/home" className="justify-self-center rounded-full bg-accent px-5 py-2.5 font-semibold text-white">
-        Back to Home
-      </Link>
+      <ProfileActions name={creator.name} />
     </main>
   );
 }
