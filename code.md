@@ -150,3 +150,4 @@ Goal: Discover never ends, rows never look cut off, and the fan is not worn out 
 - 2026-10-28 F117 built: /onboarding (CreatorIntro), migration 003_creator_intro (users.creator_intro_seen_at, site_settings), POST /api/auth/creator-intro-seen, GET /api/settings/creator-intro; `me` now has creatorIntroSeen; sign-up popup + first log-in go to /onboarding, menu "Become a Creator" links there. Tests: backend e2e 15/15 (real DB), Playwright 68/68 at 4 sizes x 2 runs.
 - 2026-10-28 Wireframe: wireframes/landing.html (F121 main page "/" for signed-out people) + zones z-hero / z-how / z-foot. Owner now gets ONE picture set per wireframe: wireframes/sheets/<name>-3sizes.webp (desktop, tablet, phone, made with FFmpeg from the shots).
 - 2026-10-28 landing.html v2: header video zone (z-video) with the menu on top + phone/tablet menu state ("menu").
+- 2026-10-28 landing.html v3: sections are full-width bands (.band) like the video header.
